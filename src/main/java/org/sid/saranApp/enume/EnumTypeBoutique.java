@@ -1,0 +1,7 @@
+package org.sid.saranApp.enume;
+
+public enum EnumTypeBoutique {
+	
+	PHARMACIE,SUPERMARCHE,QUINCAILLERIE,ELECTRICITE,ELECTRONIQUE,INFORMATIQUE,AUTRES
+
+}
