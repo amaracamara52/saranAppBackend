@@ -6,10 +6,17 @@ import org.sid.saranApp.dto.UtilisateurDto;
 
 public interface UtilisateurService {
 	UtilisateurDto addUtilisateur(UtilisateurDto utilisateurDto);
-	UtilisateurDto updateUtilisateur(UtilisateurDto utilisateurDto, String uuid);
-	UtilisateurDto getUtilisateur(String uuid);
-	List<UtilisateurDto> findAll();
-	UtilisateurDto getUtilisateurByEmail(String email);
+
 	void deleteUtilisateur(String uuid);
+
+	List<UtilisateurDto> findAll();
+
+	UtilisateurDto getUtilisateur(String uuid);
+
+	UtilisateurDto getUtilisateurByEmail(String email);
+
+	UtilisateurDto updateUtilisateur(UtilisateurDto utilisateurDto, String uuid);
+
+	UtilisateurDto userLogin();
 
 }

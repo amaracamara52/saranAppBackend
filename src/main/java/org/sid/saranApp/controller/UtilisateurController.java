@@ -17,31 +17,43 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @CrossOrigin
 public class UtilisateurController {
-	 
+
 	@Autowired
 	private UtilisateurService utilisateurService;
-	
+
 	@PostMapping("/utilisateur")
 	public UtilisateurDto addUtilisateur(@RequestBody UtilisateurDto utilisateurDto) {
 		return utilisateurService.addUtilisateur(utilisateurDto);
 	}
-	@PutMapping("/utilisateur/{uuid}")
-	public UtilisateurDto updateUtilisateur(@RequestBody UtilisateurDto utilisateurDto,@PathVariable String uuid) {
-		return utilisateurService.updateUtilisateur(utilisateurDto, uuid);
-	}
-	@GetMapping("/utilisateur")
-	public List<UtilisateurDto> findAll(){
-		return utilisateurService.findAll();
-	}
-	@GetMapping("/utilisateur/{uuid}")
-	public UtilisateurDto getUtilisateur(@PathVariable String uuid) {
-	    return utilisateurService.getUtilisateur(uuid);
-	}
+
 	@DeleteMapping("/utilisateur/{uuuid}")
 	public void deleteUtilisateur(@PathVariable String uuid) {
 		utilisateurService.deleteUtilisateur(uuid);
 	}
 
-	
-	
+	@GetMapping("/utilisateur")
+	public List<UtilisateurDto> findAll() {
+		return utilisateurService.findAll();
+	}
+
+	@GetMapping("/utilisateur/byEmail/{email}")
+	public UtilisateurDto getEmail(@PathVariable String email) {
+		return utilisateurService.getUtilisateurByEmail(email);
+	}
+
+	@GetMapping("/utilisateur/{uuid}")
+	public UtilisateurDto getUtilisateur(@PathVariable String uuid) {
+		return utilisateurService.getUtilisateur(uuid);
+	}
+
+	@PutMapping("/utilisateur/{uuid}")
+	public UtilisateurDto updateUtilisateur(@RequestBody UtilisateurDto utilisateurDto, @PathVariable String uuid) {
+		return utilisateurService.updateUtilisateur(utilisateurDto, uuid);
+	}
+
+	@GetMapping("/utilisateur/login")
+	public UtilisateurDto userLogin() {
+		return utilisateurService.userLogin();
+	}
+
 }

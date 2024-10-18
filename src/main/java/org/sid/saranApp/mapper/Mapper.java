@@ -16,6 +16,8 @@ import org.sid.saranApp.dto.CommandeVenteDto;
 import org.sid.saranApp.dto.CommuneDto;
 import org.sid.saranApp.dto.ConnectionDto;
 import org.sid.saranApp.dto.DetailCommandeFournisseurDto;
+import org.sid.saranApp.dto.EtagereDto;
+import org.sid.saranApp.dto.EtagereRayonDto;
 import org.sid.saranApp.dto.FournisseurDto;
 import org.sid.saranApp.dto.LigneCommandeDto;
 import org.sid.saranApp.dto.LivraisonCommandeFournisseurDto;
@@ -25,6 +27,7 @@ import org.sid.saranApp.dto.ParametreDto;
 import org.sid.saranApp.dto.PaysDto;
 import org.sid.saranApp.dto.ProduitDto;
 import org.sid.saranApp.dto.QuartierDto;
+import org.sid.saranApp.dto.RayonDto;
 import org.sid.saranApp.dto.StoredFileDto;
 import org.sid.saranApp.dto.StoredFileInfoDto;
 import org.sid.saranApp.dto.UtilisateurDto;
@@ -42,6 +45,8 @@ import org.sid.saranApp.model.CommandeVente;
 import org.sid.saranApp.model.Commune;
 import org.sid.saranApp.model.Connection;
 import org.sid.saranApp.model.DetailCommandeFournisseur;
+import org.sid.saranApp.model.Etagere;
+import org.sid.saranApp.model.EtagereRayon;
 import org.sid.saranApp.model.Fournisseur;
 import org.sid.saranApp.model.LigneCommande;
 import org.sid.saranApp.model.LivraisonCommandeFournisseur;
@@ -51,6 +56,7 @@ import org.sid.saranApp.model.Parametre;
 import org.sid.saranApp.model.Pays;
 import org.sid.saranApp.model.Produit;
 import org.sid.saranApp.model.Quartier;
+import org.sid.saranApp.model.Rayon;
 import org.sid.saranApp.model.StoredFile;
 import org.sid.saranApp.model.Utilisateur;
 import org.sid.saranApp.model.Ville;
@@ -250,6 +256,32 @@ public class Mapper {
 		return dto;
 	}
 
+	public static EtagereRayonDto toEtagereRayonDto(EtagereRayon etagereRayon) {
+		EtagereRayonDto dto = new EtagereRayonDto();
+		dto.setCode(etagereRayon.getRayon().getCode());
+		dto.setRayon(etagereRayon.getRayon().getCode() + ":" + etagereRayon.getRayon().getLibelle());
+		dto.setCapacite(etagereRayon.getEtagere().getCapacite());
+		dto.setFull(etagereRayon.getEtagere().isFull());
+		dto.setLibelle(etagereRayon.getEtagere().getLibelle());
+		dto.setUuid(etagereRayon.getUuid());
+		dto.setBoutique(etagereRayon.getBoutique().getLibelleBoutique());
+		dto.setUuidUtilisateur(etagereRayon.getBoutique().getUuid());
+		dto.setUtilisateur(etagereRayon.getUtilisateur().getEmail());
+		dto.setUuidUtilisateur(etagereRayon.getUtilisateur().getUuid());
+		dto.setUuidRayon(etagereRayon.getRayon().getUuid());
+		dto.setUuidEtagere(etagereRayon.getEtagere().getUuid());
+		return dto;
+	}
+
+	public static EtagereDto toEtagereStockDto(Etagere etagere) {
+		EtagereDto dto = new EtagereDto();
+		dto.setCapacite(etagere.getCapacite());
+		dto.setFull(etagere.isFull());
+		dto.setLibelle(etagere.getLibelle());
+		dto.setUuid(etagere.getUuid());
+		return dto;
+	}
+
 	/*********************************************************
 	 * ***************Gestion Fournisseur*********************
 	 */
@@ -262,7 +294,8 @@ public class Mapper {
 		dto.setEmail(fournisseur.getEmail());
 		dto.setUuid(fournisseur.getUuid());
 		dto.setUuidBoutique(fournisseur.getBoutique().getUuid());
-		dto.setUuidQuartier(fournisseur.getQuartier().getUuid());
+		dto.setUuidVille(fournisseur.getVille().getUuid());
+		dto.setVille(fournisseur.getVille().getLibelle());
 		dto.setUuidUtilisateur(fournisseur.getUtilisateur().getUuid());
 		return dto;
 	}
@@ -396,6 +429,14 @@ public class Mapper {
 		dto.setVille(quartier.getCommune().getVille().getLibelle());
 		dto.setUuidBoutique(quartier.getBoutique().getUuid());
 		dto.setUuidUtilisateur(quartier.getUtilisateur().getUuid());
+		return dto;
+	}
+
+	public static RayonDto toRayonDto(Rayon rayon) {
+		RayonDto dto = new RayonDto();
+		dto.setCode(rayon.getCode());
+		dto.setLibelle(rayon.getLibelle());
+		dto.setUuid(rayon.getUuid());
 		return dto;
 	}
 

@@ -1,16 +1,14 @@
 package org.sid.saranApp.config.security;
 
 import java.io.Serializable;
-
-import org.sid.saranApp.service.UtilisateurService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.function.Function;
 
+import org.sid.saranApp.service.UtilisateurService;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,72 +16,24 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 @Component
 public class JwtTokenUtil implements Serializable {
-	
-	Logger logger = LoggerFactory.getLogger(JwtTokenUtil.class);
 
 	private static final long serialVersionUID = -2550185165626007488L;
 
 	public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
 
+	Logger logger = LoggerFactory.getLogger(JwtTokenUtil.class);
+
 	@Value("${jwt.secret}")
 	private String secret;
-	
+
 	@Autowired
 	private UtilisateurService utilisateurService;
-
-	public String getUsernameFromToken(String token) {
-		return getClaimFromToken(token, Claims::getSubject);
-	}
-
-	// retrieve expiration date from jwt token
-	public Date getExpirationDateFromToken(String token) {
-		return getClaimFromToken(token, Claims::getExpiration);
-	}
-
-	public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
-		final Claims claims = getAllClaimsFromToken(token);
-		return claimsResolver.apply(claims);
-	}
-
-	// for retrieveing any information from token we will need the secret key
-	private Claims getAllClaimsFromToken(String token) {
-		return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
-	}
-
-	// check if the token has expired
-	private Boolean isTokenExpired(String token) {
-		final Date expiration = getExpirationDateFromToken(token);
-		return expiration.before(new Date());
-	}
-
-	// generate token for user
-	public String generateToken(UserDetails userDetails) {
-		Map<String, Object> claims = new HashMap<>();
-		String autorities="";
-		logger.info("role {}",userDetails.getAuthorities());
-		for (Iterator iterator = userDetails.getAuthorities().iterator(); iterator.hasNext();) {
-			GrantedAuthority type = (GrantedAuthority) iterator.next();	
-			if(iterator.hasNext()==false)
-			{
-				autorities+=type.getAuthority();
-			}
-			else
-			{	
-				autorities+=type.getAuthority()+",";
-			}
-		}
-		claims.put(Claims.AUDIENCE, autorities);
-		claims.put(Claims.ID, this.utilisateurService.getUtilisateurByEmail(userDetails.getUsername()).getUuid());
-		//claims.put(Claims.ISSUER, this.utilisateurService.getUtilisateurByEmail(userDetails.getUsername()));
-		return doGenerateToken(claims, userDetails.getUsername());
-	}
 
 	// while creating the token -
 	// 1. Define claims of the token, like Issuer, Expiration, Subject, and the ID
@@ -96,6 +46,53 @@ public class JwtTokenUtil implements Serializable {
 		return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
 				.setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
 				.signWith(SignatureAlgorithm.HS512, secret).compact();
+	}
+
+	// generate token for user
+	public String generateToken(UserDetails userDetails) {
+		Map<String, Object> claims = new HashMap<>();
+		String autorities = "";
+		logger.info("role {}", userDetails.getAuthorities());
+		for (Iterator iterator = userDetails.getAuthorities().iterator(); iterator.hasNext();) {
+			GrantedAuthority type = (GrantedAuthority) iterator.next();
+			if (iterator.hasNext() == false) {
+				autorities += type.getAuthority();
+			} else {
+				autorities += type.getAuthority() + ",";
+			}
+		}
+
+		claims.put(Claims.AUDIENCE, autorities);
+		claims.put(Claims.ID, this.utilisateurService.getUtilisateurByEmail(userDetails.getUsername()));
+
+		// claims.put(Claims.ISSUER,
+		// this.utilisateurService.getUtilisateurByEmail(userDetails.getUsername()));
+		return doGenerateToken(claims, userDetails.getUsername());
+	}
+
+	// for retrieveing any information from token we will need the secret key
+	private Claims getAllClaimsFromToken(String token) {
+		return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+	}
+
+	public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
+		final Claims claims = getAllClaimsFromToken(token);
+		return claimsResolver.apply(claims);
+	}
+
+	// retrieve expiration date from jwt token
+	public Date getExpirationDateFromToken(String token) {
+		return getClaimFromToken(token, Claims::getExpiration);
+	}
+
+	public String getUsernameFromToken(String token) {
+		return getClaimFromToken(token, Claims::getSubject);
+	}
+
+	// check if the token has expired
+	private Boolean isTokenExpired(String token) {
+		final Date expiration = getExpirationDateFromToken(token);
+		return expiration.before(new Date());
 	}
 
 	// validate token

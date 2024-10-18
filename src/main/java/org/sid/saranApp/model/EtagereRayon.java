@@ -4,26 +4,33 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class Quartier extends AbstractDomainClass {
+public class EtagereRayon extends AbstractDomainClass {
 
-	private String libelle;
 	@ManyToOne
-	private Commune commune;
+	private Etagere etagere;
+	@ManyToOne
+	private Rayon rayon;
 	@ManyToOne
 	private Boutique boutique;
 	@ManyToOne
 	private Utilisateur utilisateur;
 
+	private String color;
+
 	public Boutique getBoutique() {
 		return boutique;
 	}
 
-	public Commune getCommune() {
-		return commune;
+	public String getColor() {
+		return color;
 	}
 
-	public String getLibelle() {
-		return libelle;
+	public Etagere getEtagere() {
+		return etagere;
+	}
+
+	public Rayon getRayon() {
+		return rayon;
 	}
 
 	public Utilisateur getUtilisateur() {
@@ -34,12 +41,16 @@ public class Quartier extends AbstractDomainClass {
 		this.boutique = boutique;
 	}
 
-	public void setCommune(Commune commune) {
-		this.commune = commune;
+	public void setColor(String color) {
+		this.color = color;
 	}
 
-	public void setLibelle(String libelle) {
-		this.libelle = libelle;
+	public void setEtagere(Etagere etagere) {
+		this.etagere = etagere;
+	}
+
+	public void setRayon(Rayon rayon) {
+		this.rayon = rayon;
 	}
 
 	public void setUtilisateur(Utilisateur utilisateur) {

@@ -94,4 +94,12 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 		return Mapper.toUtilisateurDto(utilisateur);
 	}
 
+	@Override
+	public UtilisateurDto userLogin() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Utilisateur utilisateur = utilisateurRepository.findByEmail(auth.getName()).orElseThrow(null);
+
+		return Mapper.toUtilisateurDto(utilisateur);
+	}
+
 }
