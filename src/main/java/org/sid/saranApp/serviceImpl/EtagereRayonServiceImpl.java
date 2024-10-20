@@ -4,6 +4,7 @@
 package org.sid.saranApp.serviceImpl;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -69,13 +70,11 @@ public class EtagereRayonServiceImpl implements EtagereRayonService {
 		// TODO Auto-generated method stub
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		Utilisateur utilisateur = utilisateurRepository.findByEmail(auth.getName()).orElseThrow(null);
-		Etagere etagere = etagereRepository.findById(etagereRayonDto.getUuidEtagere()).orElseThrow(null);
-		Rayon rayon = rayonRepository.findById(etagereRayonDto.getUuidRayon()).orElseThrow(null);
 
 		EtagereRayon etagereRayon = new EtagereRayon();
 		etagereRayon.setBoutique(utilisateur.getBoutique());
-		etagereRayon.setEtagere(etagere);
-		etagereRayon.setRayon(rayon);
+		etagereRayon.setEtagere(etagereRayonDto.getLibelle());
+		etagereRayon.setRayon(etagereRayonDto.getRayon());
 		etagereRayon.setUtilisateur(utilisateur);
 		etagereRayon = etagereRayonRepository.save(etagereRayon);
 		return Mapper.toEtagereRayonDto(etagereRayon);
@@ -116,30 +115,63 @@ public class EtagereRayonServiceImpl implements EtagereRayonService {
 		// TODO Auto-generated method stub
 		List<String[]> rows = new ArrayList<>();
 
-		try (Workbook workbook = WorkbookFactory.create(file.getInputStream())) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Utilisateur utilisateur = utilisateurRepository.findByEmail(auth.getName()).orElseThrow(null);
+//
+//		try (Workbook workbook = WorkbookFactory.create(file.getInputStream())) {
+//			Sheet sheet = workbook.getSheetAt(0);
+//			for (Row row : sheet) {
+//				String[] cellValues = new String[row.getPhysicalNumberOfCells()];
+//				for (int i = 0; i < row.getPhysicalNumberOfCells(); i++) {
+//					Cell cell = row.getCell(i);
+//					cellValues[i] = getCellValueAsString(cell);
+//				}
+//				rows.add(cellValues);
+//			}
+//		} catch (EncryptedDocumentException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//
+//		for (Iterator iterator = rows.iterator(); iterator.hasNext();) {
+//			String[] strings = (String[]) iterator.next();
+//			logger.info("value {}", strings);
+//		}
+
+		List<EtagereRayonDto> emplacements = new ArrayList<>();
+		try (InputStream inputStream = file.getInputStream()) {
+			Workbook workbook = WorkbookFactory.create(inputStream);
 			Sheet sheet = workbook.getSheetAt(0);
-			for (Row row : sheet) {
-				String[] cellValues = new String[row.getPhysicalNumberOfCells()];
-				for (int i = 0; i < row.getPhysicalNumberOfCells(); i++) {
-					Cell cell = row.getCell(i);
-					cellValues[i] = getCellValueAsString(cell);
+			Iterator<Row> rowIterator = sheet.rowIterator();
+			while (rowIterator.hasNext()) {
+				Row row = rowIterator.next();
+				if (row.getRowNum() == 0) {
+					// skip header row
+					continue;
 				}
-				rows.add(cellValues);
+				EtagereRayonDto emplacement = new EtagereRayonDto();
+				emplacement.setLibelle(row.getCell(0).getStringCellValue());
+				emplacement.setRayon(row.getCell(1).getStringCellValue());
+				logger.info("value {}", emplacement.getLibelle() + " " + emplacement.getRayon());
+
+				EtagereRayon etagereRayon = new EtagereRayon();
+				etagereRayon.setBoutique(utilisateur.getBoutique());
+				etagereRayon.setUtilisateur(utilisateur);
+				etagereRayon.setEtagere(emplacement.getLibelle());
+				etagereRayon.setRayon(emplacement.getRayon());
+				etagereRayonRepository.save(etagereRayon);
+
 			}
-		} catch (EncryptedDocumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		for (Iterator iterator = rows.iterator(); iterator.hasNext();) {
-			String[] strings = (String[]) iterator.next();
-			logger.info("value {}", strings);
-		}
-
 		return rows;
+
 	}
 
 	@Override
@@ -216,13 +248,11 @@ public class EtagereRayonServiceImpl implements EtagereRayonService {
 		// TODO Auto-generated method stub
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		Utilisateur utilisateur = utilisateurRepository.findByEmail(auth.getName()).orElseThrow(null);
-		Etagere etagere = etagereRepository.findById(etagereRayonDto.getUuidEtagere()).orElseThrow(null);
-		Rayon rayon = rayonRepository.findById(etagereRayonDto.getUuidRayon()).orElseThrow(null);
 
 		EtagereRayon etagereRayon = etagereRayonRepository.findById(uuid).orElseThrow(null);
 		etagereRayon.setBoutique(utilisateur.getBoutique());
-		etagereRayon.setEtagere(etagere);
-		etagereRayon.setRayon(rayon);
+		etagereRayon.setEtagere(etagereRayonDto.getLibelle());
+		etagereRayon.setRayon(etagereRayonDto.getRayon());
 		etagereRayon.setUtilisateur(utilisateur);
 		etagereRayon = etagereRayonRepository.save(etagereRayon);
 		return Mapper.toEtagereRayonDto(etagereRayon);

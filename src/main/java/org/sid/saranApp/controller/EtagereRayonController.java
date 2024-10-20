@@ -26,7 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
  *
  */
 @RestController
-@CrossOrigin
+@CrossOrigin("*")
 public class EtagereRayonController {
 
 	@Autowired
@@ -38,7 +38,7 @@ public class EtagereRayonController {
 		return etagereRayonService.addEtagere(etagereDto);
 	}
 
-	@PostMapping("etagereRayon")
+	@PostMapping("emplacement")
 	public EtagereRayonDto addEtagereRayon(@RequestBody EtagereRayonDto etagereRayonDto) {
 		// TODO Auto-generated method stub
 		return etagereRayonService.addEtagereRayon(etagereRayonDto);
@@ -56,7 +56,7 @@ public class EtagereRayonController {
 		return etagereRayonService.listeEtagere();
 	}
 
-	@GetMapping("etagereRayon")
+	@GetMapping("emplacement")
 	public List<EtagereRayonDto> findAllEtagereRayon() {
 		// TODO Auto-generated method stub
 		return etagereRayonService.listeEtagereRayon();
@@ -68,7 +68,7 @@ public class EtagereRayonController {
 		return etagereRayonService.listeRayons();
 	}
 
-	@PostMapping("/importation/etagere")
+	@PostMapping("/emplacement/fileImportation")
 	public ResponseEntity<List<String[]>> importExcelFileEtagere(@RequestParam("file") MultipartFile file)
 			throws IOException {
 		// List<String[]> data = excelService.readExcelFile(file);
@@ -82,7 +82,7 @@ public class EtagereRayonController {
 		return ResponseEntity.ok(etagereRayonService.importationRayon(file));
 	}
 
-	@PutMapping("etagereRayon/{uuid}")
+	@PutMapping("emplacement/{uuid}")
 	public EtagereRayonDto updateEtagereRayon(@RequestBody EtagereRayonDto etagereRayonDto, @PathVariable String uuid) {
 		// TODO Auto-generated method stub
 		return etagereRayonService.updateEtagereRayon(etagereRayonDto, uuid);

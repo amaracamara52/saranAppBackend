@@ -1,10 +1,12 @@
 package org.sid.saranApp.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -13,9 +15,10 @@ import org.sid.saranApp.enume.StatusCommandeFournisseurEnum;
 @Entity
 public class CommandeFournisseur extends AbstractDomainClass {
 
+	private String refCommande;
 	private String valeurMarchandise;
 	private String dateCommandeFournisseur;
-	private String isPaye;
+	private boolean isPaie;
 	@ManyToOne
 	private Boutique boutique;
 	@ManyToOne
@@ -23,8 +26,8 @@ public class CommandeFournisseur extends AbstractDomainClass {
 	@ManyToOne
 	private Fournisseur fournisseur;
 	@OneToMany(mappedBy = "commandeFournisseur")
-	private List<DetailCommandeFournisseur> listeDetailCommandeFournisseur;
-	@OneToMany(mappedBy = "commandeFournisseur")
+	private List<DetailCommandeFournisseur> listeDetailCommandeFournisseur = new ArrayList<DetailCommandeFournisseur>();
+	@OneToMany(mappedBy = "commandeFournisseur", fetch = FetchType.EAGER)
 	private List<LivraisonCommandeFournisseur> listeLivraisonCommandeFournisseur;
 	@Enumerated(EnumType.STRING)
 	private StatusCommandeFournisseurEnum commandeFournisseurEnum;
@@ -45,10 +48,6 @@ public class CommandeFournisseur extends AbstractDomainClass {
 		return fournisseur;
 	}
 
-	public String getIsPaye() {
-		return isPaye;
-	}
-
 	public List<DetailCommandeFournisseur> getListeDetailCommandeFournisseur() {
 		return listeDetailCommandeFournisseur;
 	}
@@ -57,12 +56,20 @@ public class CommandeFournisseur extends AbstractDomainClass {
 		return listeLivraisonCommandeFournisseur;
 	}
 
+	public String getRefCommande() {
+		return refCommande;
+	}
+
 	public Utilisateur getUtilisateur() {
 		return utilisateur;
 	}
 
 	public String getValeurMarchandise() {
 		return valeurMarchandise;
+	}
+
+	public boolean isPaie() {
+		return isPaie;
 	}
 
 	public void setBoutique(Boutique boutique) {
@@ -81,10 +88,6 @@ public class CommandeFournisseur extends AbstractDomainClass {
 		this.fournisseur = fournisseur;
 	}
 
-	public void setIsPaye(String isPaye) {
-		this.isPaye = isPaye;
-	}
-
 	public void setListeDetailCommandeFournisseur(List<DetailCommandeFournisseur> listeDetailCommandeFournisseur) {
 		this.listeDetailCommandeFournisseur = listeDetailCommandeFournisseur;
 	}
@@ -92,6 +95,14 @@ public class CommandeFournisseur extends AbstractDomainClass {
 	public void setListeLivraisonCommandeFournisseur(
 			List<LivraisonCommandeFournisseur> listeLivraisonCommandeFournisseur) {
 		this.listeLivraisonCommandeFournisseur = listeLivraisonCommandeFournisseur;
+	}
+
+	public void setPaie(boolean isPaie) {
+		this.isPaie = isPaie;
+	}
+
+	public void setRefCommande(String refCommande) {
+		this.refCommande = refCommande;
 	}
 
 	public void setUtilisateur(Utilisateur utilisateur) {

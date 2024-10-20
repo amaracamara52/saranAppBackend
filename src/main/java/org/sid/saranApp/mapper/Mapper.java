@@ -3,8 +3,10 @@ package org.sid.saranApp.mapper;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import org.sid.saranApp.dto.ArticleDto;
+import org.sid.saranApp.dto.ArticleSelectDto;
 import org.sid.saranApp.dto.BoutiqueDto;
 import org.sid.saranApp.dto.BoutiquePaiementDto;
 import org.sid.saranApp.dto.CaracteristiqueArticleDto;
@@ -74,6 +76,14 @@ public class Mapper {
 		dto.setUuidCategorie(article.getCategorie().getUuid());
 		dto.setUuidBoutique(article.getBoutique().getUuid());
 		dto.setUuidUtilisateur(article.getUtilisateur().getUuid());
+		dto.setCategorie(article.getCategorie().getLibelle());
+		return dto;
+	}
+
+	public static ArticleSelectDto toArticleSelectDto(Article article) {
+		ArticleSelectDto dto = new ArticleSelectDto();
+		dto.setName(article.getLibelle());
+		dto.setUuid(article.getUuid());
 		dto.setCategorie(article.getCategorie().getLibelle());
 		return dto;
 	}
@@ -183,11 +193,24 @@ public class Mapper {
 		CommandeFournisseurDto dto = new CommandeFournisseurDto();
 		dto.setUuid(commandeFournisseur.getUuid());
 		dto.setValeurMarchandise(commandeFournisseur.getValeurMarchandise());
-		dto.setIsPaye(commandeFournisseur.getIsPaye());
+		dto.setPaye(commandeFournisseur.isPaie());
 		dto.setUuidBoutique(commandeFournisseur.getBoutique().getUuid());
 		dto.setDateCommandeFournisseur(commandeFournisseur.getDateCommandeFournisseur());
 		dto.setUuidFournisseur(commandeFournisseur.getFournisseur().getUuid());
 		dto.setUuidBoutique(commandeFournisseur.getBoutique().getUuid());
+		dto.setStatus(commandeFournisseur.getCommandeFournisseurEnum());
+		dto.setNom(commandeFournisseur.getFournisseur().getNom());
+		dto.setEmail(commandeFournisseur.getFournisseur().getEmail());
+		dto.setPrenom(commandeFournisseur.getFournisseur().getPrenom());
+		dto.setRefCommande(commandeFournisseur.getRefCommande());
+		dto.setAdresse(commandeFournisseur.getFournisseur().getVille().getLibelle());
+		dto.setTelephone(commandeFournisseur.getFournisseur().getTelephone());
+		List<DetailCommandeFournisseur> detailCommandeFournisseurs = commandeFournisseur
+				.getListeDetailCommandeFournisseur();
+		List<DetailCommandeFournisseurDto> detailCommandeFournisseurDtos = new ArrayList<DetailCommandeFournisseurDto>();
+		detailCommandeFournisseurs
+				.forEach(detail -> detailCommandeFournisseurDtos.add(Mapper.toDetailCommandeFournisseurDto(detail)));
+		dto.setDetailCommandeFournisseurDtos(detailCommandeFournisseurDtos);
 		return dto;
 	}
 
@@ -246,30 +269,34 @@ public class Mapper {
 			DetailCommandeFournisseur detailCommandeFournisseur) {
 		DetailCommandeFournisseurDto dto = new DetailCommandeFournisseurDto();
 		dto.setUuid(detailCommandeFournisseur.getUuid());
-		dto.setNomClient(detailCommandeFournisseur.getNomClient());
-		dto.setNumeroCommande(detailCommandeFournisseur.getNumeroCommande());
-		dto.setPrix(detailCommandeFournisseur.getPrix());
-		dto.setQuantiteCommande(detailCommandeFournisseur.getQuantiteCommande());
 		dto.setUuidBoutique(detailCommandeFournisseur.getBoutique().getUuid());
 		dto.setUuidCommandeFournisseur(detailCommandeFournisseur.getCommandeFournisseur().getUuid());
+		dto.setArticle(detailCommandeFournisseur.getArticle().getLibelle());
+		dto.setCategorie(detailCommandeFournisseur.getArticle().getCategorie().getLibelle());
+		dto.setPrixAchat(detailCommandeFournisseur.getPrixAchat());
+		dto.setQuantite(detailCommandeFournisseur.getQuantite());
+		dto.setDateCommande(detailCommandeFournisseur.getCommandeFournisseur().getDateCommandeFournisseur());
+		dto.setDescription(detailCommandeFournisseur.getArticle().getDescription());
+		dto.setStatus(detailCommandeFournisseur.getCommandeFournisseur().getCommandeFournisseurEnum());
+		dto.setValeurMarchandise(detailCommandeFournisseur.getCommandeFournisseur().getValeurMarchandise());
+		dto.setUuidArticle(detailCommandeFournisseur.getArticle().getUuid());
 		dto.setUuidUtilisateur(detailCommandeFournisseur.getUtilisateur().getUuid());
+		dto.setUnite(detailCommandeFournisseur.getUnite());
+		dto.setQuantiteLivraison(detailCommandeFournisseur.getQuantite());
+
 		return dto;
 	}
 
 	public static EtagereRayonDto toEtagereRayonDto(EtagereRayon etagereRayon) {
 		EtagereRayonDto dto = new EtagereRayonDto();
-		dto.setCode(etagereRayon.getRayon().getCode());
-		dto.setRayon(etagereRayon.getRayon().getCode() + ":" + etagereRayon.getRayon().getLibelle());
-		dto.setCapacite(etagereRayon.getEtagere().getCapacite());
-		dto.setFull(etagereRayon.getEtagere().isFull());
-		dto.setLibelle(etagereRayon.getEtagere().getLibelle());
+
+		dto.setRayon(etagereRayon.getRayon());
+		dto.setLibelle(etagereRayon.getEtagere());
 		dto.setUuid(etagereRayon.getUuid());
 		dto.setBoutique(etagereRayon.getBoutique().getLibelleBoutique());
 		dto.setUuidUtilisateur(etagereRayon.getBoutique().getUuid());
 		dto.setUtilisateur(etagereRayon.getUtilisateur().getEmail());
 		dto.setUuidUtilisateur(etagereRayon.getUtilisateur().getUuid());
-		dto.setUuidRayon(etagereRayon.getRayon().getUuid());
-		dto.setUuidEtagere(etagereRayon.getEtagere().getUuid());
 		return dto;
 	}
 
@@ -297,6 +324,7 @@ public class Mapper {
 		dto.setUuidVille(fournisseur.getVille().getUuid());
 		dto.setVille(fournisseur.getVille().getLibelle());
 		dto.setUuidUtilisateur(fournisseur.getUtilisateur().getUuid());
+		dto.setNomComplet(fournisseur.getPrenom() + " " + fournisseur.getNom());
 		return dto;
 	}
 
@@ -335,7 +363,7 @@ public class Mapper {
 		dto.setHeure(livraisonCommandeFournisseur.getHeure());
 		dto.setUuidBoutique(livraisonCommandeFournisseur.getBoutique().getUuid());
 		dto.setUuidCommandeFournisseur(livraisonCommandeFournisseur.getCommandeFournisseur().getUuid());
-		dto.setQte(livraisonCommandeFournisseur.getQte());
+		dto.setQuantite(livraisonCommandeFournisseur.getQuantite());
 		dto.setPrix(livraisonCommandeFournisseur.getPrix());
 		dto.setUuidUtilisateur(livraisonCommandeFournisseur.getUtilisateur().getUuid());
 		dto.setUuidDetailCommandeFournisseur(livraisonCommandeFournisseur.getDetailCommandeFournisseur().getUuid());
@@ -393,10 +421,30 @@ public class Mapper {
 		produitDto.setUuid(produit.getUuid());
 		produitDto.setPrixAchat(produit.getPrixAchat());
 		produitDto.setPrixVente(produit.getPrixVente());
-		produitDto.setQte(produit.getQte());
+		produitDto.setQuantite(produit.getQuantite());
+		produitDto.setArticle(
+				produit.getLivraisonCommandeFournisseur().getDetailCommandeFournisseur().getArticle().getLibelle());
+		produitDto.setCategorie(produit.getLivraisonCommandeFournisseur().getDetailCommandeFournisseur().getArticle()
+				.getCategorie().getLibelle());
+		produitDto.setDatePeremption(produit.getDatePeremption());
+		produitDto.setDateCommande(
+				produit.getLivraisonCommandeFournisseur().getCommandeFournisseur().getDateCommandeFournisseur());
+		if (produit.getEmplacement() != null) {
+			produitDto.setEmplacement(
+					produit.getEmplacement().getEtagere() + " ===> " + produit.getEmplacement().getRayon());
+		}
+
+		produitDto.setFournisseur(
+				produit.getLivraisonCommandeFournisseur().getCommandeFournisseur().getFournisseur().getPrenom() + " "
+						+ produit.getLivraisonCommandeFournisseur().getCommandeFournisseur().getFournisseur().getNom());
+		produitDto.setQuantiteImage(produit.getQuantiteImage());
+		produitDto.setStatusCommandeFournisseurEnum(
+				produit.getLivraisonCommandeFournisseur().getCommandeFournisseur().getCommandeFournisseurEnum());
 		produitDto.setUuidLivraisonCommandeFournisseur(produit.getLivraisonCommandeFournisseur().getUuid());
 		produitDto.setUuidBoutique(produit.getBoutique().getUuid());
 		produitDto.setUuidUtilisateur(produit.getUtilisateur().getUuid());
+		produitDto.setUnite(produit.getLivraisonCommandeFournisseur().getDetailCommandeFournisseur().getUnite());
+		produitDto.setFinish(produit.isFinish());
 		return produitDto;
 	}
 
@@ -410,7 +458,7 @@ public class Mapper {
 		produit.setUuid(produitDto.getUuid());
 		produit.setPrixAchat(produitDto.getPrixAchat());
 		produit.setPrixVente(produitDto.getPrixVente());
-		produit.setQte(produitDto.getQte());
+		produit.setQuantite(produit.getQuantite());
 		produit.setLivraisonCommandeFournisseur(livraisonCommandeFournisseur);
 		produit.setUtilisateur(utilisateur);
 		produit.setBoutique(boutique);

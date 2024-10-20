@@ -25,7 +25,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class LivraisonCommandeFournisseurServiceImpl implements LivraisonCommandeFournisseurService {
-	
+
 	@Autowired
 	private LivraisonCommandeFournisseurRepository livraisonCommandeFournisseurRepository;
 	@Autowired
@@ -36,74 +36,89 @@ public class LivraisonCommandeFournisseurServiceImpl implements LivraisonCommand
 	private CommandeFournisseurRepository commandeFournisseurRepository;
 	@Autowired
 	private UtilisateurRepository utilisateurRepository;
-	
-	 Logger logger = LoggerFactory.getLogger(LivraisonCommandeFournisseurServiceImpl.class);
-	
+
+	Logger logger = LoggerFactory.getLogger(LivraisonCommandeFournisseurServiceImpl.class);
+
 	@Override
-	public LivraisonCommandeFournisseurDto addLivraisonCommandeFournisseur(LivraisonCommandeFournisseurDto livraisonCommandeFournisseurDto) {
+	public LivraisonCommandeFournisseurDto addLivraisonCommandeFournisseur(
+			LivraisonCommandeFournisseurDto livraisonCommandeFournisseurDto) {
 		// TODO Auto-generated method stub
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		logger.info("hello {}",auth.getName());
+		logger.info("hello {}", auth.getName());
 		LivraisonCommandeFournisseur livraisonCommandeFournisseur = new LivraisonCommandeFournisseur();
-		Boutique boutique = boutiqueRepository.findById(livraisonCommandeFournisseurDto.getUuidBoutique()).orElseThrow(null);
+		Boutique boutique = boutiqueRepository.findById(livraisonCommandeFournisseurDto.getUuidBoutique())
+				.orElseThrow(null);
 		Utilisateur utilisateur = utilisateurRepository.findByEmail(auth.getName()).orElseThrow(null);
-		DetailCommandeFournisseur detailCommandeFournisseur = detailCommandeFournisseurRepository.findById(livraisonCommandeFournisseurDto.getUuidDetailCommandeFournisseur()).orElseThrow(null);
-		CommandeFournisseur commandeFournisseur = commandeFournisseurRepository.findById(livraisonCommandeFournisseurDto.getUuidCommandeFournisseur()).orElseThrow(null);
+		DetailCommandeFournisseur detailCommandeFournisseur = detailCommandeFournisseurRepository
+				.findById(livraisonCommandeFournisseurDto.getUuidDetailCommandeFournisseur()).orElseThrow(null);
+		CommandeFournisseur commandeFournisseur = commandeFournisseurRepository
+				.findById(livraisonCommandeFournisseurDto.getUuidCommandeFournisseur()).orElseThrow(null);
 		livraisonCommandeFournisseur.setDateLivraison(livraisonCommandeFournisseurDto.getDateLivraison());
 		livraisonCommandeFournisseur.setHeure(livraisonCommandeFournisseurDto.getHeure());
 		livraisonCommandeFournisseur.setPrix(livraisonCommandeFournisseurDto.getPrix());
-		livraisonCommandeFournisseur.setQte(livraisonCommandeFournisseurDto.getQte());
+		livraisonCommandeFournisseur.setQuantite(livraisonCommandeFournisseurDto.getQuantite());
 		livraisonCommandeFournisseur.setBoutique(boutique);
 		livraisonCommandeFournisseur.setUtilisateur(utilisateur);
 		livraisonCommandeFournisseur.setCommandeFournisseur(commandeFournisseur);
 		livraisonCommandeFournisseur.setDetailCommandeFournisseur(detailCommandeFournisseur);
-		LivraisonCommandeFournisseur livraisonCommandeFournisseurSave = livraisonCommandeFournisseurRepository.save(livraisonCommandeFournisseur);
+		LivraisonCommandeFournisseur livraisonCommandeFournisseurSave = livraisonCommandeFournisseurRepository
+				.save(livraisonCommandeFournisseur);
 		return Mapper.toLivraisonCommandeFournisseurDto(livraisonCommandeFournisseurSave);
 	}
 
 	@Override
-	public LivraisonCommandeFournisseurDto updateLivraisonCommandeFournisseur(LivraisonCommandeFournisseurDto livraisonCommandeFournisseurDto, String uuid) {
+	public void deleteLivraisonCommandeFournisseur(String uuid) {
 		// TODO Auto-generated method stub
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		LivraisonCommandeFournisseur livraisonCommandeFournisseur = livraisonCommandeFournisseurRepository.findById(uuid).orElseThrow(null);
-		Boutique boutique = boutiqueRepository.findById(livraisonCommandeFournisseurDto.getUuidBoutique()).orElseThrow(null);
-		CommandeFournisseur commandeFournisseur = commandeFournisseurRepository.findById(livraisonCommandeFournisseurDto.getUuidCommandeFournisseur()).orElseThrow(null);
-		Utilisateur utilisateur = utilisateurRepository.findByEmail(auth.getName()).orElseThrow(null);
-		DetailCommandeFournisseur detailCommandeFournisseur = detailCommandeFournisseurRepository.findById(livraisonCommandeFournisseurDto.getUuidDetailCommandeFournisseur()).orElseThrow(null);
-		livraisonCommandeFournisseur.setHeure(livraisonCommandeFournisseurDto.getHeure());
-		livraisonCommandeFournisseur.setPrix(livraisonCommandeFournisseurDto.getPrix());
-		livraisonCommandeFournisseur.setQte(livraisonCommandeFournisseurDto.getQte());
-		livraisonCommandeFournisseur.setDateLivraison(livraisonCommandeFournisseurDto.getDateLivraison());
-		livraisonCommandeFournisseur.setBoutique(boutique);
-		livraisonCommandeFournisseur.setUtilisateur(utilisateur);
-		livraisonCommandeFournisseur.setCommandeFournisseur(commandeFournisseur);
-		livraisonCommandeFournisseur.setDetailCommandeFournisseur(detailCommandeFournisseur);
-		LivraisonCommandeFournisseur livraisonCommandeFournisseurSave = livraisonCommandeFournisseurRepository.save(livraisonCommandeFournisseur);
-		return Mapper.toLivraisonCommandeFournisseurDto(livraisonCommandeFournisseurSave);
+		LivraisonCommandeFournisseur livraisonCommandeFournisseur = livraisonCommandeFournisseurRepository
+				.findById(uuid).orElseThrow(null);
+		livraisonCommandeFournisseurRepository.delete(livraisonCommandeFournisseur);
+
 	}
 
 	@Override
 	public List<LivraisonCommandeFournisseurDto> findAll() {
 		// TODO Auto-generated method stub
-		List<LivraisonCommandeFournisseur> livraisonCommandeFournisseurs = livraisonCommandeFournisseurRepository.findAll();
+		List<LivraisonCommandeFournisseur> livraisonCommandeFournisseurs = livraisonCommandeFournisseurRepository
+				.findAll();
 		List<LivraisonCommandeFournisseurDto> livraisonCommandeFournisseurDtos = new ArrayList<LivraisonCommandeFournisseurDto>();
-		livraisonCommandeFournisseurs.forEach(livraisonCommandeFournisseur -> livraisonCommandeFournisseurDtos.add(Mapper.toLivraisonCommandeFournisseurDto(livraisonCommandeFournisseur)));
+		livraisonCommandeFournisseurs.forEach(livraisonCommandeFournisseur -> livraisonCommandeFournisseurDtos
+				.add(Mapper.toLivraisonCommandeFournisseurDto(livraisonCommandeFournisseur)));
 		return livraisonCommandeFournisseurDtos;
 	}
 
 	@Override
 	public LivraisonCommandeFournisseurDto getLivraisonCommandeFournisseur(String uuid) {
 		// TODO Auto-generated method stub
-		LivraisonCommandeFournisseur livraisonCommandeFournisseur = livraisonCommandeFournisseurRepository.findById(uuid).orElseThrow(null);
+		LivraisonCommandeFournisseur livraisonCommandeFournisseur = livraisonCommandeFournisseurRepository
+				.findById(uuid).orElseThrow(null);
 		return Mapper.toLivraisonCommandeFournisseurDto(livraisonCommandeFournisseur);
 	}
 
 	@Override
-	public void deleteLivraisonCommandeFournisseur(String uuid) {
+	public LivraisonCommandeFournisseurDto updateLivraisonCommandeFournisseur(
+			LivraisonCommandeFournisseurDto livraisonCommandeFournisseurDto, String uuid) {
 		// TODO Auto-generated method stub
-		LivraisonCommandeFournisseur livraisonCommandeFournisseur = livraisonCommandeFournisseurRepository.findById(uuid).orElseThrow(null);
-		livraisonCommandeFournisseurRepository.delete(livraisonCommandeFournisseur);
-		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		LivraisonCommandeFournisseur livraisonCommandeFournisseur = livraisonCommandeFournisseurRepository
+				.findById(uuid).orElseThrow(null);
+		Boutique boutique = boutiqueRepository.findById(livraisonCommandeFournisseurDto.getUuidBoutique())
+				.orElseThrow(null);
+		CommandeFournisseur commandeFournisseur = commandeFournisseurRepository
+				.findById(livraisonCommandeFournisseurDto.getUuidCommandeFournisseur()).orElseThrow(null);
+		Utilisateur utilisateur = utilisateurRepository.findByEmail(auth.getName()).orElseThrow(null);
+		DetailCommandeFournisseur detailCommandeFournisseur = detailCommandeFournisseurRepository
+				.findById(livraisonCommandeFournisseurDto.getUuidDetailCommandeFournisseur()).orElseThrow(null);
+		livraisonCommandeFournisseur.setHeure(livraisonCommandeFournisseurDto.getHeure());
+		livraisonCommandeFournisseur.setPrix(livraisonCommandeFournisseurDto.getPrix());
+		livraisonCommandeFournisseur.setQuantite(livraisonCommandeFournisseurDto.getQuantite());
+		livraisonCommandeFournisseur.setDateLivraison(livraisonCommandeFournisseurDto.getDateLivraison());
+		livraisonCommandeFournisseur.setBoutique(boutique);
+		livraisonCommandeFournisseur.setUtilisateur(utilisateur);
+		livraisonCommandeFournisseur.setCommandeFournisseur(commandeFournisseur);
+		livraisonCommandeFournisseur.setDetailCommandeFournisseur(detailCommandeFournisseur);
+		LivraisonCommandeFournisseur livraisonCommandeFournisseurSave = livraisonCommandeFournisseurRepository
+				.save(livraisonCommandeFournisseur);
+		return Mapper.toLivraisonCommandeFournisseurDto(livraisonCommandeFournisseurSave);
 	}
 
 }

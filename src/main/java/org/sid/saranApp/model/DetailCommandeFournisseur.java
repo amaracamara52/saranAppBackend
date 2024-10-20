@@ -1,74 +1,78 @@
 package org.sid.saranApp.model;
 
-import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 @Entity
 public class DetailCommandeFournisseur extends AbstractDomainClass {
-	
-	private String numeroCommande;
-	private String nomClient;
-	private String quantiteCommande;
-	private String Prix;
+
+	@ManyToOne
+	private Article article;
+	private int quantite;
+	private double prixAchat;
+	private String unite;
+
 	@ManyToOne
 	private CommandeFournisseur commandeFournisseur;
 	@ManyToOne
 	private Boutique boutique;
 	@ManyToOne
 	private Utilisateur utilisateur;
-	@OneToMany(mappedBy ="detailCommandeFournisseur")
-	private List<LivraisonCommandeFournisseur> listeLivraisonCommandeFournisseur;
-	
-	public Utilisateur getUtilisateur() {
-		return utilisateur;
+
+	public Article getArticle() {
+		return article;
 	}
-	public void setUtilisateur(Utilisateur utilisateur) {
-		this.utilisateur = utilisateur;
-	}
-	public String getNumeroCommande() {
-		return numeroCommande;
-	}
-	public void setNumeroCommande(String numeroCommande) {
-		this.numeroCommande = numeroCommande;
-	}
-	public String getNomClient() {
-		return nomClient;
-	}
-	public void setNomClient(String nomClient) {
-		this.nomClient = nomClient;
-	}
-	public String getQuantiteCommande() {
-		return quantiteCommande;
-	}
-	public void setQuantiteCommande(String quantiteCommande) {
-		this.quantiteCommande = quantiteCommande;
-	}
-	public String getPrix() {
-		return Prix;
-	}
-	public void setPrix(String prix) {
-		Prix = prix;
-	}
-	public CommandeFournisseur getCommandeFournisseur() {
-		return commandeFournisseur;
-	}
-	public void setCommandeFournisseur(CommandeFournisseur commandeFournisseur) {
-		this.commandeFournisseur = commandeFournisseur;
-	}
+
 	public Boutique getBoutique() {
 		return boutique;
 	}
+
+	public CommandeFournisseur getCommandeFournisseur() {
+		return commandeFournisseur;
+	}
+
+	public double getPrixAchat() {
+		return prixAchat;
+	}
+
+	public int getQuantite() {
+		return quantite;
+	}
+
+	public String getUnite() {
+		return unite;
+	}
+
+	public Utilisateur getUtilisateur() {
+		return utilisateur;
+	}
+
+	public void setArticle(Article article) {
+		this.article = article;
+	}
+
 	public void setBoutique(Boutique boutique) {
 		this.boutique = boutique;
 	}
-	public List<LivraisonCommandeFournisseur> getListeLivraisonCommandeFournisseur() {
-		return listeLivraisonCommandeFournisseur;
+
+	public void setCommandeFournisseur(CommandeFournisseur commandeFournisseur) {
+		this.commandeFournisseur = commandeFournisseur;
 	}
-	public void setListeLivraisonCommandeFournisseur(List<LivraisonCommandeFournisseur> listeLivraisonCommandeFournisseur) {
-		this.listeLivraisonCommandeFournisseur = listeLivraisonCommandeFournisseur;
+
+	public void setPrixAchat(double prixAchat) {
+		this.prixAchat = prixAchat;
 	}
-	
+
+	public void setQuantite(int quantite) {
+		this.quantite = quantite;
+	}
+
+	public void setUnite(String unite) {
+		this.unite = unite;
+	}
+
+	public void setUtilisateur(Utilisateur utilisateur) {
+		this.utilisateur = utilisateur;
+	}
+
 }

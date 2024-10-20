@@ -7,15 +7,14 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-
 @Entity
 public class LivraisonCommandeFournisseur extends AbstractDomainClass {
-	
+
 	private Date dateLivraison;
 	private String Heure;
-	private String qte;
+	private int quantite;
 	private double prix;
-	
+
 	@OneToMany(mappedBy = "livraisonCommandeFournisseur")
 	private List<Produit> listeProduit;
 
@@ -27,61 +26,77 @@ public class LivraisonCommandeFournisseur extends AbstractDomainClass {
 	private CommandeFournisseur commandeFournisseur;
 	@ManyToOne
 	private Utilisateur utilisateur;
-	
-	
-	public Utilisateur getUtilisateur() {
-		return utilisateur;
-	}
-	public void setUtilisateur(Utilisateur utilisateur) {
-		this.utilisateur = utilisateur;
-	}
-	public Date getDateLivraison() {
-		return dateLivraison;
-	}
-	public void setDateLivraison(Date dateLivraison) {
-		this.dateLivraison = dateLivraison;
-	}
-	public String getHeure() {
-		return Heure;
-	}
-	public void setHeure(String heure) {
-		Heure = heure;
-	}
-	public DetailCommandeFournisseur getDetailCommandeFournisseur() {
-		return detailCommandeFournisseur;
-	}
-	public void setDetailCommandeFournisseur(DetailCommandeFournisseur detailCommandeFournisseur) {
-		this.detailCommandeFournisseur = detailCommandeFournisseur;
-	}
+
 	public Boutique getBoutique() {
 		return boutique;
 	}
-	public void setBoutique(Boutique boutique) {
-		this.boutique = boutique;
-	}
+
 	public CommandeFournisseur getCommandeFournisseur() {
 		return commandeFournisseur;
 	}
-	public void setCommandeFournisseur(CommandeFournisseur commandeFournisseur) {
-		this.commandeFournisseur = commandeFournisseur;
+
+	public Date getDateLivraison() {
+		return dateLivraison;
 	}
-	public String getQte() {
-		return qte;
+
+	public DetailCommandeFournisseur getDetailCommandeFournisseur() {
+		return detailCommandeFournisseur;
 	}
-	public void setQte(String qte) {
-		this.qte = qte;
+
+	public String getHeure() {
+		return Heure;
 	}
-	public double getPrix() {
-		return prix;
-	}
-	public void setPrix(double prix) {
-		this.prix = prix;
-	}
+
 	public List<Produit> getListeProduit() {
 		return listeProduit;
 	}
+
+	public double getPrix() {
+		return prix;
+	}
+
+	public int getQuantite() {
+		return quantite;
+	}
+
+	public Utilisateur getUtilisateur() {
+		return utilisateur;
+	}
+
+	public void setBoutique(Boutique boutique) {
+		this.boutique = boutique;
+	}
+
+	public void setCommandeFournisseur(CommandeFournisseur commandeFournisseur) {
+		this.commandeFournisseur = commandeFournisseur;
+	}
+
+	public void setDateLivraison(Date dateLivraison) {
+		this.dateLivraison = dateLivraison;
+	}
+
+	public void setDetailCommandeFournisseur(DetailCommandeFournisseur detailCommandeFournisseur) {
+		this.detailCommandeFournisseur = detailCommandeFournisseur;
+	}
+
+	public void setHeure(String heure) {
+		Heure = heure;
+	}
+
 	public void setListeProduit(List<Produit> listeProduit) {
 		this.listeProduit = listeProduit;
 	}
-	
+
+	public void setPrix(double prix) {
+		this.prix = prix;
+	}
+
+	public void setQuantite(int quantite) {
+		this.quantite = quantite;
+	}
+
+	public void setUtilisateur(Utilisateur utilisateur) {
+		this.utilisateur = utilisateur;
+	}
+
 }

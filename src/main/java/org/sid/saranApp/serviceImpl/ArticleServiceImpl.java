@@ -4,13 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.sid.saranApp.dto.ArticleDto;
+import org.sid.saranApp.dto.ArticleSelectDto;
 import org.sid.saranApp.mapper.Mapper;
 import org.sid.saranApp.model.Article;
-import org.sid.saranApp.model.Boutique;
 import org.sid.saranApp.model.Categorie;
 import org.sid.saranApp.model.Utilisateur;
 import org.sid.saranApp.repository.ArticleRepository;
-import org.sid.saranApp.repository.BoutiqueRepository;
 import org.sid.saranApp.repository.CategorieRepository;
 import org.sid.saranApp.repository.UtilisateurRepository;
 import org.sid.saranApp.service.ArticleService;
@@ -23,23 +22,23 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
-	
+
 	@Autowired
 	private ArticleRepository articleRepository;
-	@Autowired 
+	@Autowired
 	private CategorieRepository categorieRepository;
 	@Autowired
 	private UtilisateurRepository utilisateurRepository;
-	
-	 Logger logger = LoggerFactory.getLogger(ArticleServiceImpl.class);
-	
+
+	Logger logger = LoggerFactory.getLogger(ArticleServiceImpl.class);
+
 	@Override
 	public ArticleDto addArticle(ArticleDto articleDto) {
 		// TODO Auto-generated method stub
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		logger.info("hello {}",auth.getName());
+		logger.info("hello {}", auth.getName());
 		Article article = new Article();
-	
+
 		Categorie categorie = categorieRepository.findById(articleDto.getUuidCategorie()).orElseThrow(null);
 		Utilisateur utilisateur = utilisateurRepository.findByEmail(auth.getName()).orElseThrow(null);
 		article.setLibelle(articleDto.getLibelle());
@@ -52,19 +51,11 @@ public class ArticleServiceImpl implements ArticleService {
 	}
 
 	@Override
-	public ArticleDto updateArticle(ArticleDto articleDto, String uuid) {
+	public void deleteArticle(String uuid) {
 		// TODO Auto-generated method stub
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		Categorie categorie  = categorieRepository.findById(articleDto.getUuidCategorie()).orElseThrow(null);
-		Utilisateur utilisateur = utilisateurRepository.findByEmail(auth.getName()).orElseThrow(null);
 		Article article = articleRepository.findById(uuid).orElseThrow(null);
-		article.setLibelle(articleDto.getLibelle());
-		article.setDescription(articleDto.getDescription());
-		article.setBoutique(utilisateur.getBoutique());
-		article.setCategorie(categorie);
-		article.setUtilisateur(utilisateur);
-		Article articleSave = articleRepository.save(article);
-		return Mapper.toArticleDto(articleSave);
+		articleRepository.delete(article);
+
 	}
 
 	@Override
@@ -84,11 +75,28 @@ public class ArticleServiceImpl implements ArticleService {
 	}
 
 	@Override
-	public void deleteArticle(String uuid) {
+	public List<ArticleSelectDto> listeSelect() {
 		// TODO Auto-generated method stub
+		List<Article> articles = articleRepository.findAll();
+		List<ArticleSelectDto> articleSelectDtos = new ArrayList<ArticleSelectDto>();
+		articles.forEach(article -> articleSelectDtos.add(Mapper.toArticleSelectDto(article)));
+		return articleSelectDtos;
+	}
+
+	@Override
+	public ArticleDto updateArticle(ArticleDto articleDto, String uuid) {
+		// TODO Auto-generated method stub
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Categorie categorie = categorieRepository.findById(articleDto.getUuidCategorie()).orElseThrow(null);
+		Utilisateur utilisateur = utilisateurRepository.findByEmail(auth.getName()).orElseThrow(null);
 		Article article = articleRepository.findById(uuid).orElseThrow(null);
-		articleRepository.delete(article);
-		
+		article.setLibelle(articleDto.getLibelle());
+		article.setDescription(articleDto.getDescription());
+		article.setBoutique(utilisateur.getBoutique());
+		article.setCategorie(categorie);
+		article.setUtilisateur(utilisateur);
+		Article articleSave = articleRepository.save(article);
+		return Mapper.toArticleDto(articleSave);
 	}
 
 }

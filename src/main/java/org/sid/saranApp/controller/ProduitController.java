@@ -17,33 +17,33 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @CrossOrigin
 public class ProduitController {
-	
+
 	@Autowired
 	private ProduitServiceImpl produitServiceImpl;
-	
+
 	@PostMapping("/produit")
 	public ProduitDto add(@RequestBody ProduitDto produitDto) {
 		return produitServiceImpl.add(produitDto);
 	}
-	
-	@PutMapping("/produit/{uuid}")
-	public ProduitDto update(@RequestBody ProduitDto produitDto,@PathVariable String uuid) {
-		return produitServiceImpl.update(produitDto, uuid);
+
+	@GetMapping("/produit")
+	public List<ProduitDto> findAll() {
+		return produitServiceImpl.findAll();
 	}
-	
+
+	@GetMapping("/produit/getById/{uuid}")
+	public ProduitDto getById(@PathVariable String uuid) {
+		return produitServiceImpl.getById(uuid);
+	}
+
 	@DeleteMapping("/produit/delete/{uuid}")
 	public ProduitDto supprimer(@PathVariable String uuid) {
 		return produitServiceImpl.supprimer(uuid);
 	}
-	
-	@GetMapping("/produit/listeProduit")
-	public List<ProduitDto> findAll(){
-		return produitServiceImpl.findAll();
-	}
-	
-	@GetMapping("/produit/getById/{uuid}")
-	public ProduitDto getById(@PathVariable String uuid) {
-		return produitServiceImpl.getById(uuid);
+
+	@PutMapping("/produit/{uuid}")
+	public ProduitDto update(@RequestBody ProduitDto produitDto, @PathVariable String uuid) {
+		return produitServiceImpl.update(produitDto, uuid);
 	}
 
 }

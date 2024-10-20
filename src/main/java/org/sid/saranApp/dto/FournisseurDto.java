@@ -10,6 +10,7 @@ public class FournisseurDto {
 	private String ville;
 	private String uuidBoutique;
 	private String uuidUtilisateur;
+	private String nomComplet;
 
 	public String getEmail() {
 		return email;
@@ -17,6 +18,10 @@ public class FournisseurDto {
 
 	public String getNom() {
 		return nom;
+	}
+
+	public String getNomComplet() {
+		return nomComplet;
 	}
 
 	public String getPrenom() {
@@ -53,6 +58,10 @@ public class FournisseurDto {
 
 	public void setNom(String nom) {
 		this.nom = nom;
+	}
+
+	public void setNomComplet(String nomComplet) {
+		this.nomComplet = nomComplet;
 	}
 
 	public void setPrenom(String prenom) {

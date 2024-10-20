@@ -1,6 +1,5 @@
 package org.sid.saranApp.controller;
 
-
 import java.util.List;
 
 import org.sid.saranApp.dto.CommandeFournisseurDto;
@@ -18,29 +17,46 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @CrossOrigin
 public class CommandeFournisseurController {
-	
+
 	@Autowired
 	private CommandeFournisseurService commandeFournisseurService;
-	
+
 	@PostMapping("/commandeFournisseur")
 	public CommandeFournisseurDto addCommandeFournisseur(@RequestBody CommandeFournisseurDto commandeFournisseurDto) {
 		return commandeFournisseurService.addCommandeFournisseur(commandeFournisseurDto);
 	}
-	@PutMapping("/commandeFournisseur/{uuid}")
-	public CommandeFournisseurDto updateCommandeFournisseur(@RequestBody CommandeFournisseurDto commandeFournisseurDto,@PathVariable String uuid) {
-		return commandeFournisseurService.updateCommandeFournisseur(commandeFournisseurDto, uuid);
+
+	@PostMapping("/commandeFournisseur/livraison")
+	public CommandeFournisseurDto addCommandeFournisseurLivraison(
+			@RequestBody CommandeFournisseurDto commandeFournisseurDto) {
+		return commandeFournisseurService.addLivraisonCommandeFournisseur(commandeFournisseurDto);
 	}
-	@GetMapping("/commandeFournisseur")
-	public List<CommandeFournisseurDto> findAll(){
-		return commandeFournisseurService.findAll();
+
+	@PostMapping("/commandeFournisseur/stock")
+	public CommandeFournisseurDto addCommandeFournisseurLivraisonStock(
+			@RequestBody CommandeFournisseurDto commandeFournisseurDto) {
+		return commandeFournisseurService.addStockFromCommandeAndLivraison(commandeFournisseurDto);
 	}
-	@GetMapping("/commandeFournisseur/{uuid}")
-	public CommandeFournisseurDto getCommandeFournisseur(@PathVariable String uuid) {
-		return commandeFournisseurService.getCommandeFournisseur(uuid);
-	}
+
 	@DeleteMapping("/CommandeFournisseur/{uuid}")
 	public void deleteCommandeFournisseur(@PathVariable String uuid) {
 		commandeFournisseurService.deleteCommandeFournisseur(uuid);
 	}
-	
+
+	@GetMapping("/commandeFournisseur")
+	public List<CommandeFournisseurDto> findAll() {
+		return commandeFournisseurService.findAll();
+	}
+
+	@GetMapping("/commandeFournisseur/{uuid}")
+	public CommandeFournisseurDto getCommandeFournisseur(@PathVariable String uuid) {
+		return commandeFournisseurService.getCommandeFournisseur(uuid);
+	}
+
+	@PutMapping("/commandeFournisseur/{uuid}")
+	public CommandeFournisseurDto updateCommandeFournisseur(@RequestBody CommandeFournisseurDto commandeFournisseurDto,
+			@PathVariable String uuid) {
+		return commandeFournisseurService.updateCommandeFournisseur(commandeFournisseurDto, uuid);
+	}
+
 }
