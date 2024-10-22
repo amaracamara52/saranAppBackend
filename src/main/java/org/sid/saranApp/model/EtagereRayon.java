@@ -6,6 +6,7 @@ import javax.persistence.ManyToOne;
 @Entity
 public class EtagereRayon extends AbstractDomainClass {
 
+	private String code;
 	private String etagere;
 
 	private String rayon;
@@ -18,6 +19,10 @@ public class EtagereRayon extends AbstractDomainClass {
 
 	public Boutique getBoutique() {
 		return boutique;
+	}
+
+	public String getCode() {
+		return code;
 	}
 
 	public String getColor() {
@@ -38,6 +43,10 @@ public class EtagereRayon extends AbstractDomainClass {
 
 	public void setBoutique(Boutique boutique) {
 		this.boutique = boutique;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 	public void setColor(String color) {

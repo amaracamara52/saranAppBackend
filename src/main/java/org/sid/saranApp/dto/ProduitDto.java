@@ -2,15 +2,21 @@ package org.sid.saranApp.dto;
 
 import java.util.Date;
 
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
 import org.sid.saranApp.enume.StatusCommandeFournisseurEnum;
+import org.springframework.format.annotation.DateTimeFormat;
 
 public class ProduitDto extends ResponseDto {
 
 	private String uuid;
-	private int prixAchat;
-	private int prixVente;
+	private double prixAchat;
+	private double prixVente;
 	private int quantite;
 	private int quantiteImage;
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "yyy-MM-dd")
 	private Date datePeremption;
 	private String article;
 	private String categorie;
@@ -24,6 +30,8 @@ public class ProduitDto extends ResponseDto {
 	private String uuidUtilisateur;
 	private String unite;
 	private boolean isFinish;
+	private int quantiteVendu;
+	private String etagere;
 
 	public String getArticle() {
 		return article;
@@ -45,15 +53,19 @@ public class ProduitDto extends ResponseDto {
 		return emplacement;
 	}
 
+	public String getEtagere() {
+		return etagere;
+	}
+
 	public String getFournisseur() {
 		return fournisseur;
 	}
 
-	public int getPrixAchat() {
+	public double getPrixAchat() {
 		return prixAchat;
 	}
 
-	public int getPrixVente() {
+	public double getPrixVente() {
 		return prixVente;
 	}
 
@@ -63,6 +75,10 @@ public class ProduitDto extends ResponseDto {
 
 	public int getQuantiteImage() {
 		return quantiteImage;
+	}
+
+	public int getQuantiteVendu() {
+		return quantiteVendu;
 	}
 
 	public StatusCommandeFournisseurEnum getStatusCommandeFournisseurEnum() {
@@ -117,6 +133,10 @@ public class ProduitDto extends ResponseDto {
 		this.emplacement = emplacement;
 	}
 
+	public void setEtagere(String etagere) {
+		this.etagere = etagere;
+	}
+
 	public void setFinish(boolean isFinish) {
 		this.isFinish = isFinish;
 	}
@@ -125,11 +145,11 @@ public class ProduitDto extends ResponseDto {
 		this.fournisseur = fournisseur;
 	}
 
-	public void setPrixAchat(int prixAchat) {
+	public void setPrixAchat(double prixAchat) {
 		this.prixAchat = prixAchat;
 	}
 
-	public void setPrixVente(int prixVente) {
+	public void setPrixVente(double prixVente) {
 		this.prixVente = prixVente;
 	}
 
@@ -139,6 +159,10 @@ public class ProduitDto extends ResponseDto {
 
 	public void setQuantiteImage(int quantiteImage) {
 		this.quantiteImage = quantiteImage;
+	}
+
+	public void setQuantiteVendu(int quantiteVendu) {
+		this.quantiteVendu = quantiteVendu;
 	}
 
 	public void setStatusCommandeFournisseurEnum(StatusCommandeFournisseurEnum statusCommandeFournisseurEnum) {

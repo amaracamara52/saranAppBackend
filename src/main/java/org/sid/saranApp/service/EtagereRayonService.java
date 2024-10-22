@@ -21,6 +21,8 @@ public interface EtagereRayonService {
 
 	RayonDto addRayon(RayonDto rayonDto);
 
+	EtagereRayonDto getEtagereRayon(String uuid);
+
 	List<String[]> importationEtagere(MultipartFile file);
 
 	List<String[]> importationRayon(MultipartFile file);

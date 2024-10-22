@@ -77,6 +77,7 @@ public class Mapper {
 		dto.setUuidBoutique(article.getBoutique().getUuid());
 		dto.setUuidUtilisateur(article.getUtilisateur().getUuid());
 		dto.setCategorie(article.getCategorie().getLibelle());
+		dto.setQuantiteDansCarton(article.getQuantiteDansCarton());
 		return dto;
 	}
 
@@ -217,13 +218,15 @@ public class Mapper {
 	public static CommandeVenteDto toCommandeVente(CommandeVente commandeVente) {
 		CommandeVenteDto commandeVenteDto = new CommandeVenteDto();
 		commandeVenteDto.setUuid(commandeVente.getUuid());
-		commandeVenteDto.setNumeroCom(commandeVente.getNumeroCom());
+		commandeVenteDto.setNumeroCommande(commandeVente.getNumeroCommande());
 		commandeVenteDto.setPaye(commandeVente.isPaye());
-		commandeVenteDto.setValeurCom(commandeVente.getValeurCom());
+		commandeVenteDto.setMontantCommande(commandeVente.getMontantCommade() + " gnf");
 		commandeVenteDto.setDatePaiement(commandeVente.getDatePaiement());
 		commandeVenteDto.setId_client(commandeVente.getClient().getUuid());
 		commandeVenteDto.setUuidBoutique(commandeVente.getBoutique().getUuid());
 		commandeVenteDto.setUuidUtilisateur(commandeVente.getUtilisateur().getUuid());
+		commandeVenteDto.setStatus(commandeVenteDto.getStatus());
+		commandeVenteDto.setNombreArticle(commandeVente.getListeLigneCommande().size());
 		return commandeVenteDto;
 	}
 
@@ -231,19 +234,19 @@ public class Mapper {
 	 * *********************Commande Vente**********************
 	 */
 
-	public static CommandeVente toCommandeVenteDto(CommandeVenteDto commandeVenteDto, Client client,
-			Utilisateur utilisateur, Boutique boutique) {
-		CommandeVente commandeVente = new CommandeVente();
-		commandeVente.setUuid(commandeVenteDto.getUuid());
-		commandeVente.setNumeroCom(commandeVenteDto.getNumeroCom());
-		commandeVente.setPaye(commandeVenteDto.isPaye());
-		commandeVente.setValeurCom(commandeVenteDto.getValeurCom());
-		commandeVente.setDatePaiement(commandeVenteDto.getDatePaiement());
-		commandeVente.setBoutique(boutique);
-		commandeVente.setUtilisateur(utilisateur);
-		commandeVente.setClient(client);
-		return commandeVente;
-	}
+//	public static CommandeVente toCommandeVenteDto(CommandeVenteDto commandeVenteDto, Client client,
+//			Utilisateur utilisateur, Boutique boutique) {
+//		CommandeVente commandeVente = new CommandeVente();
+//		commandeVente.setUuid(commandeVenteDto.getUuid());
+//		commandeVente.setNumeroCommande(commandeVenteDto.getNumeroCommande());
+//		commandeVente.setPaye(commandeVenteDto.isPaye());
+//		commandeVente.setMontantCommade(commandeVenteDto.getMontantCommande());
+//		commandeVente.setDatePaiement(commandeVenteDto.getDatePaiement());
+//		commandeVente.setBoutique(boutique);
+//		commandeVente.setUtilisateur(utilisateur);
+//		commandeVente.setClient(client);
+//		return commandeVente;
+//	}
 
 	public static CommuneDto toCommuneDto(Commune commune) {
 		CommuneDto dto = new CommuneDto();
@@ -297,6 +300,8 @@ public class Mapper {
 		dto.setUuidUtilisateur(etagereRayon.getBoutique().getUuid());
 		dto.setUtilisateur(etagereRayon.getUtilisateur().getEmail());
 		dto.setUuidUtilisateur(etagereRayon.getUtilisateur().getUuid());
+		dto.setCode(etagereRayon.getCode());
+		dto.setEmplacement(dto.getLibelle() + " " + dto.getCode() + " " + dto.getRayon());
 		return dto;
 	}
 
@@ -331,7 +336,7 @@ public class Mapper {
 	public static LigneCommandeDto toLigneCommande(LigneCommande ligneCommande) {
 		LigneCommandeDto ligneCommandeDto = new LigneCommandeDto();
 		ligneCommandeDto.setUuid(ligneCommande.getUuid());
-		ligneCommandeDto.setQte(ligneCommande.getQte());
+		// ligneCommandeDto.setQte(ligneCommande.getQuantite());
 		ligneCommandeDto.setUuidProduit(ligneCommande.getProduit().getUuid());
 		ligneCommandeDto.setUuidCommandeVente(ligneCommande.getCommandeVente().getUuid());
 		ligneCommandeDto.setUuidBoutique(ligneCommande.getBoutique().getUuid());
@@ -347,7 +352,7 @@ public class Mapper {
 			CommandeVente commandeVente, Utilisateur utilisateur, Boutique boutique) {
 		LigneCommande ligneCommande = new LigneCommande();
 		ligneCommande.setUuid(ligneCommandeDto.getUuid());
-		ligneCommande.setQte(ligneCommandeDto.getQte());
+		// ligneCommande.setQte(ligneCommandeDto.getQte());
 		ligneCommande.setProduit(produit);
 		ligneCommande.setCommandeVente(commandeVente);
 		ligneCommande.setBoutique(boutique);
@@ -422,6 +427,7 @@ public class Mapper {
 		produitDto.setPrixAchat(produit.getPrixAchat());
 		produitDto.setPrixVente(produit.getPrixVente());
 		produitDto.setQuantite(produit.getQuantite());
+		produitDto.setUuidEmplacement(produit.getEmplacement().getUuid());
 		produitDto.setArticle(
 				produit.getLivraisonCommandeFournisseur().getDetailCommandeFournisseur().getArticle().getLibelle());
 		produitDto.setCategorie(produit.getLivraisonCommandeFournisseur().getDetailCommandeFournisseur().getArticle()
@@ -430,8 +436,9 @@ public class Mapper {
 		produitDto.setDateCommande(
 				produit.getLivraisonCommandeFournisseur().getCommandeFournisseur().getDateCommandeFournisseur());
 		if (produit.getEmplacement() != null) {
-			produitDto.setEmplacement(
-					produit.getEmplacement().getEtagere() + " ===> " + produit.getEmplacement().getRayon());
+			produitDto
+					.setEmplacement(produit.getEmplacement().getCode() + " ==> " + produit.getEmplacement().getRayon());
+			produitDto.setEtagere(produit.getEmplacement().getEtagere());
 		}
 
 		produitDto.setFournisseur(

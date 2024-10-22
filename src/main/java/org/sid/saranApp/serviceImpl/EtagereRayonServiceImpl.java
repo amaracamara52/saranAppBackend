@@ -111,35 +111,19 @@ public class EtagereRayonServiceImpl implements EtagereRayonService {
 	}
 
 	@Override
+	public EtagereRayonDto getEtagereRayon(String uuid) {
+		// TODO Auto-generated method stub
+		EtagereRayon etagereRayon = etagereRayonRepository.findById(uuid).orElseThrow(null);
+		return Mapper.toEtagereRayonDto(etagereRayon);
+	}
+
+	@Override
 	public List<String[]> importationEtagere(MultipartFile file) {
 		// TODO Auto-generated method stub
 		List<String[]> rows = new ArrayList<>();
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		Utilisateur utilisateur = utilisateurRepository.findByEmail(auth.getName()).orElseThrow(null);
-//
-//		try (Workbook workbook = WorkbookFactory.create(file.getInputStream())) {
-//			Sheet sheet = workbook.getSheetAt(0);
-//			for (Row row : sheet) {
-//				String[] cellValues = new String[row.getPhysicalNumberOfCells()];
-//				for (int i = 0; i < row.getPhysicalNumberOfCells(); i++) {
-//					Cell cell = row.getCell(i);
-//					cellValues[i] = getCellValueAsString(cell);
-//				}
-//				rows.add(cellValues);
-//			}
-//		} catch (EncryptedDocumentException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//
-//		for (Iterator iterator = rows.iterator(); iterator.hasNext();) {
-//			String[] strings = (String[]) iterator.next();
-//			logger.info("value {}", strings);
-//		}
 
 		List<EtagereRayonDto> emplacements = new ArrayList<>();
 		try (InputStream inputStream = file.getInputStream()) {
@@ -153,13 +137,15 @@ public class EtagereRayonServiceImpl implements EtagereRayonService {
 					continue;
 				}
 				EtagereRayonDto emplacement = new EtagereRayonDto();
-				emplacement.setLibelle(row.getCell(0).getStringCellValue());
-				emplacement.setRayon(row.getCell(1).getStringCellValue());
+				emplacement.setCode(row.getCell(0).getStringCellValue());
+				emplacement.setLibelle(row.getCell(1).getStringCellValue());
+				emplacement.setRayon(row.getCell(2).getStringCellValue());
 				logger.info("value {}", emplacement.getLibelle() + " " + emplacement.getRayon());
 
 				EtagereRayon etagereRayon = new EtagereRayon();
 				etagereRayon.setBoutique(utilisateur.getBoutique());
 				etagereRayon.setUtilisateur(utilisateur);
+				etagereRayon.setCode(emplacement.getCode());
 				etagereRayon.setEtagere(emplacement.getLibelle());
 				etagereRayon.setRayon(emplacement.getRayon());
 				etagereRayonRepository.save(etagereRayon);

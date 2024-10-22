@@ -6,15 +6,14 @@ import javax.persistence.ManyToOne;
 @Entity
 public class LigneCommande extends AbstractDomainClass {
 
-	private String qte;
+	private int quantite;
 	@ManyToOne
 	private CommandeVente commandeVente;
 	@ManyToOne
 	private Produit produit;
 	@ManyToOne
 	private Boutique boutique;
-	@ManyToOne
-	private UniteProduit uniteSortie;
+	private String uniteSortie;
 	@ManyToOne
 	private Utilisateur utilisateur;
 
@@ -30,11 +29,11 @@ public class LigneCommande extends AbstractDomainClass {
 		return produit;
 	}
 
-	public String getQte() {
-		return qte;
+	public int getQuantite() {
+		return quantite;
 	}
 
-	public UniteProduit getUniteSortie() {
+	public String getUniteSortie() {
 		return uniteSortie;
 	}
 
@@ -54,11 +53,11 @@ public class LigneCommande extends AbstractDomainClass {
 		this.produit = produit;
 	}
 
-	public void setQte(String qte) {
-		this.qte = qte;
+	public void setQuantite(int quantite) {
+		this.quantite = quantite;
 	}
 
-	public void setUniteSortie(UniteProduit uniteSortie) {
+	public void setUniteSortie(String uniteSortie) {
 		this.uniteSortie = uniteSortie;
 	}
 

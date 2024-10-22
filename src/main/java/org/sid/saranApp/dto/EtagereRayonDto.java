@@ -5,13 +5,23 @@ public class EtagereRayonDto {
 	private String uuid;
 	private String libelle;
 	private String rayon;
+	private String emplacement;
 	private String boutique;
 	private String uuidBoutique;
 	private String utilisateur;
 	private String uuidUtilisateur;
+	private String code;
 
 	public String getBoutique() {
 		return boutique;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public String getEmplacement() {
+		return emplacement;
 	}
 
 	public String getLibelle() {
@@ -40,6 +50,14 @@ public class EtagereRayonDto {
 
 	public void setBoutique(String boutique) {
 		this.boutique = boutique;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public void setEmplacement(String emplacement) {
+		this.emplacement = emplacement;
 	}
 
 	public void setLibelle(String libelle) {

@@ -148,15 +148,14 @@ public class CommandeFournisseurServiceImpl implements CommandeFournisseurServic
 
 			produit.setBoutique(commandeFournisseur.getBoutique());
 			produit.setLivraisonCommandeFournisseur(livraison);
-			produit.setQuantite(livraison.getQuantite());
-			produit.setQuantiteImage(livraison.getQuantite());
-
-			if (detailCommandeFournisseur.getUnite().equals("PIECE")) {
-				produit.setPrixAchat((int) detailCommandeFournisseur.getPrixAchat());
-			}
+			produit.setQuantite(
+					livraison.getQuantite() * detailCommandeFournisseur.getArticle().getQuantiteDansCarton());
+			produit.setQuantiteImage(
+					livraison.getQuantite() * detailCommandeFournisseur.getArticle().getQuantiteDansCarton());
 
 			if (detailCommandeFournisseur.getUnite().equals("CARTON")) {
-				int prixAchat = (int) (detailCommandeFournisseur.getQuantite()
+				double prixAchat = (detailCommandeFournisseur.getQuantite()
+						* detailCommandeFournisseur.getArticle().getQuantiteDansCarton()
 						/ detailCommandeFournisseur.getPrixAchat());
 				produit.setPrixAchat(prixAchat);
 			}

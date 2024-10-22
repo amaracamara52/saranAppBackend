@@ -1,10 +1,13 @@
 package org.sid.saranApp.model;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -13,18 +16,19 @@ import org.sid.saranApp.enume.StatusCommandeVenteEnum;
 @Entity
 public class CommandeVente extends AbstractDomainClass {
 
-	private String valeurCom;
-	private String numeroCom;
+	private int montantCommade;
+	private String numeroCommande;
 	private boolean isPaye;
-	private String datePaiement;
+	private Date datePaiement;
 	@ManyToOne
 	private Client client;
 	@ManyToOne
 	private Boutique boutique;
+	private StatusCommandeVenteEnum status;
 	@ManyToOne
 	private Utilisateur utilisateur;
-	@OneToMany(mappedBy = "commandeVente")
-	private List<LigneCommande> listeLigneCommande;
+	@OneToMany(mappedBy = "commandeVente", fetch = FetchType.EAGER)
+	private List<LigneCommande> listeLigneCommande = new ArrayList<LigneCommande>();
 	@Enumerated(EnumType.STRING)
 	private StatusCommandeVenteEnum commandeVenteEnum;
 
@@ -40,7 +44,7 @@ public class CommandeVente extends AbstractDomainClass {
 		return commandeVenteEnum;
 	}
 
-	public String getDatePaiement() {
+	public Date getDatePaiement() {
 		return datePaiement;
 	}
 
@@ -48,16 +52,20 @@ public class CommandeVente extends AbstractDomainClass {
 		return listeLigneCommande;
 	}
 
-	public String getNumeroCom() {
-		return numeroCom;
+	public int getMontantCommade() {
+		return montantCommade;
+	}
+
+	public String getNumeroCommande() {
+		return numeroCommande;
+	}
+
+	public StatusCommandeVenteEnum getStatus() {
+		return status;
 	}
 
 	public Utilisateur getUtilisateur() {
 		return utilisateur;
-	}
-
-	public String getValeurCom() {
-		return valeurCom;
 	}
 
 	public boolean isPaye() {
@@ -76,7 +84,7 @@ public class CommandeVente extends AbstractDomainClass {
 		this.commandeVenteEnum = commandeVenteEnum;
 	}
 
-	public void setDatePaiement(String datePaiement) {
+	public void setDatePaiement(Date datePaiement) {
 		this.datePaiement = datePaiement;
 	}
 
@@ -84,20 +92,24 @@ public class CommandeVente extends AbstractDomainClass {
 		this.listeLigneCommande = listeLigneCommande;
 	}
 
-	public void setNumeroCom(String numeroCom) {
-		this.numeroCom = numeroCom;
+	public void setMontantCommade(int montantCommade) {
+		this.montantCommade = montantCommade;
+	}
+
+	public void setNumeroCommande(String numeroCommande) {
+		this.numeroCommande = numeroCommande;
 	}
 
 	public void setPaye(boolean isPaye) {
 		this.isPaye = isPaye;
 	}
 
-	public void setUtilisateur(Utilisateur utilisateur) {
-		this.utilisateur = utilisateur;
+	public void setStatus(StatusCommandeVenteEnum status) {
+		this.status = status;
 	}
 
-	public void setValeurCom(String valeurCom) {
-		this.valeurCom = valeurCom;
+	public void setUtilisateur(Utilisateur utilisateur) {
+		this.utilisateur = utilisateur;
 	}
 
 }

@@ -1,54 +1,116 @@
 package org.sid.saranApp.dto;
 
+import java.util.Date;
 
-
-public class LigneCommandeDto extends ResponseDto{
+public class LigneCommandeDto extends ResponseDto {
 
 	private String uuid;
-	private String qte;
+	private int quantite;
 	private String uuidCommandeVente;
 	private String uuidProduit;
 	private String uuidBoutique;
 	private String uuidUtilisateur;
+	private String article;
+	private int quantiteRestant;
+	private String emplacement;
+	private String utilisateur;
+	private int prixVente;
+	private Date datePeremption;
+
+	public String getArticle() {
+		return article;
+	}
+
+	public Date getDatePeremption() {
+		return datePeremption;
+	}
+
+	public String getEmplacement() {
+		return emplacement;
+	}
+
+	public int getPrixVente() {
+		return prixVente;
+	}
+
+	public int getQuantite() {
+		return quantite;
+	}
+
+	public int getQuantiteRestant() {
+		return quantiteRestant;
+	}
+
+	public String getUtilisateur() {
+		return utilisateur;
+	}
+
 	public String getUuid() {
 		return uuid;
 	}
-	public void setUuid(String uuid) {
-		this.uuid = uuid;
-	}
-	
-	public String getQte() {
-		return qte;
-	}
-	public void setQte(String qte) {
-		this.qte = qte;
-	}
-	
-	public String getUuidCommandeVente() {
-		return uuidCommandeVente;
-	}
-	public void setUuidCommandeVente(String uuidCommandeVente) {
-		this.uuidCommandeVente = uuidCommandeVente;
-	}
-	public String getUuidProduit() {
-		return uuidProduit;
-	}
-	public void setUuidProduit(String uuidProduit) {
-		this.uuidProduit = uuidProduit;
-	}
+
 	public String getUuidBoutique() {
 		return uuidBoutique;
 	}
-	public void setUuidBoutique(String uuidBoutique) {
-		this.uuidBoutique = uuidBoutique;
+
+	public String getUuidCommandeVente() {
+		return uuidCommandeVente;
 	}
+
+	public String getUuidProduit() {
+		return uuidProduit;
+	}
+
 	public String getUuidUtilisateur() {
 		return uuidUtilisateur;
 	}
+
+	public void setArticle(String article) {
+		this.article = article;
+	}
+
+	public void setDatePeremption(Date datePeremption) {
+		this.datePeremption = datePeremption;
+	}
+
+	public void setEmplacement(String emplacement) {
+		this.emplacement = emplacement;
+	}
+
+	public void setPrixVente(int prixVente) {
+		this.prixVente = prixVente;
+	}
+
+	public void setQuantite(int quantite) {
+		this.quantite = quantite;
+	}
+
+	public void setQuantiteRestant(int quantiteRestant) {
+		this.quantiteRestant = quantiteRestant;
+	}
+
+	public void setUtilisateur(String utilisateur) {
+		this.utilisateur = utilisateur;
+	}
+
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
+	}
+
+	public void setUuidBoutique(String uuidBoutique) {
+		this.uuidBoutique = uuidBoutique;
+	}
+
+	public void setUuidCommandeVente(String uuidCommandeVente) {
+		this.uuidCommandeVente = uuidCommandeVente;
+	}
+
+	public void setUuidProduit(String uuidProduit) {
+		this.uuidProduit = uuidProduit;
+	}
+
 	public void setUuidUtilisateur(String uuidUtilisateur) {
 		this.uuidUtilisateur = uuidUtilisateur;
 	}
-	
-	
-	
+
 }

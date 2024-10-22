@@ -1,8 +1,15 @@
 package org.sid.saranApp.serviceImpl;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.sid.saranApp.dto.ArticleDto;
 import org.sid.saranApp.dto.ArticleSelectDto;
 import org.sid.saranApp.mapper.Mapper;
@@ -19,6 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
@@ -72,6 +80,54 @@ public class ArticleServiceImpl implements ArticleService {
 		// TODO Auto-generated method stub
 		Article article = articleRepository.findById(uuid).orElseThrow(null);
 		return Mapper.toArticleDto(article);
+	}
+
+	@Override
+	public void importationArticle(MultipartFile file) {
+		// TODO Auto-generated method stub
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Utilisateur utilisateur = utilisateurRepository.findByEmail(auth.getName()).orElseThrow(null);
+
+		Categorie categorie = new Categorie();
+		categorie.setLibelle("AUCUN");
+		categorie.setDescription("AUCUN");
+		categorie.setBoutique(utilisateur.getBoutique());
+		categorie.setUtilisateur(utilisateur);
+		categorie = categorieRepository.save(categorie);
+
+		List<ArticleDto> articleDtos = new ArrayList<>();
+		try (InputStream inputStream = file.getInputStream()) {
+			Workbook workbook = WorkbookFactory.create(inputStream);
+			Sheet sheet = workbook.getSheetAt(0);
+			Iterator<Row> rowIterator = sheet.rowIterator();
+			while (rowIterator.hasNext()) {
+				Row row = rowIterator.next();
+				if (row.getRowNum() == 0) {
+					// skip header row
+					continue;
+				}
+				ArticleDto articleDto = new ArticleDto();
+				articleDto.setLibelle(row.getCell(0).getStringCellValue());
+				articleDto.setDescription(row.getCell(1).getStringCellValue());
+				articleDto.setQuantiteDansCarton((int) row.getCell(2).getNumericCellValue());
+
+				logger.info("value {}", articleDto.getLibelle());
+
+				Article article = new Article();
+
+				article.setBoutique(utilisateur.getBoutique());
+				article.setUtilisateur(utilisateur);
+				article.setCategorie(categorie);
+				article.setLibelle(articleDto.getLibelle());
+				article.setDescription(articleDto.getDescription());
+				article.setQuantiteDansCarton(articleDto.getQuantiteDansCarton());
+				article = articleRepository.save(article);
+
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override

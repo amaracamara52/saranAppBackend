@@ -6,14 +6,20 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 public class Produit extends AbstractDomainClass {
 
-	private int prixAchat;
-	private int prixVente;
+	private double prixAchat;
+	private double prixVente;
 	private int quantite;
 	private int quantiteImage;
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date datePeremption;
 	private boolean isFinish;
 
@@ -55,11 +61,11 @@ public class Produit extends AbstractDomainClass {
 		return livraisonCommandeFournisseur;
 	}
 
-	public int getPrixAchat() {
+	public double getPrixAchat() {
 		return prixAchat;
 	}
 
-	public int getPrixVente() {
+	public double getPrixVente() {
 		return prixVente;
 	}
 
@@ -107,11 +113,11 @@ public class Produit extends AbstractDomainClass {
 		this.livraisonCommandeFournisseur = livraisonCommandeFournisseur;
 	}
 
-	public void setPrixAchat(int prixAchat) {
+	public void setPrixAchat(double prixAchat) {
 		this.prixAchat = prixAchat;
 	}
 
-	public void setPrixVente(int prixVente) {
+	public void setPrixVente(double prixVente) {
 		this.prixVente = prixVente;
 	}
 

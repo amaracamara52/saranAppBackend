@@ -64,6 +64,12 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 		return utilisateurDtos;
 	}
 
+	public Utilisateur getCurentUtilisateur() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Utilisateur user = utilisateurRepository.findByEmail(auth.getName()).orElseThrow(null);
+		return user;
+	}
+
 	@Override
 	public UtilisateurDto getUtilisateur(String uuid) {
 		// TODO Auto-generated method stub
@@ -101,5 +107,4 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 
 		return Mapper.toUtilisateurDto(utilisateur);
 	}
-
 }

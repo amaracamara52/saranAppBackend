@@ -68,6 +68,12 @@ public class EtagereRayonController {
 		return etagereRayonService.listeRayons();
 	}
 
+	@GetMapping("emplacement/{uuid}")
+	public EtagereRayonDto getEtagereRayon(@PathVariable String uuid) {
+		// TODO Auto-generated method stub
+		return etagereRayonService.getEtagereRayon(uuid);
+	}
+
 	@PostMapping("/emplacement/fileImportation")
 	public ResponseEntity<List<String[]>> importExcelFileEtagere(@RequestParam("file") MultipartFile file)
 			throws IOException {
