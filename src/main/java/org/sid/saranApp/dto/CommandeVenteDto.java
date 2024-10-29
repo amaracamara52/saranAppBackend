@@ -4,14 +4,20 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
 import org.sid.saranApp.enume.StatusCommandeVenteEnum;
+import org.springframework.format.annotation.DateTimeFormat;
 
 public class CommandeVenteDto extends ResponseDto {
 
 	private String uuid;
-	private String montantCommande;
+	private double montantCommande;
 	private String numeroCommande;
 	private boolean isPaye;
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "yyy-MM-dd")
 	private Date datePaiement;
 	private String id_client;
 	private String uuidBoutique;
@@ -32,9 +38,7 @@ public class CommandeVenteDto extends ResponseDto {
 		return ligneCommandeDtos;
 	}
 
-	public String getMontantCommande() {
-		return montantCommande;
-	}
+	
 
 	public int getNombreArticle() {
 		return nombreArticle;
@@ -76,10 +80,7 @@ public class CommandeVenteDto extends ResponseDto {
 		this.ligneCommandeDtos = ligneCommandeDtos;
 	}
 
-	public void setMontantCommande(String montantCommande) {
-		this.montantCommande = montantCommande;
-	}
-
+	
 	public void setNombreArticle(int nombreArticle) {
 		this.nombreArticle = nombreArticle;
 	}
@@ -107,5 +108,15 @@ public class CommandeVenteDto extends ResponseDto {
 	public void setUuidUtilisateur(String uuidUtilisateur) {
 		this.uuidUtilisateur = uuidUtilisateur;
 	}
+
+	public double getMontantCommande() {
+		return montantCommande;
+	}
+
+	public void setMontantCommande(double montantCommande) {
+		this.montantCommande = montantCommande;
+	}
+	
+	
 
 }

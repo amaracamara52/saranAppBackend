@@ -1,10 +1,12 @@
 package org.sid.saranApp.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import org.sid.saranApp.dto.CommandeVenteDto;
 import org.sid.saranApp.serviceImpl.CommandeVenteServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,6 +41,17 @@ public class CommandeVenteController {
 	@GetMapping("/commandeVenteDto/listeCommandeVente")
 	public List<CommandeVenteDto> findAll(){
 		return commandeVenteServiceImpl.findAll();
+	}
+	
+	@GetMapping("/commandeVenteDto/listeCommandeVenteJour")
+	public List<CommandeVenteDto> listeCommandeVenteJour(){
+		return commandeVenteServiceImpl.listeCommandeVenteByJour();
+	}
+	
+	
+	@GetMapping("/commandeVenteDto/historique/{dateDebut}/{dateFin}")
+	public List<CommandeVenteDto> historique(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd")  Date dateDebut,@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd")  Date dateFin){
+		return commandeVenteServiceImpl.historiqueCommandeVente(dateDebut, dateFin);
 	}
 	
 	@GetMapping("/commandeVenteDto/getById/{uuid}")

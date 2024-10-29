@@ -60,25 +60,26 @@ public class CommandeVenteServiceImpl implements CommandeVenteService {
 		CommandeVenteDto response = new CommandeVenteDto();
 		CommandeVente commandeVente = new CommandeVente();
 		Utilisateur user = utilisateurServiceImpl.getCurentUtilisateur();
-		if (commandeVenteDto == null) {
-			response.setCode(Exception.error);
-			response.setMessage("Veuillez renseigner les champs");
-			return response;
-		}
-
-		Optional<Client> clientOptional = clientRepository.findById(commandeVenteDto.getId_client());
-		if (!clientOptional.isPresent()) {
-			commandeVente.setClient(null);
-			response.setCode(Exception.error);
-			response.setMessage("Ce client n'exist pas");
-			return response;
-		}
+//		if (commandeVenteDto == null) {
+//			response.setCode(Exception.error);
+//			response.setMessage("Veuillez renseigner les champs");
+//			return response;
+//		}
+//
+//		Optional<Client> clientOptional = clientRepository.findById(commandeVenteDto.getId_client());
+//		if (!clientOptional.isPresent()) {
+//			commandeVente.setClient(null);
+//			response.setCode(Exception.error);
+//			response.setMessage("Ce client n'exist pas");
+//			return response;
+//		}
 		String cmd = "SUP-" + uuid.substring(0, 6);
 		commandeVente.setNumeroCommande(cmd);
 		commandeVente.setBoutique(user.getBoutique());
 		commandeVente.setUtilisateur(user);
 		commandeVente.setDatePaiement(new Date());
 		commandeVente.setCommandeVenteEnum(StatusCommandeVenteEnum.ENREGISTRER);
+		commandeVente.setMontantCommade(commandeVenteDto.getMontantCommande());
 
 		commandeVente = commandeVenteRepository.save(commandeVente);
 
@@ -100,6 +101,7 @@ public class CommandeVenteServiceImpl implements CommandeVenteService {
 				ligne.setProduit(produit);
 				ligne.setQuantite(ligneCommandeDto.getQuantite());
 				ligne.setUniteSortie("PIECE");
+				ligne.setUtilisateur(user);
 				ligne = ligneCommandeRepository.save(ligne);
 
 				if (!ligne.getUuid().isEmpty()) {
@@ -199,6 +201,38 @@ public class CommandeVenteServiceImpl implements CommandeVenteService {
 		response.setCode(Exception.succes);
 		response.setMessage("Modification effectuer avec success");
 		return response;
+	}
+
+	@Override
+	public List<CommandeVenteDto> listeCommandeVenteByJour() {
+		// TODO Auto-generated method stub
+		Utilisateur user = utilisateurServiceImpl.getCurentUtilisateur();
+		List<CommandeVente> listeCommandeVente = commandeVenteRepository.listeCommandePeriode(new Date(), new Date(), user.getBoutique().getUuid());
+		List<CommandeVenteDto> listeCommandeVenteDto = new ArrayList<>();
+		listeCommandeVente.forEach(val -> {
+			listeCommandeVenteDto.add(Mapper.toCommandeVente(val));
+		});
+		return listeCommandeVenteDto;
+	}
+
+	
+
+	@Override
+	public List<CommandeVenteDto> topCommandeVente() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<CommandeVenteDto> historiqueCommandeVente(Date dateDebut, Date dateFin) {
+		// TODO Auto-generated method stub
+		Utilisateur user = utilisateurServiceImpl.getCurentUtilisateur();
+		List<CommandeVente> listeCommandeVente = commandeVenteRepository.listeCommandePeriode(dateDebut,dateFin, user.getBoutique().getUuid());
+		List<CommandeVenteDto> listeCommandeVenteDto = new ArrayList<>();
+		listeCommandeVente.forEach(val -> {
+			listeCommandeVenteDto.add(Mapper.toCommandeVente(val));
+		});
+		return listeCommandeVenteDto;
 	}
 
 }

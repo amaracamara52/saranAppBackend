@@ -10,21 +10,25 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.sid.saranApp.enume.StatusCommandeVenteEnum;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 public class CommandeVente extends AbstractDomainClass {
 
-	private int montantCommade;
+	private double montantCommade;
 	private String numeroCommande;
 	private boolean isPaye;
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "yyy-MM-dd")
 	private Date datePaiement;
 	@ManyToOne
 	private Client client;
 	@ManyToOne
 	private Boutique boutique;
-	private StatusCommandeVenteEnum status;
 	@ManyToOne
 	private Utilisateur utilisateur;
 	@OneToMany(mappedBy = "commandeVente", fetch = FetchType.EAGER)
@@ -52,18 +56,12 @@ public class CommandeVente extends AbstractDomainClass {
 		return listeLigneCommande;
 	}
 
-	public int getMontantCommade() {
-		return montantCommade;
-	}
-
+	
 	public String getNumeroCommande() {
 		return numeroCommande;
 	}
 
-	public StatusCommandeVenteEnum getStatus() {
-		return status;
-	}
-
+	
 	public Utilisateur getUtilisateur() {
 		return utilisateur;
 	}
@@ -92,9 +90,7 @@ public class CommandeVente extends AbstractDomainClass {
 		this.listeLigneCommande = listeLigneCommande;
 	}
 
-	public void setMontantCommade(int montantCommade) {
-		this.montantCommade = montantCommade;
-	}
+
 
 	public void setNumeroCommande(String numeroCommande) {
 		this.numeroCommande = numeroCommande;
@@ -104,12 +100,19 @@ public class CommandeVente extends AbstractDomainClass {
 		this.isPaye = isPaye;
 	}
 
-	public void setStatus(StatusCommandeVenteEnum status) {
-		this.status = status;
-	}
 
 	public void setUtilisateur(Utilisateur utilisateur) {
 		this.utilisateur = utilisateur;
 	}
+
+	public double getMontantCommade() {
+		return montantCommade;
+	}
+
+	public void setMontantCommade(double montantCommade) {
+		this.montantCommade = montantCommade;
+	}
+	
+	
 
 }

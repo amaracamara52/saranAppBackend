@@ -14,8 +14,10 @@ public class LigneCommandeDto extends ResponseDto {
 	private int quantiteRestant;
 	private String emplacement;
 	private String utilisateur;
-	private int prixVente;
+	private double prixVente;
 	private Date datePeremption;
+	private int quantiteStock;
+
 
 	public String getArticle() {
 		return article;
@@ -29,9 +31,7 @@ public class LigneCommandeDto extends ResponseDto {
 		return emplacement;
 	}
 
-	public int getPrixVente() {
-		return prixVente;
-	}
+
 
 	public int getQuantite() {
 		return quantite;
@@ -77,9 +77,6 @@ public class LigneCommandeDto extends ResponseDto {
 		this.emplacement = emplacement;
 	}
 
-	public void setPrixVente(int prixVente) {
-		this.prixVente = prixVente;
-	}
 
 	public void setQuantite(int quantite) {
 		this.quantite = quantite;
@@ -112,5 +109,25 @@ public class LigneCommandeDto extends ResponseDto {
 	public void setUuidUtilisateur(String uuidUtilisateur) {
 		this.uuidUtilisateur = uuidUtilisateur;
 	}
+
+	public double getPrixVente() {
+		return prixVente;
+	}
+
+	public void setPrixVente(double prixVente) {
+		this.prixVente = prixVente;
+	}
+
+	public int getQuantiteStock() {
+		return quantiteStock;
+	}
+
+	public void setQuantiteStock(int quantiteStock) {
+		this.quantiteStock = quantiteStock;
+	}
+	
+	
+	
+	
 
 }

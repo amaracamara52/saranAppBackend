@@ -45,5 +45,21 @@ public class ProduitController {
 	public ProduitDto update(@RequestBody ProduitDto produitDto, @PathVariable String uuid) {
 		return produitServiceImpl.update(produitDto, uuid);
 	}
+	
+	@GetMapping("/produit/perime")
+	public List<ProduitDto> findAllPerime() {
+		return produitServiceImpl.listeStockPerime();
+	}
+	
+	@GetMapping("/produit/inferieurA5")
+	public List<ProduitDto> findAllInferieurA5() {
+		return produitServiceImpl.listeStockInferieurA5();
+	}
+	
+	@GetMapping("/produit/perimeDans3mois")
+	public List<ProduitDto> findAllPerimeDans3mois() {
+		return produitServiceImpl.listeStockPerimeDans3mois();
+	}
+
 
 }
