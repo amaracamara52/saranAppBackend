@@ -1,5 +1,6 @@
 package org.sid.saranApp.dto;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +10,7 @@ public class CommandeFournisseurDto {
 
 	private String uuid;
 	private String valeurMarchandise;
-	private String dateCommandeFournisseur;
+	private LocalDate dateCommandeFournisseur;
 	private boolean isPaye;
 	private String uuidBoutique;
 	private String uuidFournisseur;
@@ -27,10 +28,7 @@ public class CommandeFournisseurDto {
 		return adresse;
 	}
 
-	public String getDateCommandeFournisseur() {
-		return dateCommandeFournisseur;
-	}
-
+	
 	public List<DetailCommandeFournisseurDto> getDetailCommandeFournisseurDtos() {
 		return detailCommandeFournisseurDtos;
 	}
@@ -87,9 +85,17 @@ public class CommandeFournisseurDto {
 		this.adresse = adresse;
 	}
 
-	public void setDateCommandeFournisseur(String dateCommandeFournisseur) {
+	
+
+	public LocalDate getDateCommandeFournisseur() {
+		return dateCommandeFournisseur;
+	}
+
+
+	public void setDateCommandeFournisseur(LocalDate dateCommandeFournisseur) {
 		this.dateCommandeFournisseur = dateCommandeFournisseur;
 	}
+
 
 	public void setDetailCommandeFournisseurDtos(List<DetailCommandeFournisseurDto> detailCommandeFournisseurDtos) {
 		this.detailCommandeFournisseurDtos = detailCommandeFournisseurDtos;

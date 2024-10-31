@@ -6,8 +6,10 @@ package org.sid.saranApp.controller;
 import java.io.IOException;
 import java.util.List;
 
+import org.sid.saranApp.dto.ArticleDto;
 import org.sid.saranApp.dto.EtagereDto;
 import org.sid.saranApp.dto.EtagereRayonDto;
+import org.sid.saranApp.dto.PageDataDto;
 import org.sid.saranApp.dto.RayonDto;
 import org.sid.saranApp.service.EtagereRayonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,5 +107,14 @@ public class EtagereRayonController {
 		// TODO Auto-generated method stub
 		return etagereRayonService.updateRayon(RayonDto, uuid);
 	}
+	
+	@GetMapping("/emplacement/page_emplacement")
+    public PageDataDto<EtagereRayonDto> getEtageres(
+        @RequestParam(required = false) String key,
+        @RequestParam(required = true,defaultValue = "0") int page,
+        @RequestParam(required = true,defaultValue = "10") int size
+    ) {
+        return etagereRayonService.listeEtagereRayons(page, size, key);
+    }
 
 }

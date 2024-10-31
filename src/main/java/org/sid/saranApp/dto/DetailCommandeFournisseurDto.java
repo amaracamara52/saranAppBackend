@@ -1,5 +1,7 @@
 package org.sid.saranApp.dto;
 
+import java.time.LocalDate;
+
 import org.sid.saranApp.enume.StatusCommandeFournisseurEnum;
 
 public class DetailCommandeFournisseurDto {
@@ -11,7 +13,7 @@ public class DetailCommandeFournisseurDto {
 	private int quantite;
 	private double prixAchat;
 	private String uuidCommandeFournisseur;
-	private String dateCommande;
+	private LocalDate dateCommande;
 	private String valeurMarchandise;
 	private StatusCommandeFournisseurEnum Status;
 	private String uuidBoutique;
@@ -28,10 +30,7 @@ public class DetailCommandeFournisseurDto {
 		return categorie;
 	}
 
-	public String getDateCommande() {
-		return dateCommande;
-	}
-
+	
 	public String getDescription() {
 		return description;
 	}
@@ -92,7 +91,13 @@ public class DetailCommandeFournisseurDto {
 		this.categorie = categorie;
 	}
 
-	public void setDateCommande(String dateCommande) {
+	
+
+	public LocalDate getDateCommande() {
+		return dateCommande;
+	}
+
+	public void setDateCommande(LocalDate dateCommande) {
 		this.dateCommande = dateCommande;
 	}
 

@@ -22,6 +22,7 @@ public class CommandeVenteDto extends ResponseDto {
 	private String id_client;
 	private String uuidBoutique;
 	private String uuidUtilisateur;
+	private String utilisateur;
 	private StatusCommandeVenteEnum status;
 	private int nombreArticle;
 	List<LigneCommandeDto> ligneCommandeDtos = new ArrayList<LigneCommandeDto>();
@@ -116,6 +117,16 @@ public class CommandeVenteDto extends ResponseDto {
 	public void setMontantCommande(double montantCommande) {
 		this.montantCommande = montantCommande;
 	}
+
+	public String getUtilisateur() {
+		return utilisateur;
+	}
+
+	public void setUtilisateur(String utilisateur) {
+		this.utilisateur = utilisateur;
+	}
+	
+	
 	
 	
 

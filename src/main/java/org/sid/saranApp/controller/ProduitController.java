@@ -2,6 +2,8 @@ package org.sid.saranApp.controller;
 
 import java.util.List;
 
+import org.sid.saranApp.dto.ArticleDto;
+import org.sid.saranApp.dto.PageDataDto;
 import org.sid.saranApp.dto.ProduitDto;
 import org.sid.saranApp.serviceImpl.ProduitServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -60,6 +63,15 @@ public class ProduitController {
 	public List<ProduitDto> findAllPerimeDans3mois() {
 		return produitServiceImpl.listeStockPerimeDans3mois();
 	}
+	
+	@GetMapping("/produit/page_produit")
+    public PageDataDto<ProduitDto> getProduits(
+        @RequestParam(required = false) String key,
+        @RequestParam(required = true,defaultValue = "0") int page,
+        @RequestParam(required = true,defaultValue = "10") int size
+    ) {
+        return produitServiceImpl.listeProduits(page, size, key);
+    }
 
 
 }

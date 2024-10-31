@@ -5,6 +5,9 @@ import java.util.List;
 
 import org.sid.saranApp.dto.ArticleDto;
 import org.sid.saranApp.dto.ArticleSelectDto;
+import org.sid.saranApp.dto.CommandeFournisseurDto;
+import org.sid.saranApp.dto.PageDataDto;
+import org.sid.saranApp.enume.StatusCommandeFournisseurEnum;
 import org.sid.saranApp.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -61,5 +64,14 @@ public class ArticleController {
 	public ArticleDto updateArticle(@RequestBody ArticleDto articleDto, @PathVariable String uuid) {
 		return articleService.updateArticle(articleDto, uuid);
 	}
+	
+	@GetMapping("/article/page_article")
+    public PageDataDto<ArticleDto> getArticles(
+        @RequestParam(required = false) String key,
+        @RequestParam(required = true,defaultValue = "0") int page,
+        @RequestParam(required = true,defaultValue = "10") int size
+    ) {
+        return articleService.listeArticles(page, size, key);
+    }
 
 }

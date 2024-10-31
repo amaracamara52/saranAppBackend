@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.sid.saranApp.dto.CommandeVenteDto;
+import org.sid.saranApp.dto.PageDataDto;
 import org.sid.saranApp.serviceImpl.CommandeVenteServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -58,5 +60,27 @@ public class CommandeVenteController {
 	public CommandeVenteDto getById(@PathVariable String uuid) {
 		return commandeVenteServiceImpl.getById(uuid);
 	}
+	
+	
+	
+	@GetMapping("/commandeVente/page_historique/{dateDebut}/{dateFin}")
+    public PageDataDto<CommandeVenteDto> historiqueCommandeVentes(
+        @RequestParam(required = false) String key,
+        @RequestParam int page,
+        @RequestParam int size,
+        @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd")  Date dateDebut,
+        @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd")  Date dateFin
+    ) {
+        return commandeVenteServiceImpl.historiqueCommandeVente(dateDebut, dateFin, page, size, key);
+    }
+	
+	@GetMapping("/commandeVente/page_commande")
+    public PageDataDto<CommandeVenteDto> getCommandeVentes(
+        @RequestParam(required = false) String key,
+        @RequestParam(required = true,defaultValue = "0") int page,
+        @RequestParam(required = true,defaultValue = "10") int size
+    ) {
+        return commandeVenteServiceImpl.listeCommandeVenteByJour(page, size, key);
+    }
 
 }
