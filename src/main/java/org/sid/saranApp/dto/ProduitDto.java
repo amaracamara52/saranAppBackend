@@ -1,5 +1,6 @@
 package org.sid.saranApp.dto;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import javax.persistence.Temporal;
@@ -22,7 +23,7 @@ public class ProduitDto extends ResponseDto {
 	private String categorie;
 	private String emplacement;
 	private String uuidEmplacement;
-	private String dateCommande;
+	private LocalDate dateCommande;
 	private String fournisseur;
 	private StatusCommandeFournisseurEnum statusCommandeFournisseurEnum;
 	private String uuidLivraisonCommandeFournisseur;
@@ -41,8 +42,14 @@ public class ProduitDto extends ResponseDto {
 		return categorie;
 	}
 
-	public String getDateCommande() {
+	
+
+	public LocalDate getDateCommande() {
 		return dateCommande;
+	}
+
+	public void setDateCommande(LocalDate dateCommande) {
+		this.dateCommande = dateCommande;
 	}
 
 	public Date getDatePeremption() {
@@ -121,9 +128,7 @@ public class ProduitDto extends ResponseDto {
 		this.categorie = categorie;
 	}
 
-	public void setDateCommande(String dateCommande) {
-		this.dateCommande = dateCommande;
-	}
+	
 
 	public void setDatePeremption(Date datePeremption) {
 		this.datePeremption = datePeremption;

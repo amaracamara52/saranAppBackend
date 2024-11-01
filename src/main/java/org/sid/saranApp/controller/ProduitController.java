@@ -64,6 +64,11 @@ public class ProduitController {
 		return produitServiceImpl.listeStockPerimeDans3mois();
 	}
 	
+	@GetMapping("/produit/vente")
+	public List<ProduitDto> listeProduitAVendre() {
+		return produitServiceImpl.listeProduitAVendre();
+	}
+	
 	@GetMapping("/produit/page_produit")
     public PageDataDto<ProduitDto> getProduits(
         @RequestParam(required = false) String key,

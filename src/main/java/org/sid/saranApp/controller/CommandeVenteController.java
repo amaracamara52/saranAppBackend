@@ -40,23 +40,23 @@ public class CommandeVenteController {
 		return commandeVenteServiceImpl.supprimer(uuid);
 	}
 	
-	@GetMapping("/commandeVenteDto/listeCommandeVente")
+	@GetMapping("/commandeVente/listeCommandeVente")
 	public List<CommandeVenteDto> findAll(){
 		return commandeVenteServiceImpl.findAll();
 	}
 	
-	@GetMapping("/commandeVenteDto/listeCommandeVenteJour")
+	@GetMapping("/commandeVente/listeCommandeVenteJour")
 	public List<CommandeVenteDto> listeCommandeVenteJour(){
 		return commandeVenteServiceImpl.listeCommandeVenteByJour();
 	}
 	
 	
-	@GetMapping("/commandeVenteDto/historique/{dateDebut}/{dateFin}")
+	@GetMapping("/commandeVente/historique/{dateDebut}/{dateFin}")
 	public List<CommandeVenteDto> historique(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd")  Date dateDebut,@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd")  Date dateFin){
 		return commandeVenteServiceImpl.historiqueCommandeVente(dateDebut, dateFin);
 	}
 	
-	@GetMapping("/commandeVenteDto/getById/{uuid}")
+	@GetMapping("/commandeVente/getById/{uuid}")
 	public CommandeVenteDto getById(@PathVariable String uuid) {
 		return commandeVenteServiceImpl.getById(uuid);
 	}

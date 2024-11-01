@@ -225,6 +225,7 @@ public class Mapper {
 	//	commandeVenteDto.setId_client(commandeVente.getClient().getUuid());
 		commandeVenteDto.setUuidBoutique(commandeVente.getBoutique().getUuid());
 		commandeVenteDto.setUuidUtilisateur(commandeVente.getUtilisateur().getUuid());
+		commandeVenteDto.setUtilisateur(commandeVente.getUtilisateur().getEmail());
 		commandeVenteDto.setStatus(commandeVenteDto.getStatus());
 		commandeVenteDto.setNombreArticle(commandeVente.getListeLigneCommande().size());
 		
@@ -446,8 +447,9 @@ public class Mapper {
 		produitDto.setCategorie(produit.getLivraisonCommandeFournisseur().getDetailCommandeFournisseur().getArticle()
 				.getCategorie().getLibelle());
 		produitDto.setDatePeremption(produit.getDatePeremption());
-		produitDto.setDateCommande(
-				produit.getLivraisonCommandeFournisseur().getCommandeFournisseur().getDateCommandeFournisseur());
+		produitDto.setDateCommande(produit.getLivraisonCommandeFournisseur().getDetailCommandeFournisseur().getCommandeFournisseur().getDateCommandeFournisseur());
+				
+		
 		if (produit.getEmplacement() != null) {
 			produitDto
 					.setEmplacement(produit.getEmplacement().getCode() + " ==> " + produit.getEmplacement().getRayon());

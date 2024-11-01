@@ -1,5 +1,6 @@
 package org.sid.saranApp.model;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +18,7 @@ public class CommandeFournisseur extends AbstractDomainClass {
 
 	private String refCommande;
 	private String valeurMarchandise;
-	private String dateCommandeFournisseur;
+	private LocalDate dateCommandeFournisseur;
 	private boolean isPaie;
 	@ManyToOne
 	private Boutique boutique;
@@ -40,9 +41,7 @@ public class CommandeFournisseur extends AbstractDomainClass {
 		return commandeFournisseurEnum;
 	}
 
-	public String getDateCommandeFournisseur() {
-		return dateCommandeFournisseur;
-	}
+	
 
 	public Fournisseur getFournisseur() {
 		return fournisseur;
@@ -80,7 +79,13 @@ public class CommandeFournisseur extends AbstractDomainClass {
 		this.commandeFournisseurEnum = commandeFournisseurEnum;
 	}
 
-	public void setDateCommandeFournisseur(String dateCommandeFournisseur) {
+	
+
+	public LocalDate getDateCommandeFournisseur() {
+		return dateCommandeFournisseur;
+	}
+
+	public void setDateCommandeFournisseur(LocalDate dateCommandeFournisseur) {
 		this.dateCommandeFournisseur = dateCommandeFournisseur;
 	}
 
