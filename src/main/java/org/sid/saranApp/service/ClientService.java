@@ -2,7 +2,9 @@ package org.sid.saranApp.service;
 
 import java.util.List;
 
+import org.sid.saranApp.dto.CategorieDto;
 import org.sid.saranApp.dto.ClientDto;
+import org.sid.saranApp.dto.PageDataDto;
 
 public interface ClientService {
 	
@@ -11,5 +13,6 @@ public interface ClientService {
 	public ClientDto supprimer(String uuid);
 	public List<ClientDto> findAll();
 	public ClientDto getById(String uuid);
+	PageDataDto<ClientDto> listeClients(int page,int size,String key);
 
 }

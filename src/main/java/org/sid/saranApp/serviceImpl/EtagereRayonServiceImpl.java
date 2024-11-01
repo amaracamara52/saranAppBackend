@@ -16,14 +16,18 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.sid.saranApp.dto.ArticleDto;
 import org.sid.saranApp.dto.EtagereDto;
 import org.sid.saranApp.dto.EtagereRayonDto;
+import org.sid.saranApp.dto.PageDataDto;
 import org.sid.saranApp.dto.RayonDto;
 import org.sid.saranApp.mapper.Mapper;
+import org.sid.saranApp.model.Article;
 import org.sid.saranApp.model.Etagere;
 import org.sid.saranApp.model.EtagereRayon;
 import org.sid.saranApp.model.Rayon;
 import org.sid.saranApp.model.Utilisateur;
+import org.sid.saranApp.repository.ArticleRepository;
 import org.sid.saranApp.repository.EtagereRayonRepository;
 import org.sid.saranApp.repository.EtagereRepository;
 import org.sid.saranApp.repository.RayonRepository;
@@ -32,6 +36,9 @@ import org.sid.saranApp.service.EtagereRayonService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -51,6 +58,8 @@ public class EtagereRayonServiceImpl implements EtagereRayonService {
 	private RayonRepository rayonRepository;
 	@Autowired
 	private UtilisateurRepository utilisateurRepository;
+	@Autowired
+	private UtilisateurServiceImpl utilisateurServiceImpl;
 
 	Logger logger = LoggerFactory.getLogger(EtagereRayonServiceImpl.class);
 
@@ -252,5 +261,35 @@ public class EtagereRayonServiceImpl implements EtagereRayonService {
 		rayon.setLibelle(rayonDto.getLibelle());
 		rayon = rayonRepository.save(rayon);
 		return Mapper.toRayonDto(rayon);
+	}
+
+	@Override
+	public PageDataDto<EtagereRayonDto> listeEtagereRayons(int page, int size, String key) {
+		// TODO Auto-generated method stub
+		String uuidBoutique = utilisateurServiceImpl.getCurentUtilisateur().getBoutique().getUuid();
+		PageDataDto<EtagereRayonDto> pageDataDto = new PageDataDto<EtagereRayonDto>();
+		List<EtagereRayonDto> etagereRayonDtos = new ArrayList<EtagereRayonDto>();
+		Pageable pageable = PageRequest.of(page, size);
+		
+		Page<EtagereRayon> etagereRayons = null;
+		
+		if(key != null) {
+			etagereRayons = etagereRayonRepository.listeEtagereRayonByLibelle(key, key, key, pageable);
+			etagereRayons.forEach(etagere -> etagereRayonDtos.add(Mapper.toEtagereRayonDto(etagere)));
+		}
+		
+		if(key == null ) {
+			
+			etagereRayons = etagereRayonRepository.listeEtagereRayon(pageable);
+			etagereRayons.forEach(etagere -> etagereRayonDtos.add(Mapper.toEtagereRayonDto(etagere)));
+		}
+		
+		
+		pageDataDto.setData(etagereRayonDtos);
+		pageDataDto.getPage().setPageNumber(page);
+		pageDataDto.getPage().setSize(size);
+		pageDataDto.getPage().setTotalElements(etagereRayons.getTotalElements());
+		pageDataDto.getPage().setTotalPages(etagereRayons.getTotalPages());
+		return pageDataDto;
 	}
 }

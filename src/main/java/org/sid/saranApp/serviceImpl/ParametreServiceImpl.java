@@ -3,6 +3,7 @@ package org.sid.saranApp.serviceImpl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.sid.saranApp.dto.PageDataDto;
 import org.sid.saranApp.dto.ParametreDto;
 import org.sid.saranApp.mapper.Mapper;
 import org.sid.saranApp.model.Boutique;
@@ -93,6 +94,12 @@ public class ParametreServiceImpl implements ParametreService {
 		Parametre parametre = parametreRepository.findById(uuid).orElseThrow(null);
 		parametreRepository.delete(parametre);
 		
+	}
+
+	@Override
+	public PageDataDto<ParametreDto> listeParametres(int page, int size, String key) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.sid.saranApp.dto.CommuneDto;
+import org.sid.saranApp.dto.PageDataDto;
 import org.sid.saranApp.dto.VilleDto;
 import org.sid.saranApp.mapper.Mapper;
 import org.sid.saranApp.model.Boutique;
@@ -96,6 +97,12 @@ public class CommuneServiceImpl implements CommuneService {
 		List<CommuneDto> communeDtos = new ArrayList<CommuneDto>();
 		communes.forEach(commune -> communeDtos.add(Mapper.toCommuneDto(commune)));
 		return communeDtos;
+	}
+
+	@Override
+	public PageDataDto<CommuneDto> listeCommunes(int page, int size, String key) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

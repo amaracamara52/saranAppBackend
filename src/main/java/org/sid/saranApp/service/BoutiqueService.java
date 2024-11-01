@@ -3,6 +3,8 @@ package org.sid.saranApp.service;
 import java.util.List;
 
 import org.sid.saranApp.dto.BoutiqueDto;
+import org.sid.saranApp.dto.BoutiquePaiementDto;
+import org.sid.saranApp.dto.PageDataDto;
 
 public interface BoutiqueService {
 	
@@ -11,5 +13,6 @@ public interface BoutiqueService {
 	BoutiqueDto getBoutique(String uuid);
 	List<BoutiqueDto> findAll();
 	void deleteBoutique(String uuid);
+	PageDataDto<BoutiqueDto> listeBoutiques(int page,int size,String key);
 
 }

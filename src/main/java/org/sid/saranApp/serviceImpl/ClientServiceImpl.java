@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.sid.saranApp.dto.ClientDto;
+import org.sid.saranApp.dto.PageDataDto;
 import org.sid.saranApp.exception.Exception;
 import org.sid.saranApp.mapper.Mapper;
 import org.sid.saranApp.model.Client;
@@ -155,6 +156,12 @@ public class ClientServiceImpl implements ClientService {
 		response.setCode(Exception.succes);
 		response.setMessage("La modification à été effectuée avec success");
 		return response;
+	}
+
+	@Override
+	public PageDataDto<ClientDto> listeClients(int page, int size, String key) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

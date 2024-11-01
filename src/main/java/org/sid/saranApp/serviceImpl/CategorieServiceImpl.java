@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.sid.saranApp.dto.CategorieDto;
+import org.sid.saranApp.dto.PageDataDto;
 import org.sid.saranApp.mapper.Mapper;
 import org.sid.saranApp.model.Boutique;
 import org.sid.saranApp.model.Categorie;
@@ -83,6 +84,12 @@ public class CategorieServiceImpl implements CategorieService {
 		Categorie categorie = categorieRepository.findById(uuid).orElseThrow(null);
 		categorieRepository.delete(categorie);
 		
+	}
+
+	@Override
+	public PageDataDto<CategorieDto> listeCategories(int page, int size, String key) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -9,6 +9,7 @@ import java.util.UUID;
 
 import org.sid.saranApp.dto.CommandeVenteDto;
 import org.sid.saranApp.dto.LigneCommandeDto;
+import org.sid.saranApp.dto.PageDataDto;
 import org.sid.saranApp.enume.StatusCommandeVenteEnum;
 import org.sid.saranApp.exception.Exception;
 import org.sid.saranApp.mapper.Mapper;
@@ -27,6 +28,9 @@ import org.sid.saranApp.service.CommandeVenteService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -233,6 +237,74 @@ public class CommandeVenteServiceImpl implements CommandeVenteService {
 			listeCommandeVenteDto.add(Mapper.toCommandeVente(val));
 		});
 		return listeCommandeVenteDto;
+	}
+
+	@Override
+	public PageDataDto<CommandeVenteDto> listeCommandeVentes(int page, int size, String key) {
+		// TODO Auto-generated method stub
+		
+		return null;
+	}
+
+	@Override
+	public PageDataDto<CommandeVenteDto> listeCommandeVenteByJour(int page, int size, String key) {
+		// TODO Auto-generated method stub
+		String uuidBoutique = utilisateurServiceImpl.getCurentUtilisateur().getBoutique().getUuid();
+		PageDataDto<CommandeVenteDto> pageDataDto = new PageDataDto<CommandeVenteDto>();
+		List<CommandeVenteDto> commandeVenteDtos = new ArrayList<CommandeVenteDto>();
+		Pageable pageable = PageRequest.of(page, size);
+		
+		Page<CommandeVente> commandeVentes = null;
+		
+		if(key != null) {
+			commandeVentes = commandeVenteRepository.listeCommandePeriodeByKey(new Date(), new Date(), uuidBoutique, key, pageable);
+			commandeVentes.forEach(cmd -> commandeVenteDtos.add(Mapper.toCommandeVente(cmd)));
+		}
+		
+		if( key == null) {
+			
+			commandeVentes = commandeVenteRepository.listeCommandePeriode(new Date(), new Date(), uuidBoutique, pageable);
+			commandeVentes.forEach(cmd -> commandeVenteDtos.add(Mapper.toCommandeVente(cmd)));
+		}
+		
+		
+		pageDataDto.setData(commandeVenteDtos);
+		pageDataDto.getPage().setPageNumber(page);
+		pageDataDto.getPage().setSize(size);
+		pageDataDto.getPage().setTotalElements(commandeVentes.getTotalElements());
+		pageDataDto.getPage().setTotalPages(commandeVentes.getTotalPages());
+		return pageDataDto;
+	}
+
+	@Override
+	public PageDataDto<CommandeVenteDto> historiqueCommandeVente(Date dateDebut, Date dateFin, int page, int size,
+			String key) {
+		// TODO Auto-generated method stub
+		String uuidBoutique = utilisateurServiceImpl.getCurentUtilisateur().getBoutique().getUuid();
+		PageDataDto<CommandeVenteDto> pageDataDto = new PageDataDto<CommandeVenteDto>();
+		List<CommandeVenteDto> commandeVenteDtos = new ArrayList<CommandeVenteDto>();
+		Pageable pageable = PageRequest.of(page, size);
+		
+		Page<CommandeVente> commandeVentes = null;
+		
+		if(key != null) {
+			commandeVentes = commandeVenteRepository.listeCommandePeriodeByKey(dateDebut, dateFin, uuidBoutique, key, pageable);
+			commandeVentes.forEach(cmd -> commandeVenteDtos.add(Mapper.toCommandeVente(cmd)));
+		}
+		
+		if(key == null ) {
+			
+			commandeVentes = commandeVenteRepository.listeCommandePeriode(dateDebut, dateFin, uuidBoutique, pageable);
+			commandeVentes.forEach(cmd -> commandeVenteDtos.add(Mapper.toCommandeVente(cmd)));
+		}
+		
+		
+		pageDataDto.setData(commandeVenteDtos);
+		pageDataDto.getPage().setPageNumber(page);
+		pageDataDto.getPage().setSize(size);
+		pageDataDto.getPage().setTotalElements(commandeVentes.getTotalElements());
+		pageDataDto.getPage().setTotalPages(commandeVentes.getTotalPages());
+		return pageDataDto;
 	}
 
 }

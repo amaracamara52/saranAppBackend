@@ -3,6 +3,7 @@ package org.sid.saranApp.serviceImpl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.sid.saranApp.dto.PageDataDto;
 import org.sid.saranApp.dto.VilleDto;
 import org.sid.saranApp.mapper.Mapper;
 import org.sid.saranApp.model.Boutique;
@@ -97,6 +98,12 @@ public class VilleServiceImpl implements VilleService {
 		List<VilleDto> villeDtos = new ArrayList<VilleDto>();
 		villes.forEach(ville -> villeDtos.add(Mapper.toVilleDto(ville)));
 		return villeDtos;
+	}
+
+	@Override
+	public PageDataDto<VilleDto> listeVilles(int page, int size, String key) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

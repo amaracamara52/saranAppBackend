@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.sid.saranApp.dto.DetailCommandeFournisseurDto;
+import org.sid.saranApp.dto.PageDataDto;
 import org.sid.saranApp.mapper.Mapper;
 import org.sid.saranApp.model.Article;
 import org.sid.saranApp.model.Boutique;
@@ -113,6 +114,12 @@ public class DetailCommandeFournisseurServiceImpl implements DetailCommandeFourn
 		DetailCommandeFournisseur detailCommandeFournisseurSave = detailCommandeFournisseurRepository
 				.save(detailCommandeFournisseur);
 		return Mapper.toDetailCommandeFournisseurDto(detailCommandeFournisseurSave);
+	}
+
+	@Override
+	public PageDataDto<DetailCommandeFournisseurDto> listeDetailCommandeFournisseurs(int page, int size, String key) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

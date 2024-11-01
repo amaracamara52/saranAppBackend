@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.sid.saranApp.dto.FournisseurDto;
+import org.sid.saranApp.dto.PageDataDto;
 import org.sid.saranApp.mapper.Mapper;
 import org.sid.saranApp.model.Fournisseur;
 import org.sid.saranApp.model.Utilisateur;
@@ -97,6 +98,12 @@ public class FournisseurServiceImpl implements FournisseurService {
 		fournisseur.setVille(ville);
 		Fournisseur fournisseurSave = fournisseurRepository.save(fournisseur);
 		return Mapper.toFournisseurDto(fournisseurSave);
+	}
+
+	@Override
+	public PageDataDto<FournisseurDto> listeFournisseurs(int page, int size, String key) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.sid.saranApp.dto.PageDataDto;
 import org.sid.saranApp.dto.UtilisateurDto;
 import org.sid.saranApp.mapper.Mapper;
 import org.sid.saranApp.model.Boutique;
@@ -106,5 +107,11 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 		Utilisateur utilisateur = utilisateurRepository.findByEmail(auth.getName()).orElseThrow(null);
 
 		return Mapper.toUtilisateurDto(utilisateur);
+	}
+
+	@Override
+	public PageDataDto<UtilisateurDto> listeUtilisateurs(int page, int size, String key) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

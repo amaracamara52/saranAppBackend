@@ -6,8 +6,11 @@ import java.util.List;
 import java.util.Optional;
 
 import org.sid.saranApp.dto.ProduitDto;
+import org.sid.saranApp.dto.PageDataDto;
+import org.sid.saranApp.dto.ProduitDto;
 import org.sid.saranApp.exception.Exception;
 import org.sid.saranApp.mapper.Mapper;
+import org.sid.saranApp.model.Produit;
 import org.sid.saranApp.model.Boutique;
 import org.sid.saranApp.model.EtagereRayon;
 import org.sid.saranApp.model.LivraisonCommandeFournisseur;
@@ -23,6 +26,9 @@ import org.sid.saranApp.service.ProduitService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -202,6 +208,66 @@ public class ProduitServiceImpl implements ProduitService {
 		produit.setFinish(true);
 		produit = produitRepository.save(produit);
 		return Mapper.toProduit(produit);
+	}
+
+	@Override
+	public PageDataDto<ProduitDto> listeProduits(int page, int size, String key) {
+		// TODO Auto-generated method stub
+		String uuidBoutique = utilisateurServiceImpl.getCurentUtilisateur().getBoutique().getUuid();
+		PageDataDto<ProduitDto> pageDataDto = new PageDataDto<ProduitDto>();
+		List<ProduitDto> produitDtos = new ArrayList<ProduitDto>();
+		Pageable pageable = PageRequest.of(page, size);
+		
+		Page<Produit> produits = null;
+		
+		if(key != null) {
+			produits = produitRepository.listeProduitByLibelle(key, key, pageable);
+			produits.forEach(produit -> produitDtos.add(Mapper.toProduit(produit)));
+		}
+		
+		if(key == null ) {
+			
+			produits = produitRepository.listeProduit(pageable);
+			produits.forEach(produit -> produitDtos.add(Mapper.toProduit(produit)));
+		}
+		
+		
+		pageDataDto.setData(produitDtos);
+		pageDataDto.getPage().setPageNumber(page);
+		pageDataDto.getPage().setSize(size);
+		pageDataDto.getPage().setTotalElements(produits.getTotalElements());
+		pageDataDto.getPage().setTotalPages(produits.getTotalPages());
+		return pageDataDto;
+	}
+
+	@Override
+	public PageDataDto<ProduitDto> listeStockInferieurA5(int page, int size, String key) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public PageDataDto<ProduitDto> listeStockPerime(int page, int size, String key) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public PageDataDto<ProduitDto> listeStockPerimeDans3mois(int page, int size, String key) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ProduitDto> listeProduitAVendre() {
+		String uuidBoutique = utilisateurServiceImpl.getCurentUtilisateur().getBoutique().getUuid();
+		// TODO Auto-generated method stub
+		List<Produit> listeProduit = produitRepository.listeStockAVendre(uuidBoutique);
+		List<ProduitDto> listeProduitDto = new ArrayList<>();
+		listeProduit.forEach(val -> {
+			listeProduitDto.add(Mapper.toProduit(val));
+		});
+		return listeProduitDto;
 	}
 
 }

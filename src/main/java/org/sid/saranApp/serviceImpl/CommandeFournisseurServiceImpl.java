@@ -1,5 +1,6 @@
 package org.sid.saranApp.serviceImpl;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -7,12 +8,15 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.sid.saranApp.dto.CommandeFournisseurDto;
+import org.sid.saranApp.dto.CommandeVenteDto;
 import org.sid.saranApp.dto.DetailCommandeFournisseurDto;
+import org.sid.saranApp.dto.PageDataDto;
 import org.sid.saranApp.enume.StatusCommandeFournisseurEnum;
 import org.sid.saranApp.mapper.Mapper;
 import org.sid.saranApp.model.Article;
 import org.sid.saranApp.model.Boutique;
 import org.sid.saranApp.model.CommandeFournisseur;
+import org.sid.saranApp.model.CommandeVente;
 import org.sid.saranApp.model.DetailCommandeFournisseur;
 import org.sid.saranApp.model.Fournisseur;
 import org.sid.saranApp.model.LivraisonCommandeFournisseur;
@@ -30,6 +34,9 @@ import org.sid.saranApp.service.CommandeFournisseurService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -53,6 +60,8 @@ public class CommandeFournisseurServiceImpl implements CommandeFournisseurServic
 	private LivraisonCommandeFournisseurRepository livraisonCommandeFournisseurRepository;
 	@Autowired
 	private ProduitRepository produitRepository;
+	@Autowired
+	private UtilisateurServiceImpl utilisateurServiceImpl;
 
 	Logger logger = LoggerFactory.getLogger(CommandeFournisseurServiceImpl.class);
 
@@ -154,10 +163,13 @@ public class CommandeFournisseurServiceImpl implements CommandeFournisseurServic
 					livraison.getQuantite() * detailCommandeFournisseur.getArticle().getQuantiteDansCarton());
 
 			if (detailCommandeFournisseur.getUnite().equals("CARTON")) {
-				double prixAchat = (detailCommandeFournisseur.getQuantite()
-						* detailCommandeFournisseur.getArticle().getQuantiteDansCarton()
-						/ detailCommandeFournisseur.getPrixAchat());
-				produit.setPrixAchat(prixAchat);
+				double prixAchat = detailCommandeFournisseur.getPrixAchat()
+						/ detailCommandeFournisseur.getArticle().getQuantiteDansCarton();
+				double result = Math.round(prixAchat);
+				double resultVente = result * 1.5;
+				produit.setPrixVente(Math.round(resultVente));
+				produit.setPrixAchat(result);
+			
 			}
 
 			produit.setUtilisateur(commandeFournisseur.getUtilisateur());
@@ -213,6 +225,59 @@ public class CommandeFournisseurServiceImpl implements CommandeFournisseurServic
 		commandeFournisseur.setFournisseur(fournisseur);
 		CommandeFournisseur commandeFournisseurSave = commandeFournisseurRepository.save(commandeFournisseur);
 		return Mapper.toCommandeFournisseurDto(commandeFournisseurSave);
+	}
+
+	@Override
+	public PageDataDto<CommandeFournisseurDto> listeCommandeFournisseurs(int page, int size, StatusCommandeFournisseurEnum key) {
+		// TODO Auto-generated method stub
+		String uuidBoutique = utilisateurServiceImpl.getCurentUtilisateur().getBoutique().getUuid();
+		PageDataDto<CommandeFournisseurDto> pageDataDto = new PageDataDto<CommandeFournisseurDto>();
+		List<CommandeFournisseurDto> commandeFournisseurDtos = new ArrayList<CommandeFournisseurDto>();
+		Pageable pageable = PageRequest.of(page, size);
+		
+		Page<CommandeFournisseur> commandeFournisseurs = null;
+		
+		if(key != null) {
+			commandeFournisseurs = commandeFournisseurRepository.listeCommandePeriodeByStatusPage(uuidBoutique, key, pageable);
+			commandeFournisseurs.forEach(cmd -> commandeFournisseurDtos.add(Mapper.toCommandeFournisseurDto(cmd)));
+		}
+		
+		if(key == null ) {
+			
+			commandeFournisseurs = commandeFournisseurRepository.listeCommandePeriodePage(uuidBoutique, pageable);
+			commandeFournisseurs.forEach(cmd -> commandeFournisseurDtos.add(Mapper.toCommandeFournisseurDto(cmd)));
+		}
+		
+		
+		pageDataDto.setData(commandeFournisseurDtos);
+		pageDataDto.getPage().setPageNumber(page);
+		pageDataDto.getPage().setSize(size);
+		pageDataDto.getPage().setTotalElements(commandeFournisseurs.getTotalElements());
+		pageDataDto.getPage().setTotalPages(commandeFournisseurs.getTotalPages());
+		return pageDataDto;
+	}
+
+	@Override
+	public PageDataDto<CommandeFournisseurDto> listeCommandeFournisseurByDates(int page, int size, LocalDate dateDebut,
+			LocalDate dateFin) {
+		logger.info("date : {}",dateDebut);
+		// TODO Auto-generated method stub
+		String uuidBoutique = utilisateurServiceImpl.getCurentUtilisateur().getBoutique().getUuid();
+		PageDataDto<CommandeFournisseurDto> pageDataDto = new PageDataDto<CommandeFournisseurDto>();
+		List<CommandeFournisseurDto> commandeFournisseurDtos = new ArrayList<CommandeFournisseurDto>();
+		Pageable pageable = PageRequest.of(page, size);
+		
+		Page<CommandeFournisseur> commandeFournisseurs = null;
+		
+		commandeFournisseurs = commandeFournisseurRepository.listeCommandePeriode(uuidBoutique, dateDebut, dateFin, pageable);
+		commandeFournisseurs.forEach(cmd -> commandeFournisseurDtos.add(Mapper.toCommandeFournisseurDto(cmd)));
+	
+		pageDataDto.setData(commandeFournisseurDtos);
+		pageDataDto.getPage().setPageNumber(page);
+		pageDataDto.getPage().setSize(size);
+		pageDataDto.getPage().setTotalElements(commandeFournisseurs.getTotalElements());
+		pageDataDto.getPage().setTotalPages(commandeFournisseurs.getTotalPages());
+		return pageDataDto;
 	}
 
 }

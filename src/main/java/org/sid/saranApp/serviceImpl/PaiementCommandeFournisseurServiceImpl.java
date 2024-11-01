@@ -3,6 +3,7 @@ package org.sid.saranApp.serviceImpl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.sid.saranApp.dto.PageDataDto;
 import org.sid.saranApp.dto.PaiementCommandeFournisseurDto;
 import org.sid.saranApp.mapper.Mapper;
 import org.sid.saranApp.model.Boutique;
@@ -92,6 +93,13 @@ public class PaiementCommandeFournisseurServiceImpl implements PaiementCommandeF
 		PaiementCommandeFournisseur paiementCommandeFournisseur = paiementCommandeFournisseurRepository.findById(uuid).orElseThrow(null);
 		paiementCommandeFournisseurRepository.delete(paiementCommandeFournisseur);
 		
+	}
+
+	@Override
+	public PageDataDto<PaiementCommandeFournisseurDto> listePaiementCommandeFournisseurs(int page, int size,
+			String key) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -3,6 +3,7 @@ package org.sid.saranApp.serviceImpl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.sid.saranApp.dto.PageDataDto;
 import org.sid.saranApp.dto.QuartierDto;
 import org.sid.saranApp.mapper.Mapper;
 import org.sid.saranApp.model.Boutique;
@@ -88,6 +89,12 @@ public class QuartierServiceImpl implements QuartierService{
 		Quartier quartier = quartierRepository.findById(uuid).orElseThrow(null);
 		quartierRepository.delete(quartier);
 		
+	}
+
+	@Override
+	public PageDataDto<QuartierDto> listeQuartiers(int page, int size, String key) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

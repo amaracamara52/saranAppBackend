@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.sid.saranApp.dto.CaracteristiqueProduitDto;
+import org.sid.saranApp.dto.PageDataDto;
 import org.sid.saranApp.exception.Exception;
 import org.sid.saranApp.mapper.Mapper;
 import org.sid.saranApp.model.Boutique;
@@ -163,6 +164,12 @@ public class CaracteristiqueProduitServiceImpl implements CaracteristiqueProduit
 		}
 		Optional<CaracteristiqueProduit> caracteristiqueProduitOptional = caracteristiqueProduitRepository.findById(uuid);
 		return Mapper.toCaracteristiqueProduit(caracteristiqueProduitOptional.get());
+	}
+
+	@Override
+	public PageDataDto<CaracteristiqueProduitDto> listeCaracteristiqueProduit(int page, int size, String key) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

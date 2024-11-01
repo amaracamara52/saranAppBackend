@@ -3,6 +3,7 @@ package org.sid.saranApp.serviceImpl;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -12,9 +13,12 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.sid.saranApp.dto.ArticleDto;
 import org.sid.saranApp.dto.ArticleSelectDto;
+import org.sid.saranApp.dto.CommandeFournisseurDto;
+import org.sid.saranApp.dto.PageDataDto;
 import org.sid.saranApp.mapper.Mapper;
 import org.sid.saranApp.model.Article;
 import org.sid.saranApp.model.Categorie;
+import org.sid.saranApp.model.CommandeFournisseur;
 import org.sid.saranApp.model.Utilisateur;
 import org.sid.saranApp.repository.ArticleRepository;
 import org.sid.saranApp.repository.CategorieRepository;
@@ -23,6 +27,9 @@ import org.sid.saranApp.service.ArticleService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -37,6 +44,8 @@ public class ArticleServiceImpl implements ArticleService {
 	private CategorieRepository categorieRepository;
 	@Autowired
 	private UtilisateurRepository utilisateurRepository;
+	@Autowired
+	private UtilisateurServiceImpl utilisateurServiceImpl;
 
 	Logger logger = LoggerFactory.getLogger(ArticleServiceImpl.class);
 
@@ -153,6 +162,36 @@ public class ArticleServiceImpl implements ArticleService {
 		article.setUtilisateur(utilisateur);
 		Article articleSave = articleRepository.save(article);
 		return Mapper.toArticleDto(articleSave);
+	}
+
+	@Override
+	public PageDataDto<ArticleDto> listeArticles(int page, int size, String key) {
+		// TODO Auto-generated method stub
+		String uuidBoutique = utilisateurServiceImpl.getCurentUtilisateur().getBoutique().getUuid();
+		PageDataDto<ArticleDto> pageDataDto = new PageDataDto<ArticleDto>();
+		List<ArticleDto> articleDtos = new ArrayList<ArticleDto>();
+		Pageable pageable = PageRequest.of(page, size);
+		
+		Page<Article> articles = null;
+		
+		if(key != null) {
+			articles = articleRepository.listeArticleByLibelle(key, pageable);
+			articles.forEach(article -> articleDtos.add(Mapper.toArticleDto(article)));
+		}
+		
+		if(key == null ) {
+			
+			articles = articleRepository.listeArticle(pageable);
+			articles.forEach(article -> articleDtos.add(Mapper.toArticleDto(article)));
+		}
+		
+		
+		pageDataDto.setData(articleDtos);
+		pageDataDto.getPage().setPageNumber(page);
+		pageDataDto.getPage().setSize(size);
+		pageDataDto.getPage().setTotalElements(articles.getTotalElements());
+		pageDataDto.getPage().setTotalPages(articles.getTotalPages());
+		return pageDataDto;
 	}
 
 }

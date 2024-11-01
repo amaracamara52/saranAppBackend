@@ -3,6 +3,7 @@ package org.sid.saranApp.serviceImpl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.sid.saranApp.dto.PageDataDto;
 import org.sid.saranApp.dto.PaysDto;
 import org.sid.saranApp.mapper.Mapper;
 import org.sid.saranApp.model.Pays;
@@ -77,6 +78,12 @@ public class PaysServiceImpl implements PaysService {
 		Pays pays = paysRepository.findById(uuid).orElseThrow(null);
 		paysRepository.delete(pays);
 		
+	}
+
+	@Override
+	public PageDataDto<PaysDto> listePays(int page, int size, String key) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

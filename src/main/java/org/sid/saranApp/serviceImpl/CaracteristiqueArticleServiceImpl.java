@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.sid.saranApp.dto.CaracteristiqueArticleDto;
+import org.sid.saranApp.dto.PageDataDto;
 import org.sid.saranApp.mapper.Mapper;
 import org.sid.saranApp.model.Article;
 import org.sid.saranApp.model.CaracteristiqueArticle;
@@ -82,6 +83,12 @@ public class CaracteristiqueArticleServiceImpl implements CaracteristiqueArticle
 		CaracteristiqueArticle caracteristiqueArticle = caracteristiqueArticleRepository.findById(uuid).orElseThrow(null);
 		caracteristiqueArticleRepository.delete(caracteristiqueArticle);
 		
+	}
+
+	@Override
+	public PageDataDto<CaracteristiqueArticleDto> listeCaracteristiqueArticle(int page, int size, String key) {
+		// TODO Auto-generated method stub
+		return null;
 	} 
 
 	

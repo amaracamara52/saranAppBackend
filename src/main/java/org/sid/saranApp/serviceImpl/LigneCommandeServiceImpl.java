@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.sid.saranApp.dto.LigneCommandeDto;
+import org.sid.saranApp.dto.PageDataDto;
 import org.sid.saranApp.exception.Exception;
 import org.sid.saranApp.mapper.Mapper;
 import org.sid.saranApp.model.Boutique;
@@ -176,6 +177,12 @@ public class LigneCommandeServiceImpl implements LigneCommandeService{
 				return response;
 			}
 			return Mapper.toLigneCommande(ligneCommandeOptionel.get());
+	}
+
+	@Override
+	public PageDataDto<LigneCommandeDto> listeLigneCommandes(int page, int size, String key) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

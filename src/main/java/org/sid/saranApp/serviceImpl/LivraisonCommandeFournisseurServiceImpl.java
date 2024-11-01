@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.sid.saranApp.dto.LivraisonCommandeFournisseurDto;
+import org.sid.saranApp.dto.PageDataDto;
 import org.sid.saranApp.mapper.Mapper;
 import org.sid.saranApp.model.Boutique;
 import org.sid.saranApp.model.CommandeFournisseur;
@@ -119,6 +120,13 @@ public class LivraisonCommandeFournisseurServiceImpl implements LivraisonCommand
 		LivraisonCommandeFournisseur livraisonCommandeFournisseurSave = livraisonCommandeFournisseurRepository
 				.save(livraisonCommandeFournisseur);
 		return Mapper.toLivraisonCommandeFournisseurDto(livraisonCommandeFournisseurSave);
+	}
+
+	@Override
+	public PageDataDto<LivraisonCommandeFournisseurDto> listeLivraisonCommandeFournisseurs(int page, int size,
+			String key) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -2,6 +2,8 @@ package org.sid.saranApp.service;
 
 import java.util.List;
 
+import org.sid.saranApp.dto.PageDataDto;
+import org.sid.saranApp.dto.QuartierDto;
 import org.sid.saranApp.dto.UtilisateurDto;
 
 public interface UtilisateurService {
@@ -18,5 +20,6 @@ public interface UtilisateurService {
 	UtilisateurDto updateUtilisateur(UtilisateurDto utilisateurDto, String uuid);
 
 	UtilisateurDto userLogin();
+	PageDataDto<UtilisateurDto> listeUtilisateurs(int page,int size,String key);
 
 }

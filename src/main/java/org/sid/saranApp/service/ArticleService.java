@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.sid.saranApp.dto.ArticleDto;
 import org.sid.saranApp.dto.ArticleSelectDto;
+import org.sid.saranApp.dto.PageDataDto;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface ArticleService {
@@ -21,5 +22,7 @@ public interface ArticleService {
 	List<ArticleSelectDto> listeSelect();
 
 	ArticleDto updateArticle(ArticleDto articleDto, String uuid);
+	
+	PageDataDto<ArticleDto> listeArticles(int page,int size,String key);
 
 }

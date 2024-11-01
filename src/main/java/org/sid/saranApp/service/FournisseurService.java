@@ -2,7 +2,9 @@ package org.sid.saranApp.service;
 
 import java.util.List;
 
+import org.sid.saranApp.dto.EtagereRayonDto;
 import org.sid.saranApp.dto.FournisseurDto;
+import org.sid.saranApp.dto.PageDataDto;
 
 public interface FournisseurService {
 	
@@ -11,5 +13,6 @@ public interface FournisseurService {
 	FournisseurDto getFournisseur(String uuid);
 	List<FournisseurDto> findAll();
 	void deleteFournisseur(String uuid);
+	PageDataDto<FournisseurDto> listeFournisseurs(int page,int size,String key);
 
 }

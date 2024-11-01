@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.sid.saranApp.dto.ModePaiementDto;
+import org.sid.saranApp.dto.PageDataDto;
 import org.sid.saranApp.mapper.Mapper;
 import org.sid.saranApp.model.Boutique;
 import org.sid.saranApp.model.ModePaiement;
@@ -84,6 +85,12 @@ public class ModePaiementServiceImpl implements ModePaiementService {
 		ModePaiement modePaiement  = modePaiementRepository.findById(uuid).orElseThrow(null);
 		modePaiementRepository.delete(modePaiement);
 		
+	}
+
+	@Override
+	public PageDataDto<ModePaiementDto> listeModePaiements(int page, int size, String key) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
