@@ -14,5 +14,6 @@ public interface CaracteristiqueProduitService {
 	public List<CaracteristiqueProduitDto> findAll();
 	public CaracteristiqueProduitDto getById(String uuid);
 	PageDataDto<CaracteristiqueProduitDto> listeCaracteristiqueProduit(int page,int size,String key);
+	void delete(String uuid);
 
 }

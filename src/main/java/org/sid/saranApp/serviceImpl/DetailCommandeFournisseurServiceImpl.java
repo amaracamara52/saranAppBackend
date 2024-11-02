@@ -122,4 +122,10 @@ public class DetailCommandeFournisseurServiceImpl implements DetailCommandeFourn
 		return null;
 	}
 
+	@Override
+	public void delete(String uuid) {
+		// TODO Auto-generated method stub
+		detailCommandeFournisseurRepository.deleteById(uuid);
+	}
+
 }

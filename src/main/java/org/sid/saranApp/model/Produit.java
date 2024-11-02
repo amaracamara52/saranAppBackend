@@ -1,5 +1,6 @@
 package org.sid.saranApp.model;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -18,9 +19,7 @@ public class Produit extends AbstractDomainClass {
 	private double prixVente;
 	private int quantite;
 	private int quantiteImage;
-	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private Date datePeremption;
+	private LocalDate datePeremption;
 	private boolean isFinish;
 
 	@ManyToOne
@@ -41,7 +40,7 @@ public class Produit extends AbstractDomainClass {
 		return boutique;
 	}
 
-	public Date getDatePeremption() {
+	public LocalDate getDatePeremption() {
 		return datePeremption;
 	}
 
@@ -89,7 +88,7 @@ public class Produit extends AbstractDomainClass {
 		this.boutique = boutique;
 	}
 
-	public void setDatePeremption(Date datePeremption) {
+	public void setDatePeremption(LocalDate datePeremption) {
 		this.datePeremption = datePeremption;
 	}
 

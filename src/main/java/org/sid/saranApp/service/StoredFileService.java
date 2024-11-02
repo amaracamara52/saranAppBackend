@@ -17,5 +17,6 @@ public interface StoredFileService {
 	    StoredFile getStoredFileById(String uuid);
 	    
 	    List<StoredFile>  loadAll();
+	    void delete(String uuid);
 
 }

@@ -45,5 +45,10 @@ public class CaracteristiqueProduitController {
 	public CaracteristiqueProduitDto getById(@PathVariable String uuid) {
 		return caracteristiqueProduitServiceImpl.getById(uuid);
 	}
+	
+	@DeleteMapping("/caracteristiqueProduit/{uuid}")
+	void deleteCaracteristiqueProduit(@PathVariable String uuid) {
+		caracteristiqueProduitServiceImpl.delete(uuid);
+	}
 
 }

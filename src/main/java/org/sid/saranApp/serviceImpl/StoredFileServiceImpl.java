@@ -47,5 +47,11 @@ public class StoredFileServiceImpl implements StoredFileService{
 		return storedFileRepository.findAll();
 	}
 
+	@Override
+	public void delete(String uuid) {
+		// TODO Auto-generated method stub
+		storedFileRepository.deleteById(uuid);
+	}
+
 	
 }

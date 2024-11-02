@@ -11,19 +11,19 @@ public class Pays extends AbstractDomainClass {
 	
 	@OneToMany(mappedBy = "pays")
 	private List<Ville> listeVille;
-	@ManyToOne
-	private Boutique boutique;
+//	@ManyToOne
+//	private Boutique boutique;
 	@ManyToOne
 	private Utilisateur utilisateur;
 	
 	
-	public Boutique getBoutique() {
-		return boutique;
-	}
-
-	public void setBoutique(Boutique boutique) {
-		this.boutique = boutique;
-	}
+//	public Boutique getBoutique() {
+//		return boutique;
+//	}
+//
+//	public void setBoutique(Boutique boutique) {
+//		this.boutique = boutique;
+//	}
 
 	public Utilisateur getUtilisateur() {
 		return utilisateur;

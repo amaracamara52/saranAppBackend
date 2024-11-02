@@ -45,5 +45,10 @@ public class LigneCommandeController {
 	public LigneCommandeDto getById(@PathVariable String uuid) {
 		return ligneCommandeServiceImpl.getById(uuid);
 	}
+	
+	@DeleteMapping("/ligneCommande/{uuid}")
+	void deleteLigneCommande(@PathVariable String uuid) {
+		ligneCommandeServiceImpl.delete(uuid);
+	}
 
 }

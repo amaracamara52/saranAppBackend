@@ -46,5 +46,10 @@ public class ClientController {
 	public ClientDto getById(@PathVariable String uuid) {
 		return clientServiceImpl.getById(uuid);
 	}
+	
+	@DeleteMapping("/client/{uuid}")
+	void deleteClient(@PathVariable String uuid) {
+		clientServiceImpl.delete(uuid);
+	}
 
 }

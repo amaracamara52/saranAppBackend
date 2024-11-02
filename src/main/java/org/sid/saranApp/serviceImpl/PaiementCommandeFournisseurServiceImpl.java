@@ -90,8 +90,8 @@ public class PaiementCommandeFournisseurServiceImpl implements PaiementCommandeF
 	@Override
 	public void deletePaiementCommandeFournisseur(String uuid) {
 		// TODO Auto-generated method stub
-		PaiementCommandeFournisseur paiementCommandeFournisseur = paiementCommandeFournisseurRepository.findById(uuid).orElseThrow(null);
-		paiementCommandeFournisseurRepository.delete(paiementCommandeFournisseur);
+		//PaiementCommandeFournisseur paiementCommandeFournisseur = paiementCommandeFournisseurRepository.findById(uuid).orElseThrow(null);
+		paiementCommandeFournisseurRepository.deleteById(uuid);
 		
 	}
 

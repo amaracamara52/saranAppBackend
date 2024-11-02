@@ -114,4 +114,28 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public void delete(String uuid) {
+		// TODO Auto-generated method stub
+		utilisateurRepository.deleteById(uuid);
+	}
+
+	@Override
+	public UtilisateurDto bloquerUtilisateur(String uuid) {
+		// TODO Auto-generated method stub
+		Utilisateur utilisateur = utilisateurRepository.findById(uuid).orElseThrow(null);
+		utilisateur.setEnabled(false);
+		utilisateurRepository.save(utilisateur);
+		return Mapper.toUtilisateurDto(utilisateur);
+	}
+
+	@Override
+	public UtilisateurDto DebloquerUtilisateur(String uuid) {
+		// TODO Auto-generated method stub
+		Utilisateur utilisateur = utilisateurRepository.findById(uuid).orElseThrow(null);
+		utilisateur.setEnabled(true);
+		utilisateurRepository.save(utilisateur);
+		return Mapper.toUtilisateurDto(utilisateur);
+	}
 }

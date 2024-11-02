@@ -37,7 +37,7 @@ public class PaysServiceImpl implements PaysService {
 		Pays pays = new Pays();
 		Utilisateur utilisateur = utilisateurRepository.findByEmail(auth.getName()).orElseThrow(null);
 		pays.setLibelle(paysDto.getLibelle());
-		pays.setBoutique(utilisateur.getBoutique());
+	//	pays.setBoutique(utilisateur.getBoutique());
 		pays.setUtilisateur(utilisateur);
 		Pays paysSave = paysRepository.save(pays);
 		return Mapper.toPaysDto(paysSave);
@@ -50,7 +50,7 @@ public class PaysServiceImpl implements PaysService {
 		Utilisateur utilisateur = utilisateurRepository.findByEmail(auth.getName()).orElseThrow(null);
 		Pays pays = paysRepository.findById(uuid).orElseThrow(null);
 		pays.setLibelle(paysDto.getLibelle());
-		pays.setBoutique(utilisateur.getBoutique());
+		//pays.setBoutique(utilisateur.getBoutique());
 		pays.setUtilisateur(utilisateur);
 		Pays paysSave = paysRepository.save(pays);
 		return Mapper.toPaysDto(paysSave);
@@ -75,8 +75,8 @@ public class PaysServiceImpl implements PaysService {
 	@Override
 	public void deletePays(String uuid) {
 		// TODO Auto-generated method stub
-		Pays pays = paysRepository.findById(uuid).orElseThrow(null);
-		paysRepository.delete(pays);
+		
+		paysRepository.deleteById(uuid);
 		
 	}
 

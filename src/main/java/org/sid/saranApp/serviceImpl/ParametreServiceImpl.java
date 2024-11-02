@@ -91,8 +91,8 @@ public class ParametreServiceImpl implements ParametreService {
 	@Override
 	public void deleteParametre(String uuid) {
 		// TODO Auto-generated method stub
-		Parametre parametre = parametreRepository.findById(uuid).orElseThrow(null);
-		parametreRepository.delete(parametre);
+		
+		parametreRepository.deleteById(uuid);
 		
 	}
 

@@ -89,6 +89,12 @@ public class CaracteristiqueArticleServiceImpl implements CaracteristiqueArticle
 	public PageDataDto<CaracteristiqueArticleDto> listeCaracteristiqueArticle(int page, int size, String key) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void delete(String uuid) {
+		// TODO Auto-generated method stub
+		caracteristiqueArticleRepository.deleteById(uuid);
 	} 
 
 	

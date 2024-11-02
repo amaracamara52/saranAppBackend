@@ -185,4 +185,10 @@ public class LigneCommandeServiceImpl implements LigneCommandeService{
 		return null;
 	}
 
+	@Override
+	public void delete(String uuid) {
+		// TODO Auto-generated method stub
+		ligneCommandeRepository.deleteById(uuid);
+	}
+
 }

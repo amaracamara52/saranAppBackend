@@ -194,4 +194,10 @@ public class ArticleServiceImpl implements ArticleService {
 		return pageDataDto;
 	}
 
+	@Override
+	public void delete(String uuid) {
+		// TODO Auto-generated method stub
+		articleRepository.deleteById(uuid);
+	}
+
 }

@@ -292,4 +292,10 @@ public class EtagereRayonServiceImpl implements EtagereRayonService {
 		pageDataDto.getPage().setTotalPages(etagereRayons.getTotalPages());
 		return pageDataDto;
 	}
+
+	@Override
+	public void delete(String uuid) {
+		// TODO Auto-generated method stub
+		etagereRayonRepository.deleteById(uuid);
+	}
 }

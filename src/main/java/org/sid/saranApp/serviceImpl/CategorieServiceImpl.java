@@ -81,8 +81,8 @@ public class CategorieServiceImpl implements CategorieService {
 	@Override
 	public void deleteCategorie(String uuid) {
 		// TODO Auto-generated method stub
-		Categorie categorie = categorieRepository.findById(uuid).orElseThrow(null);
-		categorieRepository.delete(categorie);
+		
+		categorieRepository.deleteById(uuid);
 		
 	}
 

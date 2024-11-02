@@ -21,5 +21,10 @@ public interface UtilisateurService {
 
 	UtilisateurDto userLogin();
 	PageDataDto<UtilisateurDto> listeUtilisateurs(int page,int size,String key);
+	
+	void delete(String uuid);
+	
+	UtilisateurDto bloquerUtilisateur(String uuid);
+	UtilisateurDto DebloquerUtilisateur(String uuid);
 
 }

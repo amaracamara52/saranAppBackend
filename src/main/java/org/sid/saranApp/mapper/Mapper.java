@@ -430,7 +430,7 @@ public class Mapper {
 		PaysDto dto = new PaysDto();
 		dto.setLibelle(pays.getLibelle());
 		dto.setUuid(pays.getUuid());
-		dto.setUuidBouique(pays.getBoutique().getUuid());
+		dto.setUuidBouique(pays.getUtilisateur().getUuid());
 		dto.setUuidUtilisateur(pays.getUtilisateur().getUuid());
 		return dto;
 	}

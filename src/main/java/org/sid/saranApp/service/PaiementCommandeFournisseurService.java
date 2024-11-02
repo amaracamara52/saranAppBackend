@@ -14,4 +14,5 @@ public interface PaiementCommandeFournisseurService {
 	PaiementCommandeFournisseurDto getPaiementCommandeFournisseur(String uuid);
 	void deletePaiementCommandeFournisseur(String uuid);
 	PageDataDto<PaiementCommandeFournisseurDto> listePaiementCommandeFournisseurs(int page,int size,String key);
+	
 }

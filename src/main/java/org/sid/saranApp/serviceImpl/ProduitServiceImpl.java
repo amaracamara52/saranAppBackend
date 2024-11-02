@@ -1,7 +1,7 @@
 package org.sid.saranApp.serviceImpl;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -134,8 +134,9 @@ public class ProduitServiceImpl implements ProduitService {
 	@Override
 	public List<ProduitDto> listeStockPerime() {
 		// TODO Auto-generated method stub
+		LocalDate dateAujourdhui = LocalDate.now();
 		Utilisateur user = utilisateurServiceImpl.getCurentUtilisateur();
-		List<Produit> produits = produitRepository.findProduitPerime(new Date(), user.getBoutique().getUuid());
+		List<Produit> produits = produitRepository.findProduitPerime(dateAujourdhui, user.getBoutique().getUuid());
 		List<ProduitDto> produitDtos = new ArrayList<ProduitDto>();
 		produits.forEach(produit -> produitDtos.add(Mapper.toProduit(produit)));
 		return produitDtos;
@@ -144,8 +145,9 @@ public class ProduitServiceImpl implements ProduitService {
 	@Override
 	public List<ProduitDto> listeStockPerimeDans3mois() {
 		// TODO Auto-generated method stub
+		LocalDate dateAujourdhui = LocalDate.now();
 		Utilisateur user = utilisateurServiceImpl.getCurentUtilisateur();
-		List<Produit> produits = produitRepository.findProduitPerimeBy3mois(new Date(), user.getBoutique().getUuid());
+		List<Produit> produits = produitRepository.findProduitPerimeBy3mois(dateAujourdhui, user.getBoutique().getUuid());
 		List<ProduitDto> produitDtos = new ArrayList<ProduitDto>();
 		produits.forEach(produit -> produitDtos.add(Mapper.toProduit(produit)));
 		return produitDtos;
@@ -268,6 +270,12 @@ public class ProduitServiceImpl implements ProduitService {
 			listeProduitDto.add(Mapper.toProduit(val));
 		});
 		return listeProduitDto;
+	}
+
+	@Override
+	public void delete(String uuid) {
+		// TODO Auto-generated method stub
+		produitRepository.deleteById(uuid);
 	}
 
 }

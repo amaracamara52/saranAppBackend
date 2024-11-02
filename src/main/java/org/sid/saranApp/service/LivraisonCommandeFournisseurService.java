@@ -14,4 +14,5 @@ public interface LivraisonCommandeFournisseurService {
 	LivraisonCommandeFournisseurDto getLivraisonCommandeFournisseur(String uuid);
 	void deleteLivraisonCommandeFournisseur(String uuid);
 	PageDataDto<LivraisonCommandeFournisseurDto> listeLivraisonCommandeFournisseurs(int page,int size,String key);
+	void delete(String uuid);
 }

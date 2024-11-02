@@ -24,5 +24,7 @@ public interface ArticleService {
 	ArticleDto updateArticle(ArticleDto articleDto, String uuid);
 	
 	PageDataDto<ArticleDto> listeArticles(int page,int size,String key);
+	
+	void delete(String uuid);
 
 }

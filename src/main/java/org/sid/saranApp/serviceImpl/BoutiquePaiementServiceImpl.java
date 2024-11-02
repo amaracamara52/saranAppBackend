@@ -102,8 +102,7 @@ public class BoutiquePaiementServiceImpl implements BoutiquePaiementService {
 	@Override
 	public void deleteBoutiquePaiement(String uuid) {
 		// TODO Auto-generated method stub
-		BoutiquePaiement boutiquePaiement = boutiquePaiementRepository.findById(uuid).orElseThrow(null);
-		boutiquePaiementRepository.delete(boutiquePaiement);
+		boutiquePaiementRepository.deleteById(uuid);
 		
 		
 	}

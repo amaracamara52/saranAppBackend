@@ -42,4 +42,5 @@ public interface EtagereRayonService {
 	RayonDto updateRayon(RayonDto rayonDto, String uuid);
 	
 	PageDataDto<EtagereRayonDto> listeEtagereRayons(int page,int size,String key);
+	void delete(String uuid);
 }

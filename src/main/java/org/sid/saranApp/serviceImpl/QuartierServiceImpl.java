@@ -86,8 +86,8 @@ public class QuartierServiceImpl implements QuartierService{
 	@Override
 	public void deleteQuartier(String uuid) {
 		// TODO Auto-generated method stub
-		Quartier quartier = quartierRepository.findById(uuid).orElseThrow(null);
-		quartierRepository.delete(quartier);
+	
+		quartierRepository.deleteById(uuid);
 		
 	}
 

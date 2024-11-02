@@ -93,4 +93,10 @@ public class ModePaiementServiceImpl implements ModePaiementService {
 		return null;
 	}
 
+	@Override
+	public void delete(String uuid) {
+		// TODO Auto-generated method stub
+		modePaiementRepository.deleteById(uuid);
+	}
+
 }

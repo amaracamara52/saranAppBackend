@@ -52,4 +52,6 @@ public class BoutiqueController {
 	public void deleteBoutique(@PathVariable String uuid) {
 		boutiqueService.deleteBoutique(uuid);
 	}
+	
+	
 }

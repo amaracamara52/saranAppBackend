@@ -1,5 +1,6 @@
 package org.sid.saranApp.dto;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class LigneCommandeDto extends ResponseDto {
@@ -15,7 +16,7 @@ public class LigneCommandeDto extends ResponseDto {
 	private String emplacement;
 	private String utilisateur;
 	private double prixVente;
-	private Date datePeremption;
+	private LocalDate datePeremption;
 	private int quantiteStock;
 
 
@@ -23,7 +24,7 @@ public class LigneCommandeDto extends ResponseDto {
 		return article;
 	}
 
-	public Date getDatePeremption() {
+	public LocalDate getDatePeremption() {
 		return datePeremption;
 	}
 
@@ -69,7 +70,7 @@ public class LigneCommandeDto extends ResponseDto {
 		this.article = article;
 	}
 
-	public void setDatePeremption(Date datePeremption) {
+	public void setDatePeremption(LocalDate datePeremption) {
 		this.datePeremption = datePeremption;
 	}
 

@@ -14,5 +14,6 @@ public interface CaracteristiqueArticleService {
 	CaracteristiqueArticleDto getCaracteristiqueArticle(String uuid);
 	void deleteCaracteristiqueArticle(String uuid);
 	PageDataDto<CaracteristiqueArticleDto> listeCaracteristiqueArticle(int page,int size,String key);
+	void delete(String uuid);
 
 }

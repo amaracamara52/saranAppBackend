@@ -106,4 +106,10 @@ public class FournisseurServiceImpl implements FournisseurService {
 		return null;
 	}
 
+	@Override
+	public void delete(String uuid) {
+		// TODO Auto-generated method stub
+		fournisseurRepository.deleteById(uuid);
+	}
+
 }

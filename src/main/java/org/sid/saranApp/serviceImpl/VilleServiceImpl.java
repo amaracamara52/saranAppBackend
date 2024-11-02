@@ -86,8 +86,8 @@ public class VilleServiceImpl implements VilleService {
 	@Override
 	public void deleteVille(String uuid) {
 		// TODO Auto-generated method stub
-		Ville ville = villeRepository.findById(uuid).orElseThrow(null);
-		villeRepository.delete(ville);
+	
+		villeRepository.deleteById(uuid);
 		
 	}
 

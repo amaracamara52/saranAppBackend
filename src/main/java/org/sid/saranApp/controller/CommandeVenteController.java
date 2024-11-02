@@ -82,5 +82,10 @@ public class CommandeVenteController {
     ) {
         return commandeVenteServiceImpl.listeCommandeVenteByJour(page, size, key);
     }
+	
+	@DeleteMapping("/commandeVente/{uuid}")
+	void deleteCommandeVente(@PathVariable String uuid) {
+		commandeVenteServiceImpl.delete(uuid);
+	}
 
 }

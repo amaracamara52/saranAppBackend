@@ -73,5 +73,10 @@ public class ArticleController {
     ) {
         return articleService.listeArticles(page, size, key);
     }
+	
+	@DeleteMapping("/article/{uuid}")
+	void deleteAricle(@PathVariable String uuid) {
+		articleService.delete(uuid);
+	}
 
 }

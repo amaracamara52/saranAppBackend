@@ -13,6 +13,7 @@ public interface ClientService {
 	public ClientDto supprimer(String uuid);
 	public List<ClientDto> findAll();
 	public ClientDto getById(String uuid);
+	void delete(String uuid);
 	PageDataDto<ClientDto> listeClients(int page,int size,String key);
 
 }

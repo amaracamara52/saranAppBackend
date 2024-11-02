@@ -47,8 +47,7 @@ public class BoutiqueServiceImpl implements BoutiqueService {
 	@Override
 	public void deleteBoutique(String uuid) {
 		// TODO Auto-generated method stub
-		Boutique boutique = boutiqueRepository.findById(uuid).orElseThrow(null);
-		boutiqueRepository.delete(boutique);
+		boutiqueRepository.deleteById(uuid);
 
 	}
 

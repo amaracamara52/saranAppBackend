@@ -164,4 +164,10 @@ public class ClientServiceImpl implements ClientService {
 		return null;
 	}
 
+	@Override
+	public void delete(String uuid) {
+		// TODO Auto-generated method stub
+		clientRepository.deleteById(uuid);
+	}
+
 }

@@ -14,5 +14,5 @@ public interface DetailCommandeFournisseurService {
 	DetailCommandeFournisseurDto getDetailCommandeFournisseur(String uuid);
 	void deleteDetailCommandeFournisseur(String uuid);
 	PageDataDto<DetailCommandeFournisseurDto> listeDetailCommandeFournisseurs(int page,int size,String key);
-
+	void delete(String uuid);
 }

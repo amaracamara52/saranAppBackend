@@ -14,5 +14,5 @@ public interface FournisseurService {
 	List<FournisseurDto> findAll();
 	void deleteFournisseur(String uuid);
 	PageDataDto<FournisseurDto> listeFournisseurs(int page,int size,String key);
-
+	void delete(String uuid);
 }

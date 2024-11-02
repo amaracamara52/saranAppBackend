@@ -280,4 +280,10 @@ public class CommandeFournisseurServiceImpl implements CommandeFournisseurServic
 		return pageDataDto;
 	}
 
+	@Override
+	public void delete(String uuid) {
+		// TODO Auto-generated method stub
+		commandeFournisseurRepository.deleteById(uuid);
+	}
+
 }

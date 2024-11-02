@@ -14,5 +14,6 @@ public interface ModePaiementService {
 	ModePaiementDto getModePaiement(String uuid);
 	void deleteModePaiement(String uuid);
 	PageDataDto<ModePaiementDto> listeModePaiements(int page,int size,String key);
+	void delete(String uuid);
 
 }

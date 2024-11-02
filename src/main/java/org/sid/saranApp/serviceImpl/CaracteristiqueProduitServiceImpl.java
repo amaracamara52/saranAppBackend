@@ -171,5 +171,11 @@ public class CaracteristiqueProduitServiceImpl implements CaracteristiqueProduit
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public void delete(String uuid) {
+		// TODO Auto-generated method stub
+		caracteristiqueProduitRepository.deleteById(uuid);
+	}
 	
 }

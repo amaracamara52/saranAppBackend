@@ -29,5 +29,7 @@ public interface CommandeFournisseurService {
 	PageDataDto<CommandeFournisseurDto> listeCommandeFournisseurs(int page,int size,StatusCommandeFournisseurEnum key);
 	
 	PageDataDto<CommandeFournisseurDto> listeCommandeFournisseurByDates(int page,int size,LocalDate   dateDebut,LocalDate  dateFin);
+	
+	void delete(String uuid);
 
 }

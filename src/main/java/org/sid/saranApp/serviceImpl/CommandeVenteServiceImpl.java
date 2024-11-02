@@ -307,4 +307,10 @@ public class CommandeVenteServiceImpl implements CommandeVenteService {
 		return pageDataDto;
 	}
 
+	@Override
+	public void delete(String uuid) {
+		// TODO Auto-generated method stub
+		commandeVenteRepository.deleteById(uuid);
+	}
+
 }

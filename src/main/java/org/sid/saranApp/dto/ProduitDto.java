@@ -18,7 +18,7 @@ public class ProduitDto extends ResponseDto {
 	private int quantiteImage;
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyy-MM-dd")
-	private Date datePeremption;
+	private LocalDate datePeremption;
 	private String article;
 	private String categorie;
 	private String emplacement;
@@ -52,7 +52,7 @@ public class ProduitDto extends ResponseDto {
 		this.dateCommande = dateCommande;
 	}
 
-	public Date getDatePeremption() {
+	public LocalDate getDatePeremption() {
 		return datePeremption;
 	}
 
@@ -130,7 +130,7 @@ public class ProduitDto extends ResponseDto {
 
 	
 
-	public void setDatePeremption(Date datePeremption) {
+	public void setDatePeremption(LocalDate datePeremption) {
 		this.datePeremption = datePeremption;
 	}
 

@@ -129,4 +129,10 @@ public class LivraisonCommandeFournisseurServiceImpl implements LivraisonCommand
 		return null;
 	}
 
+	@Override
+	public void delete(String uuid) {
+		// TODO Auto-generated method stub
+		livraisonCommandeFournisseurRepository.deleteById(uuid);
+	}
+
 }

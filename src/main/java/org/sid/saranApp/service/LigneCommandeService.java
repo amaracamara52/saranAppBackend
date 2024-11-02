@@ -14,4 +14,5 @@ public interface LigneCommandeService {
 	public List<LigneCommandeDto> findAll();
 	public LigneCommandeDto getById(String uuid);
 	PageDataDto<LigneCommandeDto> listeLigneCommandes(int page,int size,String key);
+	void delete(String uuid);
 }
