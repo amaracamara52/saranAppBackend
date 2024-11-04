@@ -5,6 +5,9 @@ import java.util.List;
 import org.sid.saranApp.dto.ArticleDto;
 import org.sid.saranApp.dto.PageDataDto;
 import org.sid.saranApp.dto.ProduitDto;
+import org.sid.saranApp.dto.StatistiqueBoutiqueDto;
+import org.sid.saranApp.dto.TopVenteDTO;
+import org.sid.saranApp.externeSql.ProduitExterneServiceImpl;
 import org.sid.saranApp.serviceImpl.ProduitServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -23,6 +26,7 @@ public class ProduitController {
 
 	@Autowired
 	private ProduitServiceImpl produitServiceImpl;
+	
 
 	@PostMapping("/produit")
 	public ProduitDto add(@RequestBody ProduitDto produitDto) {
@@ -54,6 +58,8 @@ public class ProduitController {
 		return produitServiceImpl.listeStockPerime();
 	}
 	
+	
+	
 	@GetMapping("/produit/inferieurA5")
 	public List<ProduitDto> findAllInferieurA5() {
 		return produitServiceImpl.listeStockInferieurA5();
@@ -77,6 +83,9 @@ public class ProduitController {
     ) {
         return produitServiceImpl.listeProduits(page, size, key);
     }
+	
+	
+	
 
 
 }

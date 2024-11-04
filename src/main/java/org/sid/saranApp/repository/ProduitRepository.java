@@ -4,6 +4,10 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import org.sid.saranApp.dto.TopVenteDTO;
 import org.sid.saranApp.model.Produit;
 import org.sid.saranApp.model.Produit;
 import org.springframework.data.domain.Page;
@@ -13,6 +17,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface ProduitRepository extends JpaRepository<Produit, String> {
+	
+	
+
 
 	@Query("select p from Produit p where  p.quantiteImage <= :x and p.boutique.uuid =:y")
 	public List<Produit> findProduitInferieurA10(@Param("x") int qtite, @Param("y") String uuidBoutique);
@@ -41,5 +48,8 @@ public interface ProduitRepository extends JpaRepository<Produit, String> {
 	
 	@Query("select a from Produit a")
 	Page<Produit> listeProduit(Pageable pageable);
+	
+	
+
 
 }

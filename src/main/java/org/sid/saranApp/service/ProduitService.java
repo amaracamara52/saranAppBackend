@@ -36,4 +36,6 @@ public interface ProduitService {
 	PageDataDto<ProduitDto> listeStockPerimeDans3mois(int page,int size,String key);
 	PageDataDto<ProduitDto> listeProduits(int page,int size,String key);
 	void delete(String uuid);
+	
+	
 }

@@ -5,7 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.management.Query;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.sid.saranApp.dto.ProduitDto;
+import org.sid.saranApp.dto.TopVenteDTO;
 import org.sid.saranApp.dto.PageDataDto;
 import org.sid.saranApp.dto.ProduitDto;
 import org.sid.saranApp.exception.Exception;
@@ -50,6 +55,7 @@ public class ProduitServiceImpl implements ProduitService {
 	private LigneCommandeRepository ligneCommandeRepository;
 	@Autowired
 	private EtagereRayonRepository etagereRayonRepository;
+
 
 	Logger logger = LoggerFactory.getLogger(ProduitServiceImpl.class);
 
@@ -278,4 +284,8 @@ public class ProduitServiceImpl implements ProduitService {
 		produitRepository.deleteById(uuid);
 	}
 
+	
+
+	
+	
 }
