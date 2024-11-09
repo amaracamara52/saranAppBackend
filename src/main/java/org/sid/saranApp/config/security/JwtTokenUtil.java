@@ -63,7 +63,9 @@ public class JwtTokenUtil implements Serializable {
 		}
 
 		claims.put(Claims.AUDIENCE, autorities);
-		claims.put(Claims.ID, this.utilisateurService.getUtilisateurByEmail(userDetails.getUsername()));
+		claims.put(Claims.ID, this.utilisateurService.getUtilisateurByEmail(userDetails.getUsername()).getEmail());
+		claims.put("username", this.utilisateurService.getUtilisateurByEmail(userDetails.getUsername()).getUsername());
+		
 
 		// claims.put(Claims.ISSUER,
 		// this.utilisateurService.getUtilisateurByEmail(userDetails.getUsername()));

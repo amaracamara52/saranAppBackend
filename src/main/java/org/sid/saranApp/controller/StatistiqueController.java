@@ -57,6 +57,11 @@ public class StatistiqueController  {
 		return produitServiceImplExterne.getTotaProduitVendu();
 	}
 	
+	@GetMapping("/produit/situationVenteParMois")
+	public List<StatistiqueBoutiqueDto> situationVenteParMois() {
+		return produitServiceImplExterne.getSituationVenteDesMois();
+	}
+	
 	
 
 }

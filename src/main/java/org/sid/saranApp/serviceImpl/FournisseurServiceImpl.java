@@ -32,6 +32,8 @@ public class FournisseurServiceImpl implements FournisseurService {
 	private VilleRepository villeRepository;
 	@Autowired
 	private UtilisateurRepository utilisateurRepository;
+	@Autowired
+	private UtilisateurServiceImpl utilisateurServiceImpl;
 
 	Logger logger = LoggerFactory.getLogger(FournisseurServiceImpl.class);
 
@@ -67,7 +69,7 @@ public class FournisseurServiceImpl implements FournisseurService {
 	@Override
 	public List<FournisseurDto> findAll() {
 		// TODO Auto-generated method stub
-		List<Fournisseur> fournisseurs = fournisseurRepository.findAll();
+		List<Fournisseur> fournisseurs = fournisseurRepository.listeFournisseurs(utilisateurServiceImpl.getCurentUtilisateur().getBoutique().getUuid());
 		List<FournisseurDto> fournisseurDtos = new ArrayList<FournisseurDto>();
 		fournisseurs.forEach(fournisseur -> fournisseurDtos.add(Mapper.toFournisseurDto(fournisseur)));
 		return fournisseurDtos;

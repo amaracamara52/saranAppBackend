@@ -3,6 +3,8 @@
  */
 package org.sid.saranApp.repository;
 
+import java.util.List;
+
 import org.sid.saranApp.model.EtagereRayon;
 import org.sid.saranApp.model.EtagereRayon;
 import org.springframework.data.domain.Page;
@@ -28,7 +30,11 @@ public interface EtagereRayonRepository extends JpaRepository<EtagereRayon, Stri
 			Pageable pageable);
 	
 	
-	@Query("select a from EtagereRayon a")
-	Page<EtagereRayon> listeEtagereRayon(Pageable pageable);
+	@Query("select a from EtagereRayon a where a.boutique.uuid=:x")
+	Page<EtagereRayon> listeEtagereRayon(Pageable pageable,@Param("x") String uuid);
+	
+	
+	@Query("select a from EtagereRayon a where a.boutique.uuid=:x")
+	List<EtagereRayon> listeEtagereRayons(@Param("x") String uuid);
 
 }

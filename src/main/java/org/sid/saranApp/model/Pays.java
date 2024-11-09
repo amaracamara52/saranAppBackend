@@ -15,6 +15,10 @@ public class Pays extends AbstractDomainClass {
 //	private Boutique boutique;
 	@ManyToOne
 	private Utilisateur utilisateur;
+	private String libelle;
+	private String monnaie;
+	private String capitale;
+	private int nombreVille;
 	
 	
 //	public Boutique getBoutique() {
@@ -33,7 +37,7 @@ public class Pays extends AbstractDomainClass {
 		this.utilisateur = utilisateur;
 	}
 
-	private String libelle;
+	
 
 	public String getLibelle() {
 		return libelle;
@@ -50,6 +54,32 @@ public class Pays extends AbstractDomainClass {
 	public void setListeVille(List<Ville> listeVille) {
 		this.listeVille = listeVille;
 	}
+
+	public String getMonnaie() {
+		return monnaie;
+	}
+
+	public void setMonnaie(String monnaie) {
+		this.monnaie = monnaie;
+	}
+
+	public String getCapitale() {
+		return capitale;
+	}
+
+	public void setCapitale(String capitale) {
+		this.capitale = capitale;
+	}
+
+	public int getNombreVille() {
+		return nombreVille;
+	}
+
+	public void setNombreVille(int nombreVille) {
+		this.nombreVille = nombreVille;
+	}
+	
+	
 
 
 }

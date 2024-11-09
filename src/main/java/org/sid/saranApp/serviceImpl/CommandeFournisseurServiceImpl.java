@@ -156,12 +156,8 @@ public class CommandeFournisseurServiceImpl implements CommandeFournisseurServic
 			Produit produit = new Produit();
 
 			produit.setBoutique(commandeFournisseur.getBoutique());
+			
 			produit.setLivraisonCommandeFournisseur(livraison);
-			produit.setQuantite(
-					livraison.getQuantite() * detailCommandeFournisseur.getArticle().getQuantiteDansCarton());
-			produit.setQuantiteImage(
-					livraison.getQuantite() * detailCommandeFournisseur.getArticle().getQuantiteDansCarton());
-
 			if (detailCommandeFournisseur.getUnite().equals("CARTON")) {
 				double prixAchat = detailCommandeFournisseur.getPrixAchat()
 						/ detailCommandeFournisseur.getArticle().getQuantiteDansCarton();
@@ -169,6 +165,29 @@ public class CommandeFournisseurServiceImpl implements CommandeFournisseurServic
 				double resultVente = result * 1.5;
 				produit.setPrixVente(Math.round(resultVente));
 				produit.setPrixAchat(result);
+				
+			
+				produit.setQuantite(
+						livraison.getQuantite() * detailCommandeFournisseur.getArticle().getQuantiteDansCarton());
+				produit.setQuantiteImage(
+						livraison.getQuantite() * detailCommandeFournisseur.getArticle().getQuantiteDansCarton());
+				
+			
+			}
+			
+			
+			if (detailCommandeFournisseur.getUnite().equals("PIECE")) {
+//				double prixAchat = detailCommandeFournisseur.getPrixAchat()
+//						/ detailCommandeFournisseur.getArticle().getQuantiteDansCarton();
+//				double result = Math.round(prixAchat);
+//				double resultVente = result * 1.5;
+//				produit.setPrixVente(Math.round(resultVente));
+				produit.setPrixAchat(detailCommandeFournisseur.getPrixAchat());
+				produit.setPrixVente(0);
+				produit.setQuantite(
+						livraison.getQuantite());
+				produit.setQuantiteImage(
+						livraison.getQuantite());
 			
 			}
 
@@ -191,7 +210,8 @@ public class CommandeFournisseurServiceImpl implements CommandeFournisseurServic
 	@Override
 	public List<CommandeFournisseurDto> findAll() {
 		// TODO Auto-generated method stub
-		List<CommandeFournisseur> commandeFournisseurs = commandeFournisseurRepository.findAll();
+		List<CommandeFournisseur> commandeFournisseurs = commandeFournisseurRepository
+				.listeCommandes(utilisateurServiceImpl.getCurentUtilisateur().getBoutique().getUuid());
 		List<CommandeFournisseurDto> commandeFournisseurDtos = new ArrayList<CommandeFournisseurDto>();
 		commandeFournisseurs.forEach(commandeFournisseur -> commandeFournisseurDtos
 				.add(Mapper.toCommandeFournisseurDto(commandeFournisseur)));

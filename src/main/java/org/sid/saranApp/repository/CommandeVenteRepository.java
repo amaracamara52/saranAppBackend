@@ -15,6 +15,11 @@ public interface CommandeVenteRepository extends JpaRepository<CommandeVente, St
 	@Query("select c from CommandeVente c where  c.boutique.uuid =:z and c.datePaiement between :x and :y ")
 	List<CommandeVente> listeCommandePeriode(@Param("x") Date dateDebut, @Param("y") Date dateFin,
 			@Param("z") String uuid);
+	
+	
+	@Query("select c from CommandeVente c where  c.boutique.uuid =:z ")
+	List<CommandeVente> listeCommandes(
+			@Param("z") String uuid);
 
 	@Query(value = "select sum(c.montantCommande) from CommandeVente c  where c.boutique.uuid =:z and c.datePaiement between :x and :y ", nativeQuery = true)
 	int sommeCommandeVente(@Param("x") Date dateDebut, @Param("y") Date dateFin, @Param("z") String uuid);

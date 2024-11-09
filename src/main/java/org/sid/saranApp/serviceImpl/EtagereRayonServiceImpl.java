@@ -84,6 +84,7 @@ public class EtagereRayonServiceImpl implements EtagereRayonService {
 		etagereRayon.setBoutique(utilisateur.getBoutique());
 		etagereRayon.setEtagere(etagereRayonDto.getLibelle());
 		etagereRayon.setRayon(etagereRayonDto.getRayon());
+		etagereRayon.setCode(etagereRayonDto.getCode());
 		etagereRayon.setUtilisateur(utilisateur);
 		etagereRayon = etagereRayonRepository.save(etagereRayon);
 		return Mapper.toEtagereRayonDto(etagereRayon);
@@ -212,7 +213,7 @@ public class EtagereRayonServiceImpl implements EtagereRayonService {
 	@Override
 	public List<EtagereRayonDto> listeEtagereRayon() {
 		// TODO Auto-generated method stub
-		List<EtagereRayon> etageres = etagereRayonRepository.findAll();
+		List<EtagereRayon> etageres = etagereRayonRepository.listeEtagereRayons(utilisateurServiceImpl.getCurentUtilisateur().getBoutique().getUuid());
 		List<EtagereRayonDto> etagereDtos = new ArrayList<EtagereRayonDto>();
 		etageres.forEach(etagere -> etagereDtos.add(Mapper.toEtagereRayonDto(etagere)));
 		return etagereDtos;
@@ -231,8 +232,7 @@ public class EtagereRayonServiceImpl implements EtagereRayonService {
 	public EtagereDto updateEtagere(EtagereDto etagereDto, String uuid) {
 		// TODO Auto-generated method stub
 		Etagere etagereStock = etagereRepository.findById(uuid).orElseThrow(null);
-		etagereStock.setCapacite(etagereDto.getCapacite());
-		etagereStock.setFull(false);
+	     ;
 		etagereStock.setLibelle(etagereDto.getLibelle());
 		Etagere etagereStockSave = etagereRepository.save(etagereStock);
 		return Mapper.toEtagereStockDto(etagereStockSave);
@@ -280,7 +280,7 @@ public class EtagereRayonServiceImpl implements EtagereRayonService {
 		
 		if(key == null ) {
 			
-			etagereRayons = etagereRayonRepository.listeEtagereRayon(pageable);
+			etagereRayons = etagereRayonRepository.listeEtagereRayon(pageable,utilisateurServiceImpl.getCurentUtilisateur().getBoutique().getUuid());
 			etagereRayons.forEach(etagere -> etagereRayonDtos.add(Mapper.toEtagereRayonDto(etagere)));
 		}
 		

@@ -100,7 +100,7 @@ public class ProduitServiceImpl implements ProduitService {
 
 	@Override
 	public List<ProduitDto> findAll() {
-		List<Produit> listeProduit = produitRepository.findAll();
+		List<Produit> listeProduit = produitRepository.listeProduits(utilisateurServiceImpl.getCurentUtilisateur().getBoutique().getUuid());
 		List<ProduitDto> listeProduitDto = new ArrayList<>();
 		listeProduit.forEach(val -> {
 			listeProduitDto.add(Mapper.toProduit(val));

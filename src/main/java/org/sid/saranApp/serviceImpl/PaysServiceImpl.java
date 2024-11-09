@@ -1,11 +1,21 @@
 package org.sid.saranApp.serviceImpl;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.sid.saranApp.dto.PaysDto;
 import org.sid.saranApp.dto.PageDataDto;
 import org.sid.saranApp.dto.PaysDto;
 import org.sid.saranApp.mapper.Mapper;
+import org.sid.saranApp.model.Article;
+import org.sid.saranApp.model.Categorie;
 import org.sid.saranApp.model.Pays;
 import org.sid.saranApp.model.Utilisateur;
 import org.sid.saranApp.repository.PaysRepository;
@@ -17,6 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class PaysServiceImpl implements PaysService {
@@ -84,6 +95,56 @@ public class PaysServiceImpl implements PaysService {
 	public PageDataDto<PaysDto> listePays(int page, int size, String key) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void importationPays(MultipartFile file) {
+		// TODO Auto-generated method stub
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Utilisateur utilisateur = utilisateurRepository.findByEmail(auth.getName()).orElseThrow(null);
+
+		
+
+		List<PaysDto> paysDtos = new ArrayList<>();
+		try (InputStream inputStream = file.getInputStream()) {
+			Workbook workbook = WorkbookFactory.create(inputStream);
+			Sheet sheet = workbook.getSheetAt(0);
+			Iterator<Row> rowIterator = sheet.rowIterator();
+			while (rowIterator.hasNext()) {
+				Row row = rowIterator.next();
+				if (row.getRowNum() == 0) {
+					// skip header row
+					continue;
+				}
+				PaysDto dto = new PaysDto();
+				
+				logger.info("value {}", row.getCell(0).getStringCellValue());
+				
+				String libelle = row.getCell(0).getStringCellValue();
+				String capital = row.getCell(1).getStringCellValue();
+				String monnaie = row.getCell(2).getStringCellValue();
+				dto.setLibelle(libelle);
+				dto.setCapitale(capital);
+				dto.setMonnaie(monnaie);
+			
+				//PaysDto.setQuantiteDansCarton((int) row.getCell(2).getNumericCellValue());
+
+				
+
+				Pays pays = new Pays();
+
+				pays.setMonnaie(dto.getMonnaie());
+				pays.setUtilisateur(utilisateur);
+				pays.setCapitale(dto.getCapitale());
+				pays.setLibelle(dto.getLibelle());
+				pays.setNombreVille(0);
+				paysRepository.save(pays);
+
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

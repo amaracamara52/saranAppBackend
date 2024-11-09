@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "*")
 public class StoredFileController {
 	
 StoredFile fileDB = new StoredFile();
@@ -38,7 +38,7 @@ StoredFile fileDB = new StoredFile();
 
     @PostMapping("/upload")
     public ResponseEntity<StoredFileInfoDto> uploadStoredFile(@RequestParam("file") MultipartFile file) {
-    	System.err.println("Entrééééééééééééééééééééééééééééééééééé");
+    	System.err.println("Entré");
     	System.err.println(file);
     	String message = "";
       logger.info("file: {}",file);

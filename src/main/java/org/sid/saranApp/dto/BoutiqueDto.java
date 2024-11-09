@@ -1,5 +1,11 @@
 package org.sid.saranApp.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+
 import org.sid.saranApp.enume.EnumTypeBoutique;
 
 public class BoutiqueDto {
@@ -11,8 +17,17 @@ public class BoutiqueDto {
 	private String phoneBoutique;
 	private String siteBoutique;
 	private String adresse;
+	@Enumerated(EnumType.STRING)
 	private EnumTypeBoutique typeBoutique;
 
+	private String  image;
+	private String utilisateur;
+	private String email;
+	private String password;
+	private String uuidStoreFile;
+	
+	private List<String> domaines = new ArrayList<String>();
+	
 	public String getAdresse() {
 		return adresse;
 	}
@@ -76,5 +91,60 @@ public class BoutiqueDto {
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
 	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+
+	public String getUtilisateur() {
+		return utilisateur;
+	}
+
+	public void setUtilisateur(String utilisateur) {
+		this.utilisateur = utilisateur;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getUuidStoreFile() {
+		return uuidStoreFile;
+	}
+
+	public void setUuidStoreFile(String uuidStoreFile) {
+		this.uuidStoreFile = uuidStoreFile;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public List<String> getDomaines() {
+		return domaines;
+	}
+
+	public void setDomaines(List<String> domaines) {
+		this.domaines = domaines;
+	}
+	
+	
+	
+	
+	
+	
+	
 
 }

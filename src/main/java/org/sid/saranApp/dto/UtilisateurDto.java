@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.sid.saranApp.enume.EnumRole;
+import org.sid.saranApp.enume.EnumTypeBoutique;
 
 public class UtilisateurDto {
 	
@@ -15,6 +16,9 @@ public class UtilisateurDto {
 	private String adresse;
 	private List<EnumRole> role = new ArrayList<EnumRole>();
 	private String boutique;
+	private String libelleBoutique;
+	private EnumTypeBoutique typeBoutique;
+	private String image;
 	
 	
 	public String getUuid() {
@@ -67,6 +71,26 @@ public class UtilisateurDto {
 	public void setBoutique(String boutique) {
 		this.boutique = boutique;
 	}
+	public String getLibelleBoutique() {
+		return libelleBoutique;
+	}
+	public void setLibelleBoutique(String libelleBoutique) {
+		this.libelleBoutique = libelleBoutique;
+	}
+	public String getImage() {
+		return image;
+	}
+	public void setImage(String image) {
+		this.image = image;
+	}
+	public EnumTypeBoutique getTypeBoutique() {
+		return typeBoutique;
+	}
+	public void setTypeBoutique(EnumTypeBoutique typeBoutique) {
+		this.typeBoutique = typeBoutique;
+	}
+	
+	
 	
 	
 	

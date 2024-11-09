@@ -15,6 +15,12 @@ import org.springframework.data.repository.query.Param;
 
 public interface CommandeFournisseurRepository extends JpaRepository<CommandeFournisseur, String> {
 
+	
+	@Query("select c from CommandeFournisseur c where  c.boutique.uuid =:z ")
+	List<CommandeFournisseur> listeCommandes(
+			@Param("z") String uuid);
+	
+	
 	@Query("select c from CommandeFournisseur c where  c.boutique.uuid =:z and c.dateCommandeFournisseur between :x and :y ")
 	List<CommandeFournisseur> listeCommandePeriode(@Param("x") Date dateDebut, @Param("y") Date dateFin,
 			@Param("z") String uuid);

@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import org.sid.saranApp.enume.EnumTypeBoutique;
 
@@ -64,6 +65,11 @@ public class Boutique extends AbstractDomainClass {
 	@Enumerated(EnumType.STRING)
 	@Column(name = "TYPEBOUTIQUE")
 	private EnumTypeBoutique typeBoutique;
+	
+	@OneToOne
+	private StoredFile storedFile;
+	
+	private String pays;
 
 	public String getLibelleBoutique() {
 		return libelleBoutique;
@@ -248,6 +254,24 @@ public class Boutique extends AbstractDomainClass {
 	public void setTypeBoutique(EnumTypeBoutique typeBoutique) {
 		this.typeBoutique = typeBoutique;
 	}
+
+	public StoredFile getStoredFile() {
+		return storedFile;
+	}
+
+	public void setStoredFile(StoredFile storedFile) {
+		this.storedFile = storedFile;
+	}
+
+	public String getPays() {
+		return pays;
+	}
+
+	public void setPays(String pays) {
+		this.pays = pays;
+	}
+	
+	
 
 	
 }

@@ -10,6 +10,7 @@ import java.util.UUID;
 import org.sid.saranApp.dto.CommandeVenteDto;
 import org.sid.saranApp.dto.LigneCommandeDto;
 import org.sid.saranApp.dto.PageDataDto;
+import org.sid.saranApp.enume.EnumTypeBoutique;
 import org.sid.saranApp.enume.StatusCommandeVenteEnum;
 import org.sid.saranApp.exception.Exception;
 import org.sid.saranApp.mapper.Mapper;
@@ -77,7 +78,18 @@ public class CommandeVenteServiceImpl implements CommandeVenteService {
 //			response.setMessage("Ce client n'exist pas");
 //			return response;
 //		}
-		String cmd = "SUP-" + uuid.substring(0, 6);
+		String cmd = "";
+		if(utilisateurServiceImpl.getCurentUtilisateur().getBoutique().getTypeBoutique() == EnumTypeBoutique.SUPERMARCHE) {
+			cmd = "SUP-" + uuid.substring(0, 6);
+		}
+		
+		if(utilisateurServiceImpl.getCurentUtilisateur().getBoutique().getTypeBoutique() == EnumTypeBoutique.BOUTIQUE) {
+			cmd = "BOU-" + uuid.substring(0, 6);
+		}
+		
+		if(utilisateurServiceImpl.getCurentUtilisateur().getBoutique().getTypeBoutique() == EnumTypeBoutique.PHARMACIE) {
+			cmd = "PHAR-" + uuid.substring(0, 6);
+		}
 		commandeVente.setNumeroCommande(cmd);
 		commandeVente.setBoutique(user.getBoutique());
 		commandeVente.setUtilisateur(user);
@@ -98,7 +110,7 @@ public class CommandeVenteServiceImpl implements CommandeVenteService {
 
 			int operationQtite = produit.getQuantiteImage() - ligneCommandeDto.getQuantite();
 			LigneCommande ligne = new LigneCommande();
-			if (operationQtite > 0) {
+			if (operationQtite >= 0) {
 
 				ligne.setBoutique(utilisateurServiceImpl.getCurentUtilisateur().getBoutique());
 				ligne.setCommandeVente(commandeVente);
@@ -131,7 +143,7 @@ public class CommandeVenteServiceImpl implements CommandeVenteService {
 
 	@Override
 	public List<CommandeVenteDto> findAll() {
-		List<CommandeVente> listeCommandeVente = commandeVenteRepository.findAll();
+		List<CommandeVente> listeCommandeVente = commandeVenteRepository.listeCommandes(utilisateurServiceImpl.getCurentUtilisateur().getBoutique().getUuid());
 		List<CommandeVenteDto> listeCommandeVenteDto = new ArrayList<>();
 		listeCommandeVente.forEach(val -> {
 			listeCommandeVenteDto.add(Mapper.toCommandeVente(val));

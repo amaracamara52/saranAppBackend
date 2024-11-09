@@ -1,6 +1,8 @@
 package org.sid.saranApp.mapper;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -18,6 +20,7 @@ import org.sid.saranApp.dto.CommandeVenteDto;
 import org.sid.saranApp.dto.CommuneDto;
 import org.sid.saranApp.dto.ConnectionDto;
 import org.sid.saranApp.dto.DetailCommandeFournisseurDto;
+import org.sid.saranApp.dto.DomainBoutiqueDto;
 import org.sid.saranApp.dto.EtagereDto;
 import org.sid.saranApp.dto.EtagereRayonDto;
 import org.sid.saranApp.dto.FournisseurDto;
@@ -47,6 +50,7 @@ import org.sid.saranApp.model.CommandeVente;
 import org.sid.saranApp.model.Commune;
 import org.sid.saranApp.model.Connection;
 import org.sid.saranApp.model.DetailCommandeFournisseur;
+import org.sid.saranApp.model.DomainBoutique;
 import org.sid.saranApp.model.Etagere;
 import org.sid.saranApp.model.EtagereRayon;
 import org.sid.saranApp.model.Fournisseur;
@@ -99,6 +103,21 @@ public class Mapper {
 		dto.setSiteBoutique(boutique.getSiteBoutique());
 		dto.setTypeBoutique(boutique.getTypeBoutique());
 		dto.setUuid(boutique.getUuid());
+		
+		if(boutique.getStoredFile() != null) {
+			
+			byte[] encodeBase64 = Base64.getEncoder().encode(boutique.getStoredFile().getBytes());
+		    String base64Encoded;
+			try {
+				base64Encoded = new String(encodeBase64, "UTF-8");
+				dto.setImage("data:"+boutique.getStoredFile().getType()+";base64,"+base64Encoded);
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			dto.setUuidStoreFile(boutique.getStoredFile().getUuid());
+		
+		}
 
 		return dto;
 	}
@@ -547,7 +566,23 @@ public class Mapper {
 		dto.setEmail(utilisateur.getEmail());
 		dto.setMotDePasse(utilisateur.getPassword());
 		dto.setAdresse(utilisateur.getAdresse());
-		// dto.setBoutique(utilisateur.getBoutique().getLibelleBoutique());
+		dto.setLibelleBoutique(utilisateur.getBoutique().getLibelleBoutique());
+		dto.setTypeBoutique(utilisateur.getBoutique().getTypeBoutique());
+		
+        if(utilisateur.getBoutique().getStoredFile() != null) {
+			
+			byte[] encodeBase64 = Base64.getEncoder().encode(utilisateur.getBoutique().getStoredFile().getBytes());
+		    String base64Encoded;
+			try {
+				base64Encoded = new String(encodeBase64, "UTF-8");
+				dto.setImage("data:"+utilisateur.getBoutique().getStoredFile().getType()+";base64,"+base64Encoded);
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		
+		}
 		return dto;
 
 	}
@@ -560,6 +595,15 @@ public class Mapper {
 		dto.setUuidPays(ville.getPays().getUuid());
 		dto.setUuidBoutique(ville.getBoutique().getUuid());
 		dto.setUuidUtilisateur(ville.getUtilisateur().getUuid());
+		return dto;
+	}
+	
+	public static DomainBoutiqueDto toDomainBoutiqueDto(DomainBoutique domainBoutique) {
+		DomainBoutiqueDto dto = new DomainBoutiqueDto();
+		dto.setCode(domainBoutique.getCode());
+		dto.setLibelle(domainBoutique.getLibelle());
+		dto.setUuid(domainBoutique.getUuid());
+		dto.setCheck(false);
 		return dto;
 	}
 

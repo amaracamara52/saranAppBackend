@@ -78,7 +78,7 @@ public class ArticleServiceImpl implements ArticleService {
 	@Override
 	public List<ArticleDto> findAll() {
 		// TODO Auto-generated method stub
-		List<Article> articles = articleRepository.findAll();
+		List<Article> articles = articleRepository.listeArticles(utilisateurServiceImpl.getCurentUtilisateur().getBoutique().getUuid());
 		List<ArticleDto> articleDtos = new ArrayList<ArticleDto>();
 		articles.forEach(article -> articleDtos.add(Mapper.toArticleDto(article)));
 		return articleDtos;
@@ -118,7 +118,7 @@ public class ArticleServiceImpl implements ArticleService {
 				ArticleDto articleDto = new ArticleDto();
 				articleDto.setLibelle(row.getCell(0).getStringCellValue());
 				articleDto.setDescription(row.getCell(1).getStringCellValue());
-				articleDto.setQuantiteDansCarton((int) row.getCell(2).getNumericCellValue());
+				//articleDto.setQuantiteDansCarton((int) row.getCell(2).getNumericCellValue());
 
 				logger.info("value {}", articleDto.getLibelle());
 
@@ -142,7 +142,7 @@ public class ArticleServiceImpl implements ArticleService {
 	@Override
 	public List<ArticleSelectDto> listeSelect() {
 		// TODO Auto-generated method stub
-		List<Article> articles = articleRepository.findAll();
+		List<Article> articles = articleRepository.listeArticles(utilisateurServiceImpl.getCurentUtilisateur().getBoutique().getUuid());
 		List<ArticleSelectDto> articleSelectDtos = new ArrayList<ArticleSelectDto>();
 		articles.forEach(article -> articleSelectDtos.add(Mapper.toArticleSelectDto(article)));
 		return articleSelectDtos;
@@ -181,7 +181,7 @@ public class ArticleServiceImpl implements ArticleService {
 		
 		if(key == null ) {
 			
-			articles = articleRepository.listeArticle(pageable);
+			articles = articleRepository.listeArticle(pageable,utilisateurServiceImpl.getCurentUtilisateur().getBoutique().getUuid());
 			articles.forEach(article -> articleDtos.add(Mapper.toArticleDto(article)));
 		}
 		

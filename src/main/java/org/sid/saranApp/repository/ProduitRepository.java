@@ -18,7 +18,8 @@ import org.springframework.data.repository.query.Param;
 
 public interface ProduitRepository extends JpaRepository<Produit, String> {
 	
-	
+	@Query("select p from Produit p where  p.boutique.uuid =:y")
+	public List<Produit> listeProduits( @Param("y") String uuidBoutique);
 
 
 	@Query("select p from Produit p where  p.quantiteImage <= :x and p.boutique.uuid =:y")
@@ -33,7 +34,7 @@ public interface ProduitRepository extends JpaRepository<Produit, String> {
 	@Query("select p from Produit p where p.quantiteImage <= 10 and p.boutique.uuid =:y")
 	List<Produit> listeStockInferieurA5(@Param("y") String uuidBoutique);
 	
-	@Query("select p from Produit p where p.isFinish=true")
+	@Query("select p from Produit p where p.isFinish=true and p.boutique.uuid=:y and p.quantiteImage !=0")
 	List<Produit> listeStockAVendre(@Param("y") String uuidBoutique);
 	
 	

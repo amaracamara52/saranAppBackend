@@ -70,7 +70,11 @@ public class VilleServiceImpl implements VilleService {
 	@Override
 	public List<VilleDto> findAll() {
 		// TODO Auto-generated method stub
-		List<Ville> villes = villeRepository.findAll();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Utilisateur utilisateur = utilisateurRepository.findByEmail(auth.getName()).orElseThrow(null);
+		
+		Pays pays = paysRepository.getPays(utilisateur.getBoutique().getPays());
+		List<Ville> villes = villeRepository.listeVilleByPays(pays.getUuid());
 		List<VilleDto> villeDtos = new ArrayList<VilleDto>();
 		villes.forEach(ville -> villeDtos.add(Mapper.toVilleDto(ville)));
 		return villeDtos;

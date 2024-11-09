@@ -3,6 +3,9 @@ package org.sid.saranApp.dto;
 public class PaysDto {
 	
 	private String libelle;
+	private String monnaie;
+	private String capitale;
+	private int nombreVille;
 	private String uuid;
 	private String uuidBouique;
 	private String uuidUtilisateur;
@@ -30,6 +33,26 @@ public class PaysDto {
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
 	}
+	public String getMonnaie() {
+		return monnaie;
+	}
+	public void setMonnaie(String monnaie) {
+		this.monnaie = monnaie;
+	}
+	public String getCapitale() {
+		return capitale;
+	}
+	public void setCapitale(String capitale) {
+		this.capitale = capitale;
+	}
+	public int getNombreVille() {
+		return nombreVille;
+	}
+	public void setNombreVille(int nombreVille) {
+		this.nombreVille = nombreVille;
+	}
+	
+	
 	
 	
 
