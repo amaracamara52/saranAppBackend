@@ -1,8 +1,7 @@
 package org.sid.saranApp.model;
 
-import java.util.Objects;
-
 import javax.persistence.Entity;
+import java.util.Objects;
 
 
 

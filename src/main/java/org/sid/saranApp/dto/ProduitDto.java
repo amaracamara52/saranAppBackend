@@ -1,13 +1,16 @@
 package org.sid.saranApp.dto;
 
-import java.time.LocalDate;
-import java.util.Date;
+import org.sid.saranApp.enume.StatusCommandeFournisseurEnum;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
-import org.sid.saranApp.enume.StatusCommandeFournisseurEnum;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.sid.saranApp.dto.version.TypeUniteDeVenteDto;
 
 public class ProduitDto extends ResponseDto {
 
@@ -16,23 +19,31 @@ public class ProduitDto extends ResponseDto {
 	private double prixVente;
 	private int quantite;
 	private int quantiteImage;
+	private int quantiteCommande;
+	private int quantiteLivraison;
+	private int quantitePublish;
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyy-MM-dd")
-	private LocalDate datePeremption;
+	private Date datePeremption;
 	private String article;
+	private String uuidArticle;
 	private String categorie;
 	private String emplacement;
 	private String uuidEmplacement;
-	private LocalDate dateCommande;
+	private Date dateCommande;
 	private String fournisseur;
-	private StatusCommandeFournisseurEnum statusCommandeFournisseurEnum;
-	private String uuidLivraisonCommandeFournisseur;
+	private String uuidFournisseur;
 	private String uuidBoutique;
 	private String uuidUtilisateur;
 	private String unite;
 	private boolean isFinish;
 	private int quantiteVendu;
 	private String etagere;
+	
+	private List<CaracteristiqueProduitDto> caracteristiqueArticleDtos = new ArrayList<CaracteristiqueProduitDto>();
+	private List<ProduitStoredDto> produitStoredDtos = new ArrayList<>();
+	/** Unités de vente + stock / prix (point de vente). */
+	private List<TypeUniteDeVenteDto> typeUniteDeVenteDtos = new ArrayList<>();
 
 	public String getArticle() {
 		return article;
@@ -42,18 +53,20 @@ public class ProduitDto extends ResponseDto {
 		return categorie;
 	}
 
-	
+	public Date getDatePeremption() {
+		return datePeremption;
+	}
 
-	public LocalDate getDateCommande() {
+	public void setDatePeremption(Date datePeremption) {
+		this.datePeremption = datePeremption;
+	}
+
+	public Date getDateCommande() {
 		return dateCommande;
 	}
 
-	public void setDateCommande(LocalDate dateCommande) {
+	public void setDateCommande(Date dateCommande) {
 		this.dateCommande = dateCommande;
-	}
-
-	public LocalDate getDatePeremption() {
-		return datePeremption;
 	}
 
 	public String getEmplacement() {
@@ -88,9 +101,7 @@ public class ProduitDto extends ResponseDto {
 		return quantiteVendu;
 	}
 
-	public StatusCommandeFournisseurEnum getStatusCommandeFournisseurEnum() {
-		return statusCommandeFournisseurEnum;
-	}
+
 
 	public String getUnite() {
 		return unite;
@@ -108,9 +119,6 @@ public class ProduitDto extends ResponseDto {
 		return uuidEmplacement;
 	}
 
-	public String getUuidLivraisonCommandeFournisseur() {
-		return uuidLivraisonCommandeFournisseur;
-	}
 
 	public String getUuidUtilisateur() {
 		return uuidUtilisateur;
@@ -130,9 +138,7 @@ public class ProduitDto extends ResponseDto {
 
 	
 
-	public void setDatePeremption(LocalDate datePeremption) {
-		this.datePeremption = datePeremption;
-	}
+
 
 	public void setEmplacement(String emplacement) {
 		this.emplacement = emplacement;
@@ -170,9 +176,7 @@ public class ProduitDto extends ResponseDto {
 		this.quantiteVendu = quantiteVendu;
 	}
 
-	public void setStatusCommandeFournisseurEnum(StatusCommandeFournisseurEnum statusCommandeFournisseurEnum) {
-		this.statusCommandeFournisseurEnum = statusCommandeFournisseurEnum;
-	}
+
 
 	public void setUnite(String unite) {
 		this.unite = unite;
@@ -190,12 +194,73 @@ public class ProduitDto extends ResponseDto {
 		this.uuidEmplacement = uuidEmplacement;
 	}
 
-	public void setUuidLivraisonCommandeFournisseur(String uuidLivraisonCommandeFournisseur) {
-		this.uuidLivraisonCommandeFournisseur = uuidLivraisonCommandeFournisseur;
-	}
+
 
 	public void setUuidUtilisateur(String uuidUtilisateur) {
 		this.uuidUtilisateur = uuidUtilisateur;
 	}
 
+	public List<CaracteristiqueProduitDto> getCaracteristiqueArticleDtos() {
+		return caracteristiqueArticleDtos;
+	}
+
+	public void setCaracteristiqueArticleDtos(List<CaracteristiqueProduitDto> caracteristiqueArticleDtos) {
+		this.caracteristiqueArticleDtos = caracteristiqueArticleDtos;
+	}
+
+	public int getQuantiteCommande() {
+		return quantiteCommande;
+	}
+
+	public void setQuantiteCommande(int quantiteCommande) {
+		this.quantiteCommande = quantiteCommande;
+	}
+
+	public int getQuantiteLivraison() {
+		return quantiteLivraison;
+	}
+
+	public void setQuantiteLivraison(int quantiteLivraison) {
+		this.quantiteLivraison = quantiteLivraison;
+	}
+
+	public int getQuantitePublish() {
+		return quantitePublish;
+	}
+
+	public void setQuantitePublish(int quantitePublish) {
+		this.quantitePublish = quantitePublish;
+	}
+
+	public String getUuidFournisseur() {
+		return uuidFournisseur;
+	}
+
+	public void setUuidFournisseur(String uuidFournisseur) {
+		this.uuidFournisseur = uuidFournisseur;
+	}
+
+	public String getUuidArticle() {
+		return uuidArticle;
+	}
+
+	public void setUuidArticle(String uuidArticle) {
+		this.uuidArticle = uuidArticle;
+	}
+
+	public List<ProduitStoredDto> getProduitStoredDtos() {
+		return produitStoredDtos;
+	}
+
+	public void setProduitStoredDtos(List<ProduitStoredDto> produitStoredDtos) {
+		this.produitStoredDtos = produitStoredDtos;
+	}
+
+	public List<TypeUniteDeVenteDto> getTypeUniteDeVenteDtos() {
+		return typeUniteDeVenteDtos;
+	}
+
+	public void setTypeUniteDeVenteDtos(List<TypeUniteDeVenteDto> typeUniteDeVenteDtos) {
+		this.typeUniteDeVenteDtos = typeUniteDeVenteDtos != null ? typeUniteDeVenteDtos : new ArrayList<>();
+	}
 }

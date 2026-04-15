@@ -13,7 +13,8 @@ public class LigneCommande extends AbstractDomainClass {
 	private Produit produit;
 	@ManyToOne
 	private Boutique boutique;
-	private String uniteSortie;
+	@ManyToOne
+	private TypeUniteDeVente typeUniteDeVente;
 	@ManyToOne
 	private Utilisateur utilisateur;
 
@@ -33,9 +34,7 @@ public class LigneCommande extends AbstractDomainClass {
 		return quantite;
 	}
 
-	public String getUniteSortie() {
-		return uniteSortie;
-	}
+	
 
 	public Utilisateur getUtilisateur() {
 		return utilisateur;
@@ -57,12 +56,19 @@ public class LigneCommande extends AbstractDomainClass {
 		this.quantite = quantite;
 	}
 
-	public void setUniteSortie(String uniteSortie) {
-		this.uniteSortie = uniteSortie;
-	}
+	
 
 	public void setUtilisateur(Utilisateur utilisateur) {
 		this.utilisateur = utilisateur;
 	}
 
+	public TypeUniteDeVente getTypeUniteDeVente() {
+		return typeUniteDeVente;
+	}
+
+	public void setTypeUniteDeVente(TypeUniteDeVente typeUniteDeVente) {
+		this.typeUniteDeVente = typeUniteDeVente;
+	}
+
+	
 }

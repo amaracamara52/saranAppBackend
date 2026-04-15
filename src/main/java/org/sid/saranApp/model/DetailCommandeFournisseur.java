@@ -10,7 +10,17 @@ public class DetailCommandeFournisseur extends AbstractDomainClass {
 	private Article article;
 	private int quantite;
 	private double prixAchat;
+	
+	/**
+	 * Unité de vente (String) pour compatibilité avec l'ancien système
+	 */
 	private String unite;
+	
+	/**
+	 * Unité de vente utilisée pour cette commande (optionnel, pour meilleure intégration)
+	 */
+	@ManyToOne
+	private TypeUniteDeVente typeUniteDeVente;
 
 	@ManyToOne
 	private CommandeFournisseur commandeFournisseur;
@@ -39,9 +49,7 @@ public class DetailCommandeFournisseur extends AbstractDomainClass {
 		return quantite;
 	}
 
-	public String getUnite() {
-		return unite;
-	}
+
 
 	public Utilisateur getUtilisateur() {
 		return utilisateur;
@@ -67,12 +75,25 @@ public class DetailCommandeFournisseur extends AbstractDomainClass {
 		this.quantite = quantite;
 	}
 
-	public void setUnite(String unite) {
-		this.unite = unite;
-	}
 
 	public void setUtilisateur(Utilisateur utilisateur) {
 		this.utilisateur = utilisateur;
+	}
+
+	public TypeUniteDeVente getTypeUniteDeVente() {
+		return typeUniteDeVente;
+	}
+
+	public void setTypeUniteDeVente(TypeUniteDeVente typeUniteDeVente) {
+		this.typeUniteDeVente = typeUniteDeVente;
+	}
+
+	public String getUnite() {
+		return unite;
+	}
+
+	public void setUnite(String unite) {
+		this.unite = unite;
 	}
 
 }

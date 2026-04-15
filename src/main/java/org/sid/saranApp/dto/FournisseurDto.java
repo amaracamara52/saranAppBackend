@@ -6,11 +6,14 @@ public class FournisseurDto {
 	private String prenom;
 	private String telephone;
 	private String email;
-	private String uuidVille;
-	private String ville;
+	//private String uuidVille;
+	//private String ville;
 	private String uuidBoutique;
 	private String uuidUtilisateur;
 	private String nomComplet;
+	private String uuidPaysProvenance;
+	private String libellePaysProvenance;
+	private String countryCodePaysProvenance;
 
 	public String getEmail() {
 		return email;
@@ -44,13 +47,13 @@ public class FournisseurDto {
 		return uuidUtilisateur;
 	}
 
-	public String getUuidVille() {
-		return uuidVille;
-	}
-
-	public String getVille() {
-		return ville;
-	}
+//	public String getUuidVille() {
+//		return uuidVille;
+//	}
+//
+//	public String getVille() {
+//		return ville;
+//	}
 
 	public void setEmail(String email) {
 		this.email = email;
@@ -84,12 +87,36 @@ public class FournisseurDto {
 		this.uuidUtilisateur = uuidUtilisateur;
 	}
 
-	public void setUuidVille(String uuidVille) {
-		this.uuidVille = uuidVille;
+//	public void setUuidVille(String uuidVille) {
+//		this.uuidVille = uuidVille;
+//	}
+//
+//	public void setVille(String ville) {
+//		this.ville = ville;
+//	}
+
+	public String getUuidPaysProvenance() {
+		return uuidPaysProvenance;
 	}
 
-	public void setVille(String ville) {
-		this.ville = ville;
+	public void setUuidPaysProvenance(String uuidPaysProvenance) {
+		this.uuidPaysProvenance = uuidPaysProvenance;
+	}
+
+	public String getLibellePaysProvenance() {
+		return libellePaysProvenance;
+	}
+
+	public void setLibellePaysProvenance(String libellePaysProvenance) {
+		this.libellePaysProvenance = libellePaysProvenance;
+	}
+
+	public String getCountryCodePaysProvenance() {
+		return countryCodePaysProvenance;
+	}
+
+	public void setCountryCodePaysProvenance(String countryCodePaysProvenance) {
+		this.countryCodePaysProvenance = countryCodePaysProvenance;
 	}
 
 }

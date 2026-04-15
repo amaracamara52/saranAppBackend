@@ -1,16 +1,16 @@
 package org.sid.saranApp.service;
 
-import java.util.List;
-
 import org.sid.saranApp.dto.PageDataDto;
-import org.sid.saranApp.dto.PaysDto;
 import org.sid.saranApp.dto.ProduitDto;
+import org.sid.saranApp.dto.version.ProduitStockDto;
+
+import java.util.List;
 
 public interface ProduitService {
 
 	public ProduitDto add(ProduitDto produitDto);
 
-	public List<ProduitDto> findAll();
+	public List<ProduitStockDto> findAll();
 	
 	public List<ProduitDto> listeProduitAVendre();
 
@@ -36,6 +36,12 @@ public interface ProduitService {
 	PageDataDto<ProduitDto> listeStockPerimeDans3mois(int page,int size,String key);
 	PageDataDto<ProduitDto> listeProduits(int page,int size,String key);
 	void delete(String uuid);
+	
+	/**
+	 * Vérifie et déclenche l'approvisionnement automatique après une vente
+	 * @param uuidProduit l'UUID du produit vendu
+	 */
+	void verifierApprovisionnementApresVente(String uuidProduit);
 	
 	
 }

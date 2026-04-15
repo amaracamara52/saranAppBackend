@@ -1,25 +1,19 @@
 package org.sid.saranApp.model;
 
+import org.sid.saranApp.enume.EnumRole;
+
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.persistence.CollectionTable;
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-
-import org.sid.saranApp.enume.EnumRole;
 
 @Entity
 public class Utilisateur extends AbstractDomainClass {
 
+	@Column(unique = true)
 	private String username;
+	@Column(unique = true)
 	private String phone;
+	@Column(unique = true)
 	private String email;
 	private String adresse;
 
@@ -34,7 +28,7 @@ public class Utilisateur extends AbstractDomainClass {
 	@OneToMany(mappedBy = "utilisateur")
 	private List<LivraisonCommandeFournisseur> listeLivraisonCommandeFournisseur;
 	@OneToMany(mappedBy = "utilisateur")
-	private List<PaiementCommandeFournisseur> listePaiementCommandeFournisseur;
+	private List<PaiementCommandeVente> listePaiementCommandeFournisseur;
 	@OneToMany(mappedBy = "utilisateur")
 	private List<Article> listeArticle;
 	@OneToMany(mappedBy = "utilisateur")
@@ -52,8 +46,7 @@ public class Utilisateur extends AbstractDomainClass {
 	private List<LigneCommande> listeLigneCommande;
 	@OneToMany(mappedBy = "utilisateur")
 	private List<ModePaiement> listeModePaiement;
-	@OneToMany(mappedBy = "utilisateur")
-	private List<Pays> listePays;
+
 	@OneToMany(mappedBy = "utilisateur")
 	private List<Produit> listeProduit;
 	@OneToMany(mappedBy = "utilisateur")
@@ -79,6 +72,8 @@ public class Utilisateur extends AbstractDomainClass {
 
 	@ManyToOne
 	private Boutique boutique;
+	@OneToOne(mappedBy = "utilisateur")
+	private CustomerBoutique customerBoutique;
 
 	public String getAdresse() {
 		return adresse;
@@ -144,13 +139,10 @@ public class Utilisateur extends AbstractDomainClass {
 		return listeModePaiement;
 	}
 
-	public List<PaiementCommandeFournisseur> getListePaiementCommandeFournisseur() {
+	public List<PaiementCommandeVente> getListePaiementCommandeFournisseur() {
 		return listePaiementCommandeFournisseur;
 	}
 
-	public List<Pays> getListePays() {
-		return listePays;
-	}
 
 	public List<Produit> getListeProduit() {
 		return listeProduit;
@@ -266,13 +258,10 @@ public class Utilisateur extends AbstractDomainClass {
 	}
 
 	public void setListePaiementCommandeFournisseur(
-			List<PaiementCommandeFournisseur> listePaiementCommandeFournisseur) {
+			List<PaiementCommandeVente> listePaiementCommandeFournisseur) {
 		this.listePaiementCommandeFournisseur = listePaiementCommandeFournisseur;
 	}
 
-	public void setListePays(List<Pays> listePays) {
-		this.listePays = listePays;
-	}
 
 	public void setListeProduit(List<Produit> listeProduit) {
 		this.listeProduit = listeProduit;
@@ -314,4 +303,11 @@ public class Utilisateur extends AbstractDomainClass {
 		this.username = username;
 	}
 
+	public CustomerBoutique getCustomer() {
+		return customerBoutique;
+	}
+
+	public void setCustomer(CustomerBoutique customerBoutique) {
+		this.customerBoutique = customerBoutique;
+	}
 }

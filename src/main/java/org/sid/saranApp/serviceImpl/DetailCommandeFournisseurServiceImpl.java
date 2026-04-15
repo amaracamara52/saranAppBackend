@@ -1,21 +1,10 @@
 package org.sid.saranApp.serviceImpl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.sid.saranApp.dto.DetailCommandeFournisseurDto;
 import org.sid.saranApp.dto.PageDataDto;
 import org.sid.saranApp.mapper.Mapper;
-import org.sid.saranApp.model.Article;
-import org.sid.saranApp.model.Boutique;
-import org.sid.saranApp.model.CommandeFournisseur;
-import org.sid.saranApp.model.DetailCommandeFournisseur;
-import org.sid.saranApp.model.Utilisateur;
-import org.sid.saranApp.repository.ArticleRepository;
-import org.sid.saranApp.repository.BoutiqueRepository;
-import org.sid.saranApp.repository.CommandeFournisseurRepository;
-import org.sid.saranApp.repository.DetailCommandeFournisseurRepository;
-import org.sid.saranApp.repository.UtilisateurRepository;
+import org.sid.saranApp.model.*;
+import org.sid.saranApp.repository.*;
 import org.sid.saranApp.service.DetailCommandeFournisseurService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class DetailCommandeFournisseurServiceImpl implements DetailCommandeFournisseurService {

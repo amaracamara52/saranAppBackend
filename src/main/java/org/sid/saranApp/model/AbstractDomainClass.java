@@ -1,19 +1,12 @@
 package org.sid.saranApp.model;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
-
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @MappedSuperclass
 public class AbstractDomainClass {
@@ -44,6 +37,7 @@ public class AbstractDomainClass {
 	public void updateTimeStamps() {
 
 		lastUpdated = new Date();
+
 	}
 
 	public Date getDateCreated() {

@@ -9,6 +9,7 @@ public class CaracteristiqueProduitDto extends ResponseDto{
 	private String uuidProduit;
 	private String uuidUtilisateur;
 	private String uuidBoutique;
+	private String libelle;
 	public String getValue() {
 		return value;
 	}
@@ -40,6 +41,14 @@ public class CaracteristiqueProduitDto extends ResponseDto{
 	public void setUuidBoutique(String uuidBoutique) {
 		this.uuidBoutique = uuidBoutique;
 	}
+	public String getLibelle() {
+		return libelle;
+	}
+	public void setLibelle(String libelle) {
+		this.libelle = libelle;
+	}
+	
+	
 	
 	
 	

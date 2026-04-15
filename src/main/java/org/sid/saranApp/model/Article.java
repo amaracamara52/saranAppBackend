@@ -1,15 +1,21 @@
 package org.sid.saranApp.model;
 
-import java.util.List;
+import org.sid.saranApp.enume.TypeGestionUniteProduitEnum;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-
+import java.util.ArrayList;
+import java.util.List;
 @Entity
 public class Article extends AbstractDomainClass {
 
 	private String libelle;
+	/** Référence / code article unique par boutique (recherche rapide). */
+	private String codeProduit;
 	private String description;
 	private int quantiteDansCarton;
 	@ManyToOne
@@ -18,9 +24,27 @@ public class Article extends AbstractDomainClass {
 	private Boutique boutique;
 	@ManyToOne
 	private Utilisateur utilisateur;
-
+	
+	/**
+	 * Liste des unités de vente définies pour cet article
+	 */
 	@OneToMany(mappedBy = "article")
-	private List<CaracteristiqueArticle> listeCaracteristiqueArticle;
+	private List<TypeUniteDeVente> typeUniteDeVentes = new ArrayList<>();
+
+	/**
+	 * NORMAL = une unité simple (×1) ; MIXTE = plusieurs unités avec conversion, stock interne toujours en base.
+	 */
+	@Enumerated(EnumType.STRING)
+	@Column(name = "type_gestion_unite")
+	private TypeGestionUniteProduitEnum typeGestionUnite;
+
+	public TypeGestionUniteProduitEnum getTypeGestionUnite() {
+		return typeGestionUnite;
+	}
+
+	public void setTypeGestionUnite(TypeGestionUniteProduitEnum typeGestionUnite) {
+		this.typeGestionUnite = typeGestionUnite;
+	}
 
 	public Boutique getBoutique() {
 		return boutique;
@@ -28,6 +52,14 @@ public class Article extends AbstractDomainClass {
 
 	public Categorie getCategorie() {
 		return categorie;
+	}
+
+	public String getCodeProduit() {
+		return codeProduit;
+	}
+
+	public void setCodeProduit(String codeProduit) {
+		this.codeProduit = codeProduit;
 	}
 
 	public String getDescription() {
@@ -38,10 +70,7 @@ public class Article extends AbstractDomainClass {
 		return libelle;
 	}
 
-	public List<CaracteristiqueArticle> getListeCaracteristiqueArticle() {
-		return listeCaracteristiqueArticle;
-	}
-
+	
 	public int getQuantiteDansCarton() {
 		return quantiteDansCarton;
 	}
@@ -66,9 +95,7 @@ public class Article extends AbstractDomainClass {
 		this.libelle = libelle;
 	}
 
-	public void setListeCaracteristiqueArticle(List<CaracteristiqueArticle> listeCaracteristiqueArticle) {
-		this.listeCaracteristiqueArticle = listeCaracteristiqueArticle;
-	}
+	
 
 	public void setQuantiteDansCarton(int quantiteDansCarton) {
 		this.quantiteDansCarton = quantiteDansCarton;
@@ -76,6 +103,14 @@ public class Article extends AbstractDomainClass {
 
 	public void setUtilisateur(Utilisateur utilisateur) {
 		this.utilisateur = utilisateur;
+	}
+
+	public List<TypeUniteDeVente> getTypeUniteDeVentes() {
+		return typeUniteDeVentes;
+	}
+
+	public void setTypeUniteDeVentes(List<TypeUniteDeVente> typeUniteDeVentes) {
+		this.typeUniteDeVentes = typeUniteDeVentes;
 	}
 
 }

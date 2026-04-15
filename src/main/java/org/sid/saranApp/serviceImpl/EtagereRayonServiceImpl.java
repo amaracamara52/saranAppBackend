@@ -3,31 +3,17 @@
  */
 package org.sid.saranApp.serviceImpl;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import org.apache.poi.EncryptedDocumentException;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.DateUtil;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
-import org.sid.saranApp.dto.ArticleDto;
+import org.apache.poi.ss.usermodel.*;
 import org.sid.saranApp.dto.EtagereDto;
 import org.sid.saranApp.dto.EtagereRayonDto;
 import org.sid.saranApp.dto.PageDataDto;
 import org.sid.saranApp.dto.RayonDto;
 import org.sid.saranApp.mapper.Mapper;
-import org.sid.saranApp.model.Article;
 import org.sid.saranApp.model.Etagere;
 import org.sid.saranApp.model.EtagereRayon;
 import org.sid.saranApp.model.Rayon;
 import org.sid.saranApp.model.Utilisateur;
-import org.sid.saranApp.repository.ArticleRepository;
 import org.sid.saranApp.repository.EtagereRayonRepository;
 import org.sid.saranApp.repository.EtagereRepository;
 import org.sid.saranApp.repository.RayonRepository;
@@ -43,6 +29,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  *

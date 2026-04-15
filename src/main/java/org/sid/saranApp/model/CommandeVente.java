@@ -1,25 +1,19 @@
 package org.sid.saranApp.model;
 
+import org.sid.saranApp.enume.EnumTypeCommande;
+import org.sid.saranApp.enume.StatusCommandeVenteEnum;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
-import org.sid.saranApp.enume.StatusCommandeVenteEnum;
-import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 public class CommandeVente extends AbstractDomainClass {
 
 	private double montantCommade;
+	private double montantCommadeImage;
 	private String numeroCommande;
 	private boolean isPaye;
 	@Temporal(TemporalType.DATE)
@@ -31,10 +25,37 @@ public class CommandeVente extends AbstractDomainClass {
 	private Boutique boutique;
 	@ManyToOne
 	private Utilisateur utilisateur;
-	@OneToMany(mappedBy = "commandeVente", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "commandeVente", fetch = FetchType.LAZY)
 	private List<LigneCommande> listeLigneCommande = new ArrayList<LigneCommande>();
 	@Enumerated(EnumType.STRING)
 	private StatusCommandeVenteEnum commandeVenteEnum;
+	@Enumerated(EnumType.STRING)
+	private EnumTypeCommande typeCommande;
+	@OneToOne(mappedBy = "commandeVente")
+	private LivraisonCommandeVente livraisonCommandeVente;
+	@ManyToOne
+	private ModePaiement modePaiement;
+	
+	/**
+	 * Indique si la commande est validée (pour les commandes en gros)
+	 * Seuls les grossistes peuvent valider les commandes en gros
+	 */
+	@Transient
+	private boolean validee;
+	
+	/**
+	 * Date de validation de la commande
+	 */
+	@Transient
+	private Date dateValidation;
+	
+	/**
+	 * Utilisateur grossiste qui a validé la commande (si typeCommande = EN_GROS)
+	 */
+	@Transient
+	private Utilisateur utilisateurValidateur;
+
+
 
 	public Boutique getBoutique() {
 		return boutique;
@@ -112,7 +133,60 @@ public class CommandeVente extends AbstractDomainClass {
 	public void setMontantCommade(double montantCommade) {
 		this.montantCommade = montantCommade;
 	}
-	
-	
 
+	public EnumTypeCommande getTypeCommande() {
+		return typeCommande;
+	}
+
+	public void setTypeCommande(EnumTypeCommande typeCommande) {
+		this.typeCommande = typeCommande;
+	}
+
+	public LivraisonCommandeVente getLivraisonCommandeVente() {
+		return livraisonCommandeVente;
+	}
+
+	public void setLivraisonCommandeVente(LivraisonCommandeVente livraisonCommandeVente) {
+		this.livraisonCommandeVente = livraisonCommandeVente;
+	}
+
+	public ModePaiement getModePaiement() {
+		return modePaiement;
+	}
+
+	public void setModePaiement(ModePaiement modePaiement) {
+		this.modePaiement = modePaiement;
+	}
+
+	public double getMontantCommadeImage() {
+		return montantCommadeImage;
+	}
+
+	public void setMontantCommadeImage(double montantCommadeImage) {
+		this.montantCommadeImage = montantCommadeImage;
+	}
+
+	public boolean isValidee() {
+		return validee;
+	}
+
+	public void setValidee(boolean validee) {
+		this.validee = validee;
+	}
+
+	public Date getDateValidation() {
+		return dateValidation;
+	}
+
+	public void setDateValidation(Date dateValidation) {
+		this.dateValidation = dateValidation;
+	}
+
+	public Utilisateur getUtilisateurValidateur() {
+		return utilisateurValidateur;
+	}
+
+	public void setUtilisateurValidateur(Utilisateur utilisateurValidateur) {
+		this.utilisateurValidateur = utilisateurValidateur;
+	}
 }

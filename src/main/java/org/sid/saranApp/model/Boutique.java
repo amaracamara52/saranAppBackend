@@ -1,75 +1,89 @@
 package org.sid.saranApp.model;
 
+import org.sid.saranApp.enume.EnumTypeInstanceBoutique;
+import org.sid.saranApp.enume.EnumTypeShop;
+import org.sid.saranApp.enume.MonnaieEnum;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-
-import org.sid.saranApp.enume.EnumTypeBoutique;
 
 @Entity
 public class Boutique extends AbstractDomainClass {
 
+	@Column(unique = true)
+	private String code;
 	private String libelleBoutique;
 	private String descriptionBoutique;
 	private String emailBoutique;
 	private String phoneBoutique;
 	private String siteBoutique;
-
 	private String adresse;
-
-	@OneToMany(mappedBy = "boutique")
-	private List<BoutiquePaiement> listeBoutiquePaiement;
-	@OneToMany(mappedBy = "boutique")
-	private List<CommandeFournisseur> listeCommandeFournisseur;
-	@OneToMany(mappedBy = "boutique")
-	private List<DetailCommandeFournisseur> listeDetailCommandeFournisseur;
-	@OneToMany(mappedBy = "boutique")
-	private List<Fournisseur> listeFournisseur;
-	@OneToMany(mappedBy = "boutique")
-	private List<LivraisonCommandeFournisseur> listeLivraisonCommandeFournisseur;
-	@OneToMany(mappedBy = "boutique")
-	private List<PaiementCommandeFournisseur> listePaiementCommandeFournisseur;
-	@OneToMany(mappedBy = "boutique")
-	private List<Article> listeArticle;
-	@OneToMany(mappedBy = "boutique")
-	private List<CaracteristiqueProduit> listeCaracteristiqueProduit;
-	@OneToMany(mappedBy = "boutique")
-	private List<Categorie> listeCategorie;
-	@OneToMany(mappedBy = "boutique")
-	private List<Client> listeClient;
-	@OneToMany(mappedBy = "boutique")
-	private List<CommandeVente> listeCommandeVente;
-//	@OneToMany(mappedBy = "boutique")
-//	private List<Commune> listeCommune;
-
-	@OneToMany(mappedBy = "boutique")
-	private List<LigneCommande> listeLigneCommande;
-	@OneToMany(mappedBy = "boutique")
-	private List<ModePaiement> listeModePaiement;
-//	@OneToMany(mappedBy = "boutique")
-//	private List<Pays> listePays;
-	@OneToMany(mappedBy = "boutique")
-	private List<Produit> listeProduit;
-	@OneToMany(mappedBy = "boutique")
-	private List<Quartier> listeQuartier;
-//	@OneToMany(mappedBy = "boutique")
-//	private List<Ville> listeVille;
-	@OneToMany(mappedBy = "boutique")
-	private List<Parametre> listeParametre;
-
 	@Enumerated(EnumType.STRING)
-	@Column(name = "TYPEBOUTIQUE")
-	private EnumTypeBoutique typeBoutique;
+	private EnumTypeInstanceBoutique enumTypeInstanceBoutique;
+	@Enumerated(EnumType.STRING)
+	private EnumTypeShop enumTypeShop;
 	
+	@ManyToOne
+	private TypeShop typeShop;
+
+	@OneToMany(mappedBy = "boutique")
+	private List<BoutiquePaiement> boutiquePaiements = new ArrayList<>();
+	@OneToMany(mappedBy = "boutique")
+	private List<Fournisseur> fournisseurs = new ArrayList<>();
+	@OneToMany(mappedBy = "boutique")
+	private List<Article> articles = new ArrayList<>();
+	@OneToMany(mappedBy = "boutique")
+	private List<Categorie> categories = new ArrayList<>();
+	@OneToMany(mappedBy = "boutique")
+	private List<CommandeVente> commandeVentes = new ArrayList<>();
+	@OneToMany(mappedBy = "boutique")
+	private List<LigneCommande> ligneCommandes = new ArrayList<>();
+	@OneToMany(mappedBy = "boutique")
+	private List<ModePaiement> modePaiements = new ArrayList<>();
+	@OneToMany(mappedBy = "boutique")
+	private List<Produit> produits = new ArrayList<>();
+	@OneToMany(mappedBy = "boutique")
+	private List<Parametre> parametres = new ArrayList<>();
+	@OneToMany(mappedBy = "boutique")
+	private List<DomainBoutique> domainBoutiques = new ArrayList<>();
+	@OneToMany(mappedBy = "boutique")
+	private List<Reduction> reductions = new ArrayList<>();
+	@OneToMany(mappedBy = "boutique")
+	private List<Utilisateur> utilisateurs = new ArrayList<>();
+	@OneToMany(mappedBy = "boutique")
+	private List<ClientPartenaire> clientsPartenaires = new ArrayList<>();
 	@OneToOne
 	private StoredFile storedFile;
+//	@Column(unique = true)
+	private String countryCode;
+	@OneToOne
+	private Boutique boutiquePrincipale;
+
+	@Enumerated(EnumType.STRING)
+	private MonnaieEnum monnaie;
+
+	private boolean isDatePeremption;
+	private String heureOuverture;
+	private String heureFermeture;
+	private int seuilStock;
 	
-	private String pays;
+	// Nouveaux champs ajoutés
+	private String devise;
+	private String langue;
+	private int seuilAlerteStock;
+	private String methodeValorisation;
+	private boolean approvisionnementAutomatique;
+	private int quantiteACommander;
+	private boolean impressionTicket;
+	private boolean impressionFacture;
+	private boolean devis;
+	private boolean dette;
+//	private int qtiteVenteSuperieurAndCash;
+//	private int qtiteVenteSuperieurAndPayUnePartie;
+//	private int qtiteVenteSuperieurDette;
+
 
 	public String getLibelleBoutique() {
 		return libelleBoutique;
@@ -119,140 +133,100 @@ public class Boutique extends AbstractDomainClass {
 		this.adresse = adresse;
 	}
 
-	public List<BoutiquePaiement> getListeBoutiquePaiement() {
-		return listeBoutiquePaiement;
+	public List<BoutiquePaiement> getBoutiquePaiements() {
+		return boutiquePaiements;
 	}
 
-	public void setListeBoutiquePaiement(List<BoutiquePaiement> listeBoutiquePaiement) {
-		this.listeBoutiquePaiement = listeBoutiquePaiement;
+	public void setBoutiquePaiements(List<BoutiquePaiement> boutiquePaiements) {
+		this.boutiquePaiements = boutiquePaiements;
 	}
 
-	public List<CommandeFournisseur> getListeCommandeFournisseur() {
-		return listeCommandeFournisseur;
+	public List<Fournisseur> getFournisseurs() {
+		return fournisseurs;
 	}
 
-	public void setListeCommandeFournisseur(List<CommandeFournisseur> listeCommandeFournisseur) {
-		this.listeCommandeFournisseur = listeCommandeFournisseur;
+	public void setFournisseurs(List<Fournisseur> fournisseurs) {
+		this.fournisseurs = fournisseurs;
 	}
 
-	public List<DetailCommandeFournisseur> getListeDetailCommandeFournisseur() {
-		return listeDetailCommandeFournisseur;
+	public List<Article> getArticles() {
+		return articles;
 	}
 
-	public void setListeDetailCommandeFournisseur(List<DetailCommandeFournisseur> listeDetailCommandeFournisseur) {
-		this.listeDetailCommandeFournisseur = listeDetailCommandeFournisseur;
+	public void setArticles(List<Article> articles) {
+		this.articles = articles;
 	}
 
-	public List<Fournisseur> getListeFournisseur() {
-		return listeFournisseur;
+	public List<Categorie> getCategories() {
+		return categories;
 	}
 
-	public void setListeFournisseur(List<Fournisseur> listeFournisseur) {
-		this.listeFournisseur = listeFournisseur;
+	public void setCategories(List<Categorie> categories) {
+		this.categories = categories;
 	}
 
-	public List<LivraisonCommandeFournisseur> getListeLivraisonCommandeFournisseur() {
-		return listeLivraisonCommandeFournisseur;
+	public List<CommandeVente> getCommandeVentes() {
+		return commandeVentes;
 	}
 
-	public void setListeLivraisonCommandeFournisseur(List<LivraisonCommandeFournisseur> listeLivraisonCommandeFournisseur) {
-		this.listeLivraisonCommandeFournisseur = listeLivraisonCommandeFournisseur;
+	public void setCommandeVentes(List<CommandeVente> commandeVentes) {
+		this.commandeVentes = commandeVentes;
 	}
 
-	public List<PaiementCommandeFournisseur> getListePaiementCommandeFournisseur() {
-		return listePaiementCommandeFournisseur;
+	public List<LigneCommande> getLigneCommandes() {
+		return ligneCommandes;
 	}
 
-	public void setListePaiementCommandeFournisseur(List<PaiementCommandeFournisseur> listePaiementCommandeFournisseur) {
-		this.listePaiementCommandeFournisseur = listePaiementCommandeFournisseur;
+	public void setLigneCommandes(List<LigneCommande> ligneCommandes) {
+		this.ligneCommandes = ligneCommandes;
 	}
 
-	public List<Article> getListeArticle() {
-		return listeArticle;
+	public List<ModePaiement> getModePaiements() {
+		return modePaiements;
 	}
 
-	public void setListeArticle(List<Article> listeArticle) {
-		this.listeArticle = listeArticle;
+	public void setModePaiements(List<ModePaiement> modePaiements) {
+		this.modePaiements = modePaiements;
 	}
 
-	public List<CaracteristiqueProduit> getListeCaracteristiqueProduit() {
-		return listeCaracteristiqueProduit;
+	public List<Produit> getProduits() {
+		return produits;
 	}
 
-	public void setListeCaracteristiqueProduit(List<CaracteristiqueProduit> listeCaracteristiqueProduit) {
-		this.listeCaracteristiqueProduit = listeCaracteristiqueProduit;
+	public void setProduits(List<Produit> produits) {
+		this.produits = produits;
 	}
 
-	public List<Categorie> getListeCategorie() {
-		return listeCategorie;
+	public List<Parametre> getParametres() {
+		return parametres;
 	}
 
-	public void setListeCategorie(List<Categorie> listeCategorie) {
-		this.listeCategorie = listeCategorie;
+	public void setParametres(List<Parametre> parametres) {
+		this.parametres = parametres;
 	}
 
-	public List<Client> getListeClient() {
-		return listeClient;
+	public List<DomainBoutique> getDomainBoutiques() {
+		return domainBoutiques;
 	}
 
-	public void setListeClient(List<Client> listeClient) {
-		this.listeClient = listeClient;
+	public void setDomainBoutiques(List<DomainBoutique> domainBoutiques) {
+		this.domainBoutiques = domainBoutiques;
 	}
 
-	public List<CommandeVente> getListeCommandeVente() {
-		return listeCommandeVente;
+	public List<Reduction> getReductions() {
+		return reductions;
 	}
 
-	public void setListeCommandeVente(List<CommandeVente> listeCommandeVente) {
-		this.listeCommandeVente = listeCommandeVente;
+	public void setReductions(List<Reduction> reductions) {
+		this.reductions = reductions;
 	}
 
-	public List<LigneCommande> getListeLigneCommande() {
-		return listeLigneCommande;
+	public List<Utilisateur> getUtilisateurs() {
+		return utilisateurs;
 	}
 
-	public void setListeLigneCommande(List<LigneCommande> listeLigneCommande) {
-		this.listeLigneCommande = listeLigneCommande;
-	}
-
-	public List<ModePaiement> getListeModePaiement() {
-		return listeModePaiement;
-	}
-
-	public void setListeModePaiement(List<ModePaiement> listeModePaiement) {
-		this.listeModePaiement = listeModePaiement;
-	}
-
-	public List<Produit> getListeProduit() {
-		return listeProduit;
-	}
-
-	public void setListeProduit(List<Produit> listeProduit) {
-		this.listeProduit = listeProduit;
-	}
-
-	public List<Quartier> getListeQuartier() {
-		return listeQuartier;
-	}
-
-	public void setListeQuartier(List<Quartier> listeQuartier) {
-		this.listeQuartier = listeQuartier;
-	}
-
-	public List<Parametre> getListeParametre() {
-		return listeParametre;
-	}
-
-	public void setListeParametre(List<Parametre> listeParametre) {
-		this.listeParametre = listeParametre;
-	}
-
-	public EnumTypeBoutique getTypeBoutique() {
-		return typeBoutique;
-	}
-
-	public void setTypeBoutique(EnumTypeBoutique typeBoutique) {
-		this.typeBoutique = typeBoutique;
+	public void setUtilisateurs(List<Utilisateur> utilisateurs) {
+		this.utilisateurs = utilisateurs;
 	}
 
 	public StoredFile getStoredFile() {
@@ -263,15 +237,180 @@ public class Boutique extends AbstractDomainClass {
 		this.storedFile = storedFile;
 	}
 
-	public String getPays() {
-		return pays;
+	public String getCountryCode() {
+		return countryCode;
 	}
 
-	public void setPays(String pays) {
-		this.pays = pays;
+	public void setCountryCode(String countryCode) {
+		this.countryCode = countryCode;
 	}
-	
-	
 
-	
+	public EnumTypeInstanceBoutique getEnumTypeInstanceBoutique() {
+		return enumTypeInstanceBoutique;
+	}
+
+	public void setEnumTypeInstanceBoutique(EnumTypeInstanceBoutique enumTypeInstanceBoutique) {
+		this.enumTypeInstanceBoutique = enumTypeInstanceBoutique;
+	}
+
+	public Boutique getBoutiquePrincipale() {
+		return boutiquePrincipale;
+	}
+
+	public void setBoutiquePrincipale(Boutique boutiquePrincipale) {
+		this.boutiquePrincipale = boutiquePrincipale;
+	}
+
+	public EnumTypeShop getEnumTypeShop() {
+		return enumTypeShop;
+	}
+
+	public void setEnumTypeShop(EnumTypeShop enumTypeShop) {
+		this.enumTypeShop = enumTypeShop;
+	}
+
+	public TypeShop getTypeShop() {
+		return typeShop;
+	}
+
+	public void setTypeShop(TypeShop typeShop) {
+		this.typeShop = typeShop;
+	}
+
+	public MonnaieEnum getMonnaie() {
+		return monnaie;
+	}
+
+	public void setMonnaie(MonnaieEnum monnaie) {
+		this.monnaie = monnaie;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public boolean isDatePeremption() {
+		return isDatePeremption;
+	}
+
+	public void setDatePeremption(boolean datePeremption) {
+		isDatePeremption = datePeremption;
+	}
+
+	public String getHeureOuverture() {
+		return heureOuverture;
+	}
+
+	public void setHeureOuverture(String heureOuverture) {
+		this.heureOuverture = heureOuverture;
+	}
+
+	public String getHeureFermeture() {
+		return heureFermeture;
+	}
+
+	public void setHeureFermeture(String heureFermeture) {
+		this.heureFermeture = heureFermeture;
+	}
+
+	public int getSeuilStock() {
+		return seuilStock;
+	}
+
+	public void setSeuilStock(int seuilStock) {
+		this.seuilStock = seuilStock;
+	}
+
+	// Getters et Setters pour les nouveaux champs
+	public String getDevise() {
+		return devise;
+	}
+
+	public void setDevise(String devise) {
+		this.devise = devise;
+	}
+
+	public String getLangue() {
+		return langue;
+	}
+
+	public void setLangue(String langue) {
+		this.langue = langue;
+	}
+
+	public int getSeuilAlerteStock() {
+		return seuilAlerteStock;
+	}
+
+	public void setSeuilAlerteStock(int seuilAlerteStock) {
+		this.seuilAlerteStock = seuilAlerteStock;
+	}
+
+	public String getMethodeValorisation() {
+		return methodeValorisation;
+	}
+
+	public void setMethodeValorisation(String methodeValorisation) {
+		this.methodeValorisation = methodeValorisation;
+	}
+
+	public boolean isApprovisionnementAutomatique() {
+		return approvisionnementAutomatique;
+	}
+
+	public void setApprovisionnementAutomatique(boolean approvisionnementAutomatique) {
+		this.approvisionnementAutomatique = approvisionnementAutomatique;
+	}
+
+	public int getQuantiteACommander() {
+		return quantiteACommander;
+	}
+
+	public void setQuantiteACommander(int quantiteACommander) {
+		this.quantiteACommander = quantiteACommander;
+	}
+
+	public boolean isImpressionTicket() {
+		return impressionTicket;
+	}
+
+	public void setImpressionTicket(boolean impressionTicket) {
+		this.impressionTicket = impressionTicket;
+	}
+
+	public boolean isImpressionFacture() {
+		return impressionFacture;
+	}
+
+	public void setImpressionFacture(boolean impressionFacture) {
+		this.impressionFacture = impressionFacture;
+	}
+
+	public boolean isDevis() {
+		return devis;
+	}
+
+	public void setDevis(boolean devis) {
+		this.devis = devis;
+	}
+
+	public boolean isDette() {
+		return dette;
+	}
+
+	public void setDette(boolean dette) {
+		this.dette = dette;
+	}
+
+	public List<ClientPartenaire> getClientsPartenaires() {
+		return clientsPartenaires;
+	}
+
+	public void setClientsPartenaires(List<ClientPartenaire> clientsPartenaires) {
+		this.clientsPartenaires = clientsPartenaires;
+	}
 }

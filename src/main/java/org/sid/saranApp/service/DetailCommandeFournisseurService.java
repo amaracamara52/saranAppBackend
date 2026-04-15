@@ -1,10 +1,9 @@
 package org.sid.saranApp.service;
 
-import java.util.List;
-
-import org.sid.saranApp.dto.CommuneDto;
 import org.sid.saranApp.dto.DetailCommandeFournisseurDto;
 import org.sid.saranApp.dto.PageDataDto;
+
+import java.util.List;
 
 public interface DetailCommandeFournisseurService {
 	

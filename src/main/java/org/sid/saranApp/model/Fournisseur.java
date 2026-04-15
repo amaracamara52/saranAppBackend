@@ -1,10 +1,9 @@
 package org.sid.saranApp.model;
 
-import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import java.util.List;
 
 @Entity
 public class Fournisseur extends AbstractDomainClass {
@@ -13,14 +12,20 @@ public class Fournisseur extends AbstractDomainClass {
 	private String prenom;
 	private String telephone;
 	private String Email;
-	@ManyToOne
-	private Ville ville;
+//	@ManyToOne
+//	private Ville ville;
 	@ManyToOne
 	private Boutique boutique;
 	@ManyToOne
 	private Utilisateur utilisateur;
 	@OneToMany(mappedBy = "fournisseur")
 	private List<CommandeFournisseur> listeCommandeFournisseur;
+	
+	/**
+	 * Pays de provenance du fournisseur
+	 */
+	@ManyToOne
+	private Pays paysProvenance;
 
 	public Boutique getBoutique() {
 		return boutique;
@@ -50,9 +55,9 @@ public class Fournisseur extends AbstractDomainClass {
 		return utilisateur;
 	}
 
-	public Ville getVille() {
-		return ville;
-	}
+//	public Ville getVille() {
+//		return ville;
+//	}
 
 	public void setBoutique(Boutique boutique) {
 		this.boutique = boutique;
@@ -82,8 +87,16 @@ public class Fournisseur extends AbstractDomainClass {
 		this.utilisateur = utilisateur;
 	}
 
-	public void setVille(Ville ville) {
-		this.ville = ville;
+//	public void setVille(Ville ville) {
+//		this.ville = ville;
+//	}
+
+	public Pays getPaysProvenance() {
+		return paysProvenance;
+	}
+
+	public void setPaysProvenance(Pays paysProvenance) {
+		this.paysProvenance = paysProvenance;
 	}
 
 }

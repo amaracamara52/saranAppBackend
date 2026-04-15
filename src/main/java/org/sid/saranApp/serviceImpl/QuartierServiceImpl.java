@@ -1,12 +1,8 @@
 package org.sid.saranApp.serviceImpl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.sid.saranApp.dto.PageDataDto;
 import org.sid.saranApp.dto.QuartierDto;
 import org.sid.saranApp.mapper.Mapper;
-import org.sid.saranApp.model.Boutique;
 import org.sid.saranApp.model.Commune;
 import org.sid.saranApp.model.Quartier;
 import org.sid.saranApp.model.Utilisateur;
@@ -21,6 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class QuartierServiceImpl implements QuartierService{

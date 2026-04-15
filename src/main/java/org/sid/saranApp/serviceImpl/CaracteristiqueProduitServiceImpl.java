@@ -1,9 +1,5 @@
 package org.sid.saranApp.serviceImpl;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
 import org.sid.saranApp.dto.CaracteristiqueProduitDto;
 import org.sid.saranApp.dto.PageDataDto;
 import org.sid.saranApp.exception.Exception;
@@ -23,6 +19,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CaracteristiqueProduitServiceImpl implements CaracteristiqueProduitService{

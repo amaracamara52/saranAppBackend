@@ -1,7 +1,7 @@
 package org.sid.saranApp.config;
 
-import org.sid.saranApp.config.security.JwtAuthenticationEntryPoint;
-import org.sid.saranApp.config.security.JwtRequestFilter;
+import org.sid.saranApp.security.JwtAuthenticationEntryPoint;
+import org.sid.saranApp.security.JwtRequestFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -60,7 +60,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		httpSecurity.csrf().disable()
 				// dont authenticate this particular request
 				.authorizeRequests().antMatchers("/**", "/authenticate", "/utilisateur", "/v3/api-docs/**",
-						"/swagger-ui/**", "/swagger-ui.html", "/report/**", "/boutique/**","/storeFile/**","/domaine/**")
+						"/swagger-ui/**", "/swagger-ui.html", "/report/**", "/boutique/**","/storeFile/**","/domaine/**","/api/registration","/configuration/**")
 				.permitAll().
 				// all other requests need to be authenticated
 				anyRequest().authenticated()

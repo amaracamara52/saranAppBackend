@@ -1,27 +1,28 @@
 package org.sid.saranApp.model;
 
-import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import java.util.List;
 
 @Entity
 public class Pays extends AbstractDomainClass {
-	
-	@OneToMany(mappedBy = "pays")
-	private List<Ville> listeVille;
+
 //	@ManyToOne
 //	private Boutique boutique;
-	@ManyToOne
-	private Utilisateur utilisateur;
+
 	private String libelle;
 	private String monnaie;
 	private String capitale;
-	private int nombreVille;
+	@Column(unique = true)
+	private String countryCode;
+
 	
 	
-//	public Boutique getBoutique() {
+//	public Boutique getBoutiquePrincipale() {
 //		return boutique;
 //	}
 //
@@ -29,13 +30,7 @@ public class Pays extends AbstractDomainClass {
 //		this.boutique = boutique;
 //	}
 
-	public Utilisateur getUtilisateur() {
-		return utilisateur;
-	}
 
-	public void setUtilisateur(Utilisateur utilisateur) {
-		this.utilisateur = utilisateur;
-	}
 
 	
 
@@ -47,13 +42,7 @@ public class Pays extends AbstractDomainClass {
 		this.libelle = libelle;
 	}
 
-	public List<Ville> getListeVille() {
-		return listeVille;
-	}
 
-	public void setListeVille(List<Ville> listeVille) {
-		this.listeVille = listeVille;
-	}
 
 	public String getMonnaie() {
 		return monnaie;
@@ -71,15 +60,11 @@ public class Pays extends AbstractDomainClass {
 		this.capitale = capitale;
 	}
 
-	public int getNombreVille() {
-		return nombreVille;
+	public String getCountryCode() {
+		return countryCode;
 	}
 
-	public void setNombreVille(int nombreVille) {
-		this.nombreVille = nombreVille;
+	public void setCountryCode(String countryCode) {
+		this.countryCode = countryCode;
 	}
-	
-	
-
-
 }

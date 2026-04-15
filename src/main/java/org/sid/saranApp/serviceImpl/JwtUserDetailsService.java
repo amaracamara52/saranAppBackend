@@ -1,7 +1,6 @@
 package org.sid.saranApp.serviceImpl;
 
 
-import java.util.Optional;
 import org.sid.saranApp.mapper.Mapper;
 import org.sid.saranApp.model.Utilisateur;
 import org.sid.saranApp.repository.UtilisateurRepository;
@@ -12,6 +11,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 
 

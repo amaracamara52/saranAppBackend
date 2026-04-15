@@ -9,7 +9,7 @@ public class CaracteristiqueArticle extends AbstractDomainClass {
 	
 	private String libelle;
 	@ManyToOne
-	private Article article;
+	private Categorie categorie;
 	
 	
 	
@@ -19,12 +19,13 @@ public class CaracteristiqueArticle extends AbstractDomainClass {
 	public void setLibelle(String libelle) {
 		this.libelle = libelle;
 	}
-	public Article getArticle() {
-		return article;
+	public Categorie getCategorie() {
+		return categorie;
 	}
-	public void setArticle(Article article) {
-		this.article = article;
+	public void setCategorie(Categorie categorie) {
+		this.categorie = categorie;
 	}
+	
 	
 	
 	

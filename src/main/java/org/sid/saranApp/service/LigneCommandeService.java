@@ -1,10 +1,9 @@
 package org.sid.saranApp.service;
 
-import java.util.List;
-
-import org.sid.saranApp.dto.FournisseurDto;
 import org.sid.saranApp.dto.LigneCommandeDto;
 import org.sid.saranApp.dto.PageDataDto;
+
+import java.util.List;
 
 public interface LigneCommandeService {
 	

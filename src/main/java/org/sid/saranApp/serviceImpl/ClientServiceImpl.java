@@ -1,9 +1,5 @@
 package org.sid.saranApp.serviceImpl;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
 import org.sid.saranApp.dto.ClientDto;
 import org.sid.saranApp.dto.PageDataDto;
 import org.sid.saranApp.exception.Exception;
@@ -20,6 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ClientServiceImpl implements ClientService {
@@ -44,7 +44,10 @@ public class ClientServiceImpl implements ClientService {
 			return response;
 		}
 
-		if (clientRepository.existsByEmail(clientDto.getEmail())) {
+		String rawEmail = clientDto.getEmail();
+		String emailNorm = (rawEmail == null || rawEmail.isBlank()) ? null : rawEmail.trim();
+		clientDto.setEmail(emailNorm);
+		if (emailNorm != null && clientRepository.existsByEmail(emailNorm)) {
 			response.setCode(Exception.error);
 			response.setMessage("Cet adresse email existe déjà");
 			return response;

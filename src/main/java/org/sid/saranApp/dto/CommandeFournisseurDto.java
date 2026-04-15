@@ -1,15 +1,22 @@
 package org.sid.saranApp.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import org.sid.saranApp.enume.StatusCommandeFournisseurEnum;
+import org.sid.saranApp.jackson.CoerceStringDeserializer;
+import org.sid.saranApp.jackson.LenientLocalDateDeserializer;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.sid.saranApp.enume.StatusCommandeFournisseurEnum;
-
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class CommandeFournisseurDto {
 
 	private String uuid;
+	@JsonDeserialize(using = CoerceStringDeserializer.class)
 	private String valeurMarchandise;
+	@JsonDeserialize(using = LenientLocalDateDeserializer.class)
 	private LocalDate dateCommandeFournisseur;
 	private boolean isPaye;
 	private String uuidBoutique;
@@ -23,6 +30,16 @@ public class CommandeFournisseurDto {
 	private String adresse;
 	private StatusCommandeFournisseurEnum Status;
 	private List<DetailCommandeFournisseurDto> detailCommandeFournisseurDtos = new ArrayList<DetailCommandeFournisseurDto>();
+	
+	// Données enrichies pour optimisation frontend (inspiré Odoo)
+	private double montantTotal;
+	private double montantPaye;
+	private double montantRestant;
+	private int nombreLivraisons;
+	private int nombrePaiements;
+	private String libelleBoutique;
+	private String libelleFournisseur; // Nom complet du fournisseur
+	private String paysProvenanceFournisseur; // Pays de provenance du fournisseur
 
 	public String getAdresse() {
 		return adresse;
@@ -147,6 +164,70 @@ public class CommandeFournisseurDto {
 
 	public void setValeurMarchandise(String valeurMarchandise) {
 		this.valeurMarchandise = valeurMarchandise;
+	}
+
+	public double getMontantTotal() {
+		return montantTotal;
+	}
+
+	public void setMontantTotal(double montantTotal) {
+		this.montantTotal = montantTotal;
+	}
+
+	public double getMontantPaye() {
+		return montantPaye;
+	}
+
+	public void setMontantPaye(double montantPaye) {
+		this.montantPaye = montantPaye;
+	}
+
+	public double getMontantRestant() {
+		return montantRestant;
+	}
+
+	public void setMontantRestant(double montantRestant) {
+		this.montantRestant = montantRestant;
+	}
+
+	public int getNombreLivraisons() {
+		return nombreLivraisons;
+	}
+
+	public void setNombreLivraisons(int nombreLivraisons) {
+		this.nombreLivraisons = nombreLivraisons;
+	}
+
+	public int getNombrePaiements() {
+		return nombrePaiements;
+	}
+
+	public void setNombrePaiements(int nombrePaiements) {
+		this.nombrePaiements = nombrePaiements;
+	}
+
+	public String getLibelleBoutique() {
+		return libelleBoutique;
+	}
+
+	public void setLibelleBoutique(String libelleBoutique) {
+		this.libelleBoutique = libelleBoutique;
+	}
+
+	public String getLibelleFournisseur() {
+		return libelleFournisseur;
+	}
+
+	public void setLibelleFournisseur(String libelleFournisseur) {
+		this.libelleFournisseur = libelleFournisseur;
+	}
+
+	public String getPaysProvenanceFournisseur() {
+		return paysProvenanceFournisseur;
+	}
+
+	public void setPaysProvenanceFournisseur(String paysProvenanceFournisseur) {
+		this.paysProvenanceFournisseur = paysProvenanceFournisseur;
 	}
 
 }

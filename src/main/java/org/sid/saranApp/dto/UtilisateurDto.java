@@ -1,10 +1,9 @@
 package org.sid.saranApp.dto;
 
+import org.sid.saranApp.enume.EnumRole;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import org.sid.saranApp.enume.EnumRole;
-import org.sid.saranApp.enume.EnumTypeBoutique;
 
 public class UtilisateurDto {
 	
@@ -17,8 +16,13 @@ public class UtilisateurDto {
 	private List<EnumRole> role = new ArrayList<EnumRole>();
 	private String boutique;
 	private String libelleBoutique;
-	private EnumTypeBoutique typeBoutique;
+	private String domaine;
+	private String uuidDomain;
+	private String typeDomaine;
 	private String image;
+	
+	private String pays;
+	private String monnaie;
 	
 	
 	public String getUuid() {
@@ -83,12 +87,38 @@ public class UtilisateurDto {
 	public void setImage(String image) {
 		this.image = image;
 	}
-	public EnumTypeBoutique getTypeBoutique() {
-		return typeBoutique;
+	
+	public String getDomaine() {
+		return domaine;
 	}
-	public void setTypeBoutique(EnumTypeBoutique typeBoutique) {
-		this.typeBoutique = typeBoutique;
+	public void setDomaine(String domaine) {
+		this.domaine = domaine;
 	}
+	public String getUuidDomain() {
+		return uuidDomain;
+	}
+	public void setUuidDomain(String uuidDomain) {
+		this.uuidDomain = uuidDomain;
+	}
+	public String getTypeDomaine() {
+		return typeDomaine;
+	}
+	public void setTypeDomaine(String typeDomaine) {
+		this.typeDomaine = typeDomaine;
+	}
+	public String getPays() {
+		return pays;
+	}
+	public void setPays(String pays) {
+		this.pays = pays;
+	}
+	public String getMonnaie() {
+		return monnaie;
+	}
+	public void setMonnaie(String monnaie) {
+		this.monnaie = monnaie;
+	}
+	
 	
 	
 	

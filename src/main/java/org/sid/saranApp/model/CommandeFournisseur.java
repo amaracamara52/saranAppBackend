@@ -1,17 +1,11 @@
 package org.sid.saranApp.model;
 
+import org.sid.saranApp.enume.StatusCommandeFournisseurEnum;
+
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-
-import org.sid.saranApp.enume.StatusCommandeFournisseurEnum;
 
 @Entity
 public class CommandeFournisseur extends AbstractDomainClass {
@@ -28,10 +22,21 @@ public class CommandeFournisseur extends AbstractDomainClass {
 	private Fournisseur fournisseur;
 	@OneToMany(mappedBy = "commandeFournisseur")
 	private List<DetailCommandeFournisseur> listeDetailCommandeFournisseur = new ArrayList<DetailCommandeFournisseur>();
-	@OneToMany(mappedBy = "commandeFournisseur", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "commandeFournisseur", fetch = FetchType.LAZY)
 	private List<LivraisonCommandeFournisseur> listeLivraisonCommandeFournisseur;
 	@Enumerated(EnumType.STRING)
 	private StatusCommandeFournisseurEnum commandeFournisseurEnum;
+	
+	/**
+	 * Liste des paiements effectués pour cette commande
+	 */
+	@OneToMany(mappedBy = "commandeFournisseur")
+	private List<PaiementCommandeFournisseur> paiements = new ArrayList<>();
+	
+	/**
+	 * Montant total de la commande (calculé à partir des détails)
+	 */
+	private double montantTotal;
 
 	public Boutique getBoutique() {
 		return boutique;
@@ -116,6 +121,22 @@ public class CommandeFournisseur extends AbstractDomainClass {
 
 	public void setValeurMarchandise(String valeurMarchandise) {
 		this.valeurMarchandise = valeurMarchandise;
+	}
+
+	public List<PaiementCommandeFournisseur> getPaiements() {
+		return paiements;
+	}
+
+	public void setPaiements(List<PaiementCommandeFournisseur> paiements) {
+		this.paiements = paiements;
+	}
+
+	public double getMontantTotal() {
+		return montantTotal;
+	}
+
+	public void setMontantTotal(double montantTotal) {
+		this.montantTotal = montantTotal;
 	}
 
 }

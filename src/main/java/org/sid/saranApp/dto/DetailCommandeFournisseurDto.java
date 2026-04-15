@@ -1,9 +1,15 @@
 package org.sid.saranApp.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import org.sid.saranApp.dto.version.ProduitStockDto;
+import org.sid.saranApp.enume.StatusCommandeFournisseurEnum;
+import org.sid.saranApp.jackson.CoerceStringDeserializer;
+import org.sid.saranApp.jackson.LenientLocalDateDeserializer;
+
 import java.time.LocalDate;
 
-import org.sid.saranApp.enume.StatusCommandeFournisseurEnum;
-
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class DetailCommandeFournisseurDto {
 	private String uuid;
 	private String uuidArticle;
@@ -13,13 +19,18 @@ public class DetailCommandeFournisseurDto {
 	private int quantite;
 	private double prixAchat;
 	private String uuidCommandeFournisseur;
+	@JsonDeserialize(using = LenientLocalDateDeserializer.class)
 	private LocalDate dateCommande;
+	@JsonDeserialize(using = CoerceStringDeserializer.class)
 	private String valeurMarchandise;
+	/** Même forme que l’export catalogue / bon joint (import JSON). */
+	private ProduitStockDto articleDto;
 	private StatusCommandeFournisseurEnum Status;
 	private String uuidBoutique;
 	private String uuidUtilisateur;
 	private String utilisateur;
 	private String unite;
+	private String uuidTypeUniteDeVente; // UUID de l'unité de vente
 	private int quantiteLivraison;
 
 	public String getArticle() {
@@ -151,6 +162,22 @@ public class DetailCommandeFournisseurDto {
 
 	public void setValeurMarchandise(String valeurMarchandise) {
 		this.valeurMarchandise = valeurMarchandise;
+	}
+
+	public String getUuidTypeUniteDeVente() {
+		return uuidTypeUniteDeVente;
+	}
+
+	public void setUuidTypeUniteDeVente(String uuidTypeUniteDeVente) {
+		this.uuidTypeUniteDeVente = uuidTypeUniteDeVente;
+	}
+
+	public ProduitStockDto getArticleDto() {
+		return articleDto;
+	}
+
+	public void setArticleDto(ProduitStockDto articleDto) {
+		this.articleDto = articleDto;
 	}
 
 }

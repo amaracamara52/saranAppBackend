@@ -1,10 +1,9 @@
 package org.sid.saranApp.service;
 
-import java.util.List;
-
 import org.sid.saranApp.dto.BoutiqueDto;
-import org.sid.saranApp.dto.BoutiquePaiementDto;
 import org.sid.saranApp.dto.PageDataDto;
+
+import java.util.List;
 
 public interface BoutiqueService {
 	
@@ -13,6 +12,8 @@ public interface BoutiqueService {
 	BoutiqueDto getBoutique(String uuid);
 	List<BoutiqueDto> findAll();
 	void deleteBoutique(String uuid);
+	BoutiqueDto synchronization(String code);
+	BoutiqueDto getByCode(String code);
 	PageDataDto<BoutiqueDto> listeBoutiques(int page,int size,String key);
 
 }

@@ -1,8 +1,8 @@
 package org.sid.saranApp.service;
 
-import java.util.List;
-
 import org.sid.saranApp.dto.DomainBoutiqueDto;
+
+import java.util.List;
 
 public interface DomainBoutiqueService {
 	

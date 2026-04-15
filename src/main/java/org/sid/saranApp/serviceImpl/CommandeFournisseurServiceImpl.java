@@ -1,36 +1,16 @@
 package org.sid.saranApp.serviceImpl;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-
 import org.sid.saranApp.dto.CommandeFournisseurDto;
-import org.sid.saranApp.dto.CommandeVenteDto;
+import org.sid.saranApp.dto.CommandeFournisseurPatchDto;
 import org.sid.saranApp.dto.DetailCommandeFournisseurDto;
 import org.sid.saranApp.dto.PageDataDto;
 import org.sid.saranApp.enume.StatusCommandeFournisseurEnum;
 import org.sid.saranApp.mapper.Mapper;
-import org.sid.saranApp.model.Article;
-import org.sid.saranApp.model.Boutique;
-import org.sid.saranApp.model.CommandeFournisseur;
-import org.sid.saranApp.model.CommandeVente;
-import org.sid.saranApp.model.DetailCommandeFournisseur;
-import org.sid.saranApp.model.Fournisseur;
-import org.sid.saranApp.model.LivraisonCommandeFournisseur;
-import org.sid.saranApp.model.Produit;
-import org.sid.saranApp.model.Utilisateur;
+import org.sid.saranApp.model.*;
+import org.sid.saranApp.repository.*;
 import org.sid.saranApp.repository.ArticleRepository;
-import org.sid.saranApp.repository.BoutiqueRepository;
-import org.sid.saranApp.repository.CommandeFournisseurRepository;
-import org.sid.saranApp.repository.DetailCommandeFournisseurRepository;
-import org.sid.saranApp.repository.FournisseurRepository;
-import org.sid.saranApp.repository.LivraisonCommandeFournisseurRepository;
-import org.sid.saranApp.repository.ProduitRepository;
-import org.sid.saranApp.repository.UtilisateurRepository;
 import org.sid.saranApp.service.CommandeFournisseurService;
+import org.sid.saranApp.service.StockUniteVenteService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +20,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class CommandeFournisseurServiceImpl implements CommandeFournisseurService {
@@ -62,6 +51,14 @@ public class CommandeFournisseurServiceImpl implements CommandeFournisseurServic
 	private ProduitRepository produitRepository;
 	@Autowired
 	private UtilisateurServiceImpl utilisateurServiceImpl;
+	@Autowired
+	private CaracteristiqueProduitRepository caracteristiqueProduitRepository;
+	@Autowired
+	private StockUniteVenteService stockUniteVenteService;
+	@Autowired
+	private TypeUniteDeVenteRepository typeUniteDeVenteRepository;
+	@Autowired
+	private StockUniteVenteRepository stockUniteVenteRepository;
 
 	Logger logger = LoggerFactory.getLogger(CommandeFournisseurServiceImpl.class);
 
@@ -69,9 +66,14 @@ public class CommandeFournisseurServiceImpl implements CommandeFournisseurServic
 	public CommandeFournisseurDto addCommandeFournisseur(CommandeFournisseurDto commandeFournisseurDto) {
 		// TODO Auto-generated method stub
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		logger.info("hello {}", auth.getName());
+		logger.info("Création d'une commande fournisseur par: {}", auth.getName());
 		CommandeFournisseur commandeFournisseur = new CommandeFournisseur();
 		Utilisateur utilisateur = utilisateurRepository.findByEmail(auth.getName()).orElseThrow(null);
+		
+		if (utilisateur.getBoutique() == null) {
+			throw new RuntimeException("Boutique non trouvée pour l'utilisateur");
+		}
+
 		Fournisseur fournisseur = fournisseurRepository.findById(commandeFournisseurDto.getUuidFournisseur())
 				.orElseThrow(null);
 		commandeFournisseur.setValeurMarchandise(commandeFournisseurDto.getValeurMarchandise());
@@ -82,26 +84,64 @@ public class CommandeFournisseurServiceImpl implements CommandeFournisseurServic
 		commandeFournisseur.setBoutique(utilisateur.getBoutique());
 		commandeFournisseur.setUtilisateur(utilisateur);
 		commandeFournisseur.setFournisseur(fournisseur);
-		CommandeFournisseur commandeFournisseurSave = commandeFournisseurRepository.save(commandeFournisseur);
+		
+		// Préparer les détails AVANT la sauvegarde de la commande
 		List<DetailCommandeFournisseurDto> detailCommandeFournisseurDtos = commandeFournisseurDto
 				.getDetailCommandeFournisseurDtos();
-		for (Iterator iterator = detailCommandeFournisseurDtos.iterator(); iterator.hasNext();) {
-			DetailCommandeFournisseurDto detailCommandeFournisseurDto = (DetailCommandeFournisseurDto) iterator.next();
-			DetailCommandeFournisseur detailCommandeFournisseur = new DetailCommandeFournisseur();
+		
+		double montantTotal = 0.0;
+		List<DetailCommandeFournisseur> details = new ArrayList<>();
+		
+		if (detailCommandeFournisseurDtos != null && !detailCommandeFournisseurDtos.isEmpty()) {
+			for (DetailCommandeFournisseurDto detailDto : detailCommandeFournisseurDtos) {
+				Article article = articleRepository.findById(detailDto.getUuidArticle())
+						.orElseThrow(() -> new RuntimeException("Article non trouvé: " + detailDto.getUuidArticle()));
 
-			Article article = articleRepository.findById(detailCommandeFournisseurDto.getUuidArticle())
-					.orElseThrow(null);
+				TypeUniteDeVente typeUniteDeVente = null;
+				if (detailDto.getUuidTypeUniteDeVente() != null) {
+					typeUniteDeVente = typeUniteDeVenteRepository.findById(detailDto.getUuidTypeUniteDeVente())
+							.orElseThrow(() -> new RuntimeException("Unité de vente non trouvée: " + detailDto.getUuidTypeUniteDeVente()));
+				}
 
-			detailCommandeFournisseur.setArticle(article);
-			detailCommandeFournisseur.setCommandeFournisseur(commandeFournisseurSave);
-			detailCommandeFournisseur.setBoutique(utilisateur.getBoutique());
-			detailCommandeFournisseur.setUnite(detailCommandeFournisseurDto.getUnite());
-			detailCommandeFournisseur.setUtilisateur(utilisateur);
-			detailCommandeFournisseur.setPrixAchat(detailCommandeFournisseurDto.getPrixAchat());
-			detailCommandeFournisseur.setQuantite(detailCommandeFournisseurDto.getQuantite());
-			detailCommandeFournisseurRepository.save(detailCommandeFournisseur);
+				DetailCommandeFournisseur detailCommandeFournisseur = new DetailCommandeFournisseur();
+				detailCommandeFournisseur.setArticle(article);
+				detailCommandeFournisseur.setCommandeFournisseur(commandeFournisseur);
+				detailCommandeFournisseur.setBoutique(utilisateur.getBoutique());
+				detailCommandeFournisseur.setUnite(detailDto.getUnite()); // Ancien champ pour compatibilité
+				detailCommandeFournisseur.setTypeUniteDeVente(typeUniteDeVente); // Nouveau champ
+				detailCommandeFournisseur.setUtilisateur(utilisateur);
+				detailCommandeFournisseur.setPrixAchat(detailDto.getPrixAchat());
+				detailCommandeFournisseur.setQuantite(detailDto.getQuantite());
+				
+				details.add(detailCommandeFournisseur);
+				
+				// Calculer le montant total
+				montantTotal += detailDto.getPrixAchat() * detailDto.getQuantite();
+			}
 		}
-		return Mapper.toCommandeFournisseurDto(commandeFournisseurSave);
+		
+		// Définir le montant total et les détails AVANT la sauvegarde
+		commandeFournisseur.setMontantTotal(montantTotal);
+		commandeFournisseur.setListeDetailCommandeFournisseur(details);
+		
+		// Sauvegarder la commande avec ses détails (CascadeType.ALL dans l'entité)
+		CommandeFournisseur commandeFournisseurSave = commandeFournisseurRepository.save(commandeFournisseur);
+		
+		// Sauvegarder explicitement les détails pour s'assurer qu'ils sont bien persistés
+		if (!details.isEmpty()) {
+			detailCommandeFournisseurRepository.saveAll(details);
+		}
+		
+		// Recharger la commande avec tous ses détails pour éviter les problèmes de lazy loading
+		CommandeFournisseur commandeComplete = commandeFournisseurRepository.findById(commandeFournisseurSave.getUuid())
+			.orElse(commandeFournisseurSave);
+		
+		// Forcer le chargement des détails
+		if (commandeComplete.getListeDetailCommandeFournisseur() != null) {
+			commandeComplete.getListeDetailCommandeFournisseur().size(); // Force le chargement
+		}
+		
+		return Mapper.toCommandeFournisseurDto(commandeComplete);
 	}
 
 	@Override
@@ -131,72 +171,159 @@ public class CommandeFournisseurServiceImpl implements CommandeFournisseurServic
 		return Mapper.toCommandeFournisseurDto(commandeFournisseur);
 	}
 
+	/**
+	 * Réception d'achat : met à jour le stock à partir des lignes du bon, sans exiger de fiche
+	 * {@link LivraisonCommandeFournisseur}. Quantité réceptionnée = {@code quantiteLivraison} dans le DTO si > 0,
+	 * sinon quantité commandée sur la ligne.
+	 */
 	@Override
 	public CommandeFournisseurDto addStockFromCommandeAndLivraison(CommandeFournisseurDto commandeFournisseurDto) {
-		// TODO Auto-generated method stub
-		LocalTime time = LocalTime.now();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Utilisateur utilisateur = utilisateurRepository.findByEmail(auth.getName()).orElseThrow(null);
+
 		CommandeFournisseur commandeFournisseur = commandeFournisseurRepository
 				.findById(commandeFournisseurDto.getUuid()).orElseThrow(null);
+
 		List<DetailCommandeFournisseurDto> detailCommandeFournisseurs = commandeFournisseurDto
 				.getDetailCommandeFournisseurDtos();
-		for (Iterator iterator = detailCommandeFournisseurs.iterator(); iterator.hasNext();) {
-			DetailCommandeFournisseurDto detailCommandeFournisseurDto = (DetailCommandeFournisseurDto) iterator.next();
+		if (detailCommandeFournisseurs == null || detailCommandeFournisseurs.isEmpty()) {
+			throw new IllegalArgumentException("Aucune ligne de commande à réceptionner.");
+		}
+
+		Boutique boutique = commandeFournisseur.getBoutique();
+		int traitees = 0;
+		Map<String, Integer> qteRecueParLigne = new HashMap<>();
+
+		for (DetailCommandeFournisseurDto detailDto : detailCommandeFournisseurs) {
 			DetailCommandeFournisseur detailCommandeFournisseur = detailCommandeFournisseurRepository
-					.findById(detailCommandeFournisseurDto.getUuid()).orElseThrow(null);
-			LivraisonCommandeFournisseur livraison = new LivraisonCommandeFournisseur();
-			livraison.setBoutique(commandeFournisseur.getBoutique());
-			livraison.setCommandeFournisseur(commandeFournisseur);
-			livraison.setDateLivraison(new Date());
-			livraison.setHeure(time.toString());
-			livraison.setQuantite(detailCommandeFournisseurDto.getQuantiteLivraison());
-			livraison.setDetailCommandeFournisseur(detailCommandeFournisseur);
-			livraison.setUtilisateur(commandeFournisseur.getUtilisateur());
-			livraison = livraisonCommandeFournisseurRepository.save(livraison);
+					.findById(detailDto.getUuid())
+					.orElseThrow(() -> new RuntimeException("Détail de commande introuvable: " + detailDto.getUuid()));
 
-			Produit produit = new Produit();
-
-			produit.setBoutique(commandeFournisseur.getBoutique());
-			
-			produit.setLivraisonCommandeFournisseur(livraison);
-			if (detailCommandeFournisseur.getUnite().equals("CARTON")) {
-				double prixAchat = detailCommandeFournisseur.getPrixAchat()
-						/ detailCommandeFournisseur.getArticle().getQuantiteDansCarton();
-				double result = Math.round(prixAchat);
-				double resultVente = result * 1.5;
-				produit.setPrixVente(Math.round(resultVente));
-				produit.setPrixAchat(result);
-				
-			
-				produit.setQuantite(
-						livraison.getQuantite() * detailCommandeFournisseur.getArticle().getQuantiteDansCarton());
-				produit.setQuantiteImage(
-						livraison.getQuantite() * detailCommandeFournisseur.getArticle().getQuantiteDansCarton());
-				
-			
+			int qteCommandee = detailCommandeFournisseur.getQuantite();
+			int qteDto = detailDto.getQuantiteLivraison();
+			int quantiteReception = qteDto > 0 ? Math.min(qteDto, qteCommandee) : qteCommandee;
+			if (quantiteReception <= 0) {
+				continue;
 			}
-			
-			
-			if (detailCommandeFournisseur.getUnite().equals("PIECE")) {
-//				double prixAchat = detailCommandeFournisseur.getPrixAchat()
-//						/ detailCommandeFournisseur.getArticle().getQuantiteDansCarton();
-//				double result = Math.round(prixAchat);
-//				double resultVente = result * 1.5;
-//				produit.setPrixVente(Math.round(resultVente));
-				produit.setPrixAchat(detailCommandeFournisseur.getPrixAchat());
-				produit.setPrixVente(0);
-				produit.setQuantite(
-						livraison.getQuantite());
-				produit.setQuantiteImage(
-						livraison.getQuantite());
-			
+			traitees++;
+			qteRecueParLigne.put(detailCommandeFournisseur.getUuid(), quantiteReception);
+
+			Article article = detailCommandeFournisseur.getArticle();
+			if (article == null) {
+				throw new RuntimeException("Article manquant sur le détail " + detailCommandeFournisseur.getUuid());
 			}
 
-			produit.setUtilisateur(commandeFournisseur.getUtilisateur());
+			Produit produit = produitRepository
+					.findFirstByBoutique_UuidAndArticle_Uuid(boutique.getUuid(), article.getUuid())
+					.orElse(null);
+
+			if (produit == null) {
+				produit = new Produit();
+				produit.setArticle(article);
+				produit.setFournisseur(commandeFournisseur.getFournisseur());
+				produit.setBoutique(boutique);
+				produit.setUtilisateur(utilisateur);
+				produit.setDateEnregistrement(new Date());
+				produit.setLivraisonCommandeFournisseur(null);
+				produit = produitRepository.save(produit);
+			}
+
+			TypeUniteDeVente typeUniteDeVente = null;
+			if (detailCommandeFournisseur.getTypeUniteDeVente() != null) {
+				typeUniteDeVente = detailCommandeFournisseur.getTypeUniteDeVente();
+			} else {
+				List<TypeUniteDeVente> unites = typeUniteDeVenteRepository.findByArticle(article);
+				String uniteNom = detailCommandeFournisseur.getUnite();
+				if (uniteNom != null) {
+					typeUniteDeVente = unites.stream()
+							.filter(u -> u.getTypeUniteEnum().name().equalsIgnoreCase(uniteNom))
+							.findFirst()
+							.orElse(null);
+				}
+				if (typeUniteDeVente == null) {
+					typeUniteDeVente = new TypeUniteDeVente();
+					typeUniteDeVente.setArticle(article);
+					typeUniteDeVente.setUnite(1);
+					typeUniteDeVente.setTypeUniteEnum(org.sid.saranApp.enume.TypeUniteEnum.PIECE);
+					typeUniteDeVente.setPrice(0d);
+					typeUniteDeVente = typeUniteDeVenteRepository.save(typeUniteDeVente);
+				}
+			}
+
+			stockUniteVenteService.initializeStocksForProduit(produit);
+
+			List<StockUniteVenteService.TypeUniteDeVenteQuantite> unitesAvecQuantites = new ArrayList<>();
+			unitesAvecQuantites
+					.add(new StockUniteVenteService.TypeUniteDeVenteQuantite(typeUniteDeVente, quantiteReception));
+
+			stockUniteVenteService.addStockMultipleUnits(produit, unitesAvecQuantites);
+
+			StockUniteVente stockUniteVente = stockUniteVenteRepository
+					.findByProduitAndTypeUniteDeVente(produit, typeUniteDeVente)
+					.orElse(null);
+
+			if (stockUniteVente != null) {
+				double prixUnitaire = detailCommandeFournisseur.getPrixAchat();
+				if (typeUniteDeVente.getUnite() > 1) {
+					prixUnitaire = detailCommandeFournisseur.getPrixAchat() / typeUniteDeVente.getUnite();
+				}
+				stockUniteVente.setPrice(prixUnitaire);
+				stockUniteVenteRepository.save(stockUniteVente);
+			}
+
+			produit.setPrixAchat(detailCommandeFournisseur.getPrixAchat());
+			produit.setFournisseur(commandeFournisseur.getFournisseur());
 			produitRepository.save(produit);
 		}
-		commandeFournisseur.setCommandeFournisseurEnum(StatusCommandeFournisseurEnum.STOCK_APPROVISIONNEE);
+
+		if (traitees == 0) {
+			throw new IllegalArgumentException(
+					"Aucune quantité à réceptionner : cochez des lignes et indiquez une quantité > 0.");
+		}
+
+		commandeFournisseur = commandeFournisseurRepository.findById(commandeFournisseur.getUuid()).orElseThrow(null);
+		List<DetailCommandeFournisseur> toutesLignes = commandeFournisseur.getListeDetailCommandeFournisseur();
+		if (toutesLignes != null) {
+			toutesLignes.size();
+		}
+		boolean receptionComplete = true;
+		if (toutesLignes == null || toutesLignes.isEmpty()) {
+			receptionComplete = false;
+		} else {
+			for (DetailCommandeFournisseur ligne : toutesLignes) {
+				int commandee = ligne.getQuantite();
+				int recue = qteRecueParLigne.getOrDefault(ligne.getUuid(), 0);
+				if (recue < commandee) {
+					receptionComplete = false;
+					break;
+				}
+			}
+		}
+		commandeFournisseur.setCommandeFournisseurEnum(receptionComplete ? StatusCommandeFournisseurEnum.STOCK_APPROVISIONNEE
+				: StatusCommandeFournisseurEnum.EXPEDIE);
 		commandeFournisseurRepository.save(commandeFournisseur);
+
 		return Mapper.toCommandeFournisseurDto(commandeFournisseur);
+	}
+
+	@Override
+	public CommandeFournisseurDto patchCommandeFournisseur(String uuid, CommandeFournisseurPatchDto patch) {
+		if (patch == null) {
+			throw new IllegalArgumentException("Corps de requête requis.");
+		}
+		boolean hasStatus = patch.getStatus() != null && !patch.getStatus().isBlank();
+		if (!hasStatus && patch.getPaye() == null) {
+			throw new IllegalArgumentException("Fournissez au moins \"status\" ou \"paye\".");
+		}
+		CommandeFournisseur commandeFournisseur = commandeFournisseurRepository.findById(uuid).orElseThrow(null);
+		if (hasStatus) {
+			commandeFournisseur.setCommandeFournisseurEnum(
+					StatusCommandeFournisseurEnum.valueOf(patch.getStatus().trim()));
+		}
+		if (patch.getPaye() != null) {
+			commandeFournisseur.setPaie(patch.getPaye());
+		}
+		return Mapper.toCommandeFournisseurDto(commandeFournisseurRepository.save(commandeFournisseur));
 	}
 
 	@Override
@@ -222,6 +349,23 @@ public class CommandeFournisseurServiceImpl implements CommandeFournisseurServic
 	public CommandeFournisseurDto getCommandeFournisseur(String uuid) {
 		// TODO Auto-generated method stub
 		CommandeFournisseur commandeFournisseur = commandeFournisseurRepository.findById(uuid).orElseThrow(null);
+		
+		// Forcer le chargement des relations pour éviter les problèmes de lazy loading
+		if (commandeFournisseur != null) {
+			// Charger explicitement les détails
+			if (commandeFournisseur.getListeDetailCommandeFournisseur() != null) {
+				commandeFournisseur.getListeDetailCommandeFournisseur().size(); // Force le chargement
+			}
+			// Charger explicitement les livraisons
+			if (commandeFournisseur.getListeLivraisonCommandeFournisseur() != null) {
+				commandeFournisseur.getListeLivraisonCommandeFournisseur().size(); // Force le chargement
+			}
+			// Charger explicitement les paiements
+			if (commandeFournisseur.getPaiements() != null) {
+				commandeFournisseur.getPaiements().size(); // Force le chargement
+			}
+		}
+		
 		return Mapper.toCommandeFournisseurDto(commandeFournisseur);
 	}
 

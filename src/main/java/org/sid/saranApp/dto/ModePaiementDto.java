@@ -7,15 +7,8 @@ public class ModePaiementDto {
 	private String description;
 	private String uuidBoutique;
 	private String uuidUtilisateur;
-	private String uuidBoutiquePaiement;
-	
-	
-	public String getUuidBoutiquePaiement() {
-		return uuidBoutiquePaiement;
-	}
-	public void setUuidBoutiquePaiement(String uuidBoutiquePaiement) {
-		this.uuidBoutiquePaiement = uuidBoutiquePaiement;
-	}
+	private String boutique;
+
 	public String getUuidBoutique() {
 		return uuidBoutique;
 	}
@@ -46,8 +39,12 @@ public class ModePaiementDto {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
-	
-	
 
+	public String getBoutique() {
+		return boutique;
+	}
+
+	public void setBoutique(String boutique) {
+		this.boutique = boutique;
+	}
 }

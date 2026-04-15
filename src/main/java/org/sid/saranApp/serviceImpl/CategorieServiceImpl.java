@@ -1,15 +1,10 @@
 package org.sid.saranApp.serviceImpl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.sid.saranApp.dto.CategorieDto;
 import org.sid.saranApp.dto.PageDataDto;
 import org.sid.saranApp.mapper.Mapper;
-import org.sid.saranApp.model.Boutique;
 import org.sid.saranApp.model.Categorie;
 import org.sid.saranApp.model.Utilisateur;
-import org.sid.saranApp.repository.BoutiqueRepository;
 import org.sid.saranApp.repository.CategorieRepository;
 import org.sid.saranApp.repository.UtilisateurRepository;
 import org.sid.saranApp.service.CategorieService;
@@ -19,6 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class CategorieServiceImpl implements CategorieService {
@@ -36,7 +34,8 @@ public class CategorieServiceImpl implements CategorieService {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		logger.info("hello {}",auth.getName());
 		Categorie categorie = new Categorie();
-		Utilisateur utilisateur = utilisateurRepository.findByEmail(auth.getName()).orElseThrow(null);
+		Utilisateur utilisateur = utilisateurRepository.findByEmail(auth.getName())
+				.orElseThrow(() -> new IllegalStateException("Utilisateur non trouvé"));
 		categorie.setLibelle(categorieDto.getLibelle());
 		categorie.setDescription(categorieDto.getDescription());
 		categorie.setBoutique(utilisateur.getBoutique());
@@ -51,8 +50,10 @@ public class CategorieServiceImpl implements CategorieService {
 		// TODO Auto-generated method stub
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
-		Utilisateur utilisateur = utilisateurRepository.findByEmail(auth.getName()).orElseThrow(null);
-		Categorie categorie = categorieRepository.findById(uuid).orElseThrow(null);
+		Utilisateur utilisateur = utilisateurRepository.findByEmail(auth.getName())
+				.orElseThrow(() -> new IllegalStateException("Utilisateur non trouvé"));
+		Categorie categorie = categorieRepository.findById(uuid)
+				.orElseThrow(() -> new IllegalArgumentException("Catégorie inconnue"));
 		categorie.setLibelle(categorieDto.getLibelle());
 		categorie.setDescription(categorieDto.getDescription());
 		categorie.setBoutique(utilisateur.getBoutique());
@@ -65,7 +66,12 @@ public class CategorieServiceImpl implements CategorieService {
 	@Override
 	public List<CategorieDto> findAll() {
 		// TODO Auto-generated method stub
-		List<Categorie> categories = categorieRepository.findAll();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+		Utilisateur utilisateur = utilisateurRepository.findByEmail(auth.getName())
+				.orElseThrow(() -> new IllegalStateException("Utilisateur non trouvé"));
+		
+		List<Categorie> categories = categorieRepository.getCategorieByBoutique(utilisateur.getBoutique().getUuid());
 		List<CategorieDto> categorieDtos = new ArrayList<CategorieDto>();
 		categories.forEach(categorie -> categorieDtos.add(Mapper.toCategorieDto(categorie)));
 		return categorieDtos;
@@ -74,7 +80,8 @@ public class CategorieServiceImpl implements CategorieService {
 	@Override
 	public CategorieDto getCategorie(String uuid) {
 		// TODO Auto-generated method stub
-		Categorie categorie = categorieRepository.findById(uuid).orElseThrow(null);
+		Categorie categorie = categorieRepository.findById(uuid)
+				.orElseThrow(() -> new IllegalArgumentException("Catégorie inconnue"));
 		return Mapper.toCategorieDto(categorie);
 	}
 

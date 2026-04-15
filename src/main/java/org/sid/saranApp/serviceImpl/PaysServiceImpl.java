@@ -1,21 +1,12 @@
 package org.sid.saranApp.serviceImpl;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
-import org.sid.saranApp.dto.PaysDto;
 import org.sid.saranApp.dto.PageDataDto;
 import org.sid.saranApp.dto.PaysDto;
 import org.sid.saranApp.mapper.Mapper;
-import org.sid.saranApp.model.Article;
-import org.sid.saranApp.model.Categorie;
 import org.sid.saranApp.model.Pays;
 import org.sid.saranApp.model.Utilisateur;
 import org.sid.saranApp.repository.PaysRepository;
@@ -28,6 +19,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 @Service
 public class PaysServiceImpl implements PaysService {
@@ -48,8 +45,11 @@ public class PaysServiceImpl implements PaysService {
 		Pays pays = new Pays();
 		Utilisateur utilisateur = utilisateurRepository.findByEmail(auth.getName()).orElseThrow(null);
 		pays.setLibelle(paysDto.getLibelle());
-	//	pays.setBoutique(utilisateur.getBoutique());
-		pays.setUtilisateur(utilisateur);
+		pays.setCapitale(paysDto.getCapitale());
+		pays.setMonnaie(paysDto.getMonnaie());
+		
+	//	pays.setBoutique(utilisateur.getBoutiquePrincipale());
+
 		Pays paysSave = paysRepository.save(pays);
 		return Mapper.toPaysDto(paysSave);
 	}
@@ -61,8 +61,10 @@ public class PaysServiceImpl implements PaysService {
 		Utilisateur utilisateur = utilisateurRepository.findByEmail(auth.getName()).orElseThrow(null);
 		Pays pays = paysRepository.findById(uuid).orElseThrow(null);
 		pays.setLibelle(paysDto.getLibelle());
-		//pays.setBoutique(utilisateur.getBoutique());
-		pays.setUtilisateur(utilisateur);
+		pays.setCapitale(paysDto.getCapitale());
+		pays.setMonnaie(paysDto.getMonnaie());
+		//pays.setBoutique(utilisateur.getBoutiquePrincipale());
+
 		Pays paysSave = paysRepository.save(pays);
 		return Mapper.toPaysDto(paysSave);
 	}
@@ -134,10 +136,10 @@ public class PaysServiceImpl implements PaysService {
 				Pays pays = new Pays();
 
 				pays.setMonnaie(dto.getMonnaie());
-				pays.setUtilisateur(utilisateur);
+
 				pays.setCapitale(dto.getCapitale());
 				pays.setLibelle(dto.getLibelle());
-				pays.setNombreVille(0);
+
 				paysRepository.save(pays);
 
 			}

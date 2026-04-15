@@ -1,31 +1,39 @@
 package org.sid.saranApp.dto;
 
+import org.sid.saranApp.enume.EnumTypeCommande;
+import org.sid.saranApp.enume.StatusCommandeVenteEnum;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
-import org.sid.saranApp.enume.StatusCommandeVenteEnum;
-import org.springframework.format.annotation.DateTimeFormat;
 
 public class CommandeVenteDto extends ResponseDto {
 
 	private String uuid;
 	private double montantCommande;
+	private double montantCommandeImage;
 	private String numeroCommande;
 	private boolean isPaye;
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyy-MM-dd")
 	private Date datePaiement;
 	private String id_client;
+	private String client;
 	private String uuidBoutique;
 	private String uuidUtilisateur;
 	private String utilisateur;
+	@Enumerated(EnumType.STRING)
+	private EnumTypeCommande typeCommande;
+	@Enumerated(EnumType.STRING)
 	private StatusCommandeVenteEnum status;
 	private int nombreArticle;
 	List<LigneCommandeDto> ligneCommandeDtos = new ArrayList<LigneCommandeDto>();
+	private LivraisonCommandeVenteDto livraisonCommandeVenteDto;
+
+	private String uuidModePaiement;
+	private String modePaiement;
 
 	public Date getDatePaiement() {
 		return datePaiement;
@@ -125,9 +133,53 @@ public class CommandeVenteDto extends ResponseDto {
 	public void setUtilisateur(String utilisateur) {
 		this.utilisateur = utilisateur;
 	}
-	
-	
-	
-	
 
+
+	public EnumTypeCommande getTypeCommande() {
+		return typeCommande;
+	}
+
+	public void setTypeCommande(EnumTypeCommande typeCommande) {
+		this.typeCommande = typeCommande;
+	}
+
+	public LivraisonCommandeVenteDto getLivraisonCommandeVenteDto() {
+		return livraisonCommandeVenteDto;
+	}
+
+	public void setLivraisonCommandeVenteDto(LivraisonCommandeVenteDto livraisonCommandeVenteDto) {
+		this.livraisonCommandeVenteDto = livraisonCommandeVenteDto;
+	}
+
+	public String getUuidModePaiement() {
+		return uuidModePaiement;
+	}
+
+	public void setUuidModePaiement(String uuidModePaiement) {
+		this.uuidModePaiement = uuidModePaiement;
+	}
+
+	public String getModePaiement() {
+		return modePaiement;
+	}
+
+	public void setModePaiement(String modePaiement) {
+		this.modePaiement = modePaiement;
+	}
+
+	public String getClient() {
+		return client;
+	}
+
+	public void setClient(String client) {
+		this.client = client;
+	}
+
+	public double getMontantCommandeImage() {
+		return montantCommandeImage;
+	}
+
+	public void setMontantCommandeImage(double montantCommandeImage) {
+		this.montantCommandeImage = montantCommandeImage;
+	}
 }

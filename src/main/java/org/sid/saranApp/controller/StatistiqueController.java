@@ -3,26 +3,23 @@
  */
 package org.sid.saranApp.controller;
 
-import java.util.Date;
-import java.util.List;
-
 import org.sid.saranApp.dto.StatistiqueBoutiqueDto;
-import org.sid.saranApp.dto.StatistiqueCommandeFournisseurDto;
-import org.sid.saranApp.dto.StatistiqueCommandeVenteDto;
 import org.sid.saranApp.dto.TopVenteDTO;
 import org.sid.saranApp.externeSql.ProduitExterneServiceImpl;
-import org.sid.saranApp.service.StatistiqueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  *
  */
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = "*")
+@RequestMapping("/api/statistique/")
 public class StatistiqueController  {
 
 	@Autowired
@@ -31,7 +28,7 @@ public class StatistiqueController  {
 	
 	@GetMapping("/produit/topVenteProduit")
 	public List<TopVenteDTO> topVenteProduits() {
-		return produitServiceImplExterne.topVenteProduit(10);
+		return produitServiceImplExterne.topVenteProduit(5);
 	}
 	
 

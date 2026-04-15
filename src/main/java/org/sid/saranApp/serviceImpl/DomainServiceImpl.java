@@ -1,8 +1,5 @@
 package org.sid.saranApp.serviceImpl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.sid.saranApp.dto.DomainBoutiqueDto;
 import org.sid.saranApp.mapper.Mapper;
 import org.sid.saranApp.model.DomainBoutique;
@@ -10,6 +7,9 @@ import org.sid.saranApp.repository.DomainBoutiqueRepository;
 import org.sid.saranApp.service.DomainBoutiqueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class DomainServiceImpl implements DomainBoutiqueService {
@@ -21,9 +21,9 @@ public class DomainServiceImpl implements DomainBoutiqueService {
 	public DomainBoutiqueDto addDomain(DomainBoutiqueDto domainBoutiqueDto) {
 		// TODO Auto-generated method stub
 		DomainBoutique domainBoutique = new DomainBoutique();
-		domainBoutique.setCode(domainBoutiqueDto.getCode());
-		domainBoutique.setLibelle(domainBoutiqueDto.getLibelle());
-		domainBoutique = domainBoutiqueRepository.save(domainBoutique);
+//		domainBoutique.setDomain();
+//		domainBoutique.setLibelle(domainBoutiqueDto.getLibelle());
+//		domainBoutique = domainBoutiqueRepository.save(domainBoutique);
 		return Mapper.toDomainBoutiqueDto(domainBoutique);
 	}
 
@@ -31,9 +31,9 @@ public class DomainServiceImpl implements DomainBoutiqueService {
 	public DomainBoutiqueDto updateDomain(DomainBoutiqueDto domainBoutiqueDto, String uuid) {
 		// TODO Auto-generated method stub
 		DomainBoutique domainBoutique = domainBoutiqueRepository.findById(uuid).orElseThrow(null);
-		domainBoutique.setCode(domainBoutiqueDto.getCode());
-		domainBoutique.setLibelle(domainBoutiqueDto.getLibelle());
-		domainBoutique = domainBoutiqueRepository.save(domainBoutique);
+//		domainBoutique.setCode(domainBoutiqueDto.getCode());
+//		domainBoutique.setLibelle(domainBoutiqueDto.getLibelle());
+//		domainBoutique = domainBoutiqueRepository.save(domainBoutique);
 		return Mapper.toDomainBoutiqueDto(domainBoutique);
 	}
 

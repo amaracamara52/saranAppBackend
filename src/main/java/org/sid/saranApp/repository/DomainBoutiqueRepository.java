@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface DomainBoutiqueRepository extends JpaRepository<DomainBoutique, String>{
 	
-	@Query("select d from DomainBoutique d where d.libelle =:x")
+	@Query("select d from DomainBoutique d where d.domain.libelle =:x")
 	public DomainBoutique getDomainBoutiqueByLibelle(@Param("x") String libelle);
 
 }

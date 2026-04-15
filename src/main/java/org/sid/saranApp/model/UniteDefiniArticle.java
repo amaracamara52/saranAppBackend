@@ -3,12 +3,12 @@
  */
 package org.sid.saranApp.model;
 
+import org.sid.saranApp.enume.TypeUniteEnum;
+
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
-
-import org.sid.saranApp.enume.TypeUniteEnum;
 
 /**
  *

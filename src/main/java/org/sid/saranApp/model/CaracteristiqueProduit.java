@@ -1,18 +1,20 @@
 package org.sid.saranApp.model;
 
-import java.util.List;
-
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 @Entity
 public class CaracteristiqueProduit extends AbstractDomainClass{
 
 	private String value;
 	
-	@ManyToOne 
+	private String libelle;
+	
+	@ManyToOne
 	private Produit produit;
+
+
 	@ManyToOne
 	private Boutique boutique;
 	@ManyToOne
@@ -52,6 +54,14 @@ public class CaracteristiqueProduit extends AbstractDomainClass{
 
 	public void setProduit(Produit produit) {
 		this.produit = produit;
+	}
+
+	public String getLibelle() {
+		return libelle;
+	}
+
+	public void setLibelle(String libelle) {
+		this.libelle = libelle;
 	}
 
 	

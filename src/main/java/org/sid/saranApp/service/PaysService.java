@@ -1,11 +1,10 @@
 package org.sid.saranApp.service;
 
-import java.util.List;
-
 import org.sid.saranApp.dto.PageDataDto;
-import org.sid.saranApp.dto.ParametreDto;
 import org.sid.saranApp.dto.PaysDto;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 public interface PaysService {
 	

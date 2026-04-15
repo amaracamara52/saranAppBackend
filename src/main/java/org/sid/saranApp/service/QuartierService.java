@@ -1,10 +1,9 @@
 package org.sid.saranApp.service;
 
-import java.util.List;
-
 import org.sid.saranApp.dto.PageDataDto;
-import org.sid.saranApp.dto.ProduitDto;
 import org.sid.saranApp.dto.QuartierDto;
+
+import java.util.List;
 
 public interface QuartierService {
 	

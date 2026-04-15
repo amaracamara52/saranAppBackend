@@ -1,17 +1,11 @@
 package org.sid.saranApp.serviceImpl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.sid.saranApp.dto.CommuneDto;
 import org.sid.saranApp.dto.PageDataDto;
-import org.sid.saranApp.dto.VilleDto;
 import org.sid.saranApp.mapper.Mapper;
-import org.sid.saranApp.model.Boutique;
 import org.sid.saranApp.model.Commune;
 import org.sid.saranApp.model.Utilisateur;
 import org.sid.saranApp.model.Ville;
-import org.sid.saranApp.repository.BoutiqueRepository;
 import org.sid.saranApp.repository.CommuneRepository;
 import org.sid.saranApp.repository.UtilisateurRepository;
 import org.sid.saranApp.repository.VilleRepository;
@@ -22,6 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class CommuneServiceImpl implements CommuneService {

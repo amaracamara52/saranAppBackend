@@ -1,10 +1,9 @@
 package org.sid.saranApp.service;
 
-import java.util.List;
-
 import org.sid.saranApp.dto.PageDataDto;
-import org.sid.saranApp.dto.PaiementCommandeFournisseurDto;
 import org.sid.saranApp.dto.ParametreDto;
+
+import java.util.List;
 
 public interface ParametreService {
 	

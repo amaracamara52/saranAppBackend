@@ -1,7 +1,8 @@
 package org.sid.saranApp.dto;
 
-import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class LigneCommandeDto extends ResponseDto {
 
@@ -16,17 +17,20 @@ public class LigneCommandeDto extends ResponseDto {
 	private String emplacement;
 	private String utilisateur;
 	private double prixVente;
-	private LocalDate datePeremption;
+	private Date datePeremption;
 	private int quantiteStock;
+	private String uuidTypeUniteDeVente;
+	private String typeUniteDeVente;
+	
+	
+	private List<CaracteristiqueProduitDto> caracteristiqueArticleDtos = new ArrayList<CaracteristiqueProduitDto>();
 
 
 	public String getArticle() {
 		return article;
 	}
 
-	public LocalDate getDatePeremption() {
-		return datePeremption;
-	}
+
 
 	public String getEmplacement() {
 		return emplacement;
@@ -70,7 +74,11 @@ public class LigneCommandeDto extends ResponseDto {
 		this.article = article;
 	}
 
-	public void setDatePeremption(LocalDate datePeremption) {
+	public Date getDatePeremption() {
+		return datePeremption;
+	}
+
+	public void setDatePeremption(Date datePeremption) {
 		this.datePeremption = datePeremption;
 	}
 
@@ -126,6 +134,40 @@ public class LigneCommandeDto extends ResponseDto {
 	public void setQuantiteStock(int quantiteStock) {
 		this.quantiteStock = quantiteStock;
 	}
+
+	public List<CaracteristiqueProduitDto> getCaracteristiqueArticleDtos() {
+		return caracteristiqueArticleDtos;
+	}
+
+	public void setCaracteristiqueArticleDtos(List<CaracteristiqueProduitDto> caracteristiqueArticleDtos) {
+		this.caracteristiqueArticleDtos = caracteristiqueArticleDtos;
+	}
+
+
+
+	public String getUuidTypeUniteDeVente() {
+		return uuidTypeUniteDeVente;
+	}
+
+
+
+	public void setUuidTypeUniteDeVente(String uuidTypeUniteDeVente) {
+		this.uuidTypeUniteDeVente = uuidTypeUniteDeVente;
+	}
+
+
+
+	public String getTypeUniteDeVente() {
+		return typeUniteDeVente;
+	}
+
+
+
+	public void setTypeUniteDeVente(String typeUniteDeVente) {
+		this.typeUniteDeVente = typeUniteDeVente;
+	}
+	
+	
 	
 	
 	

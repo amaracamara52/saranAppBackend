@@ -4,8 +4,9 @@ public class CaracteristiqueArticleDto {
 	
 	private String uuid;
 	private String libelle;
-	private String uuidArticle;
-	private String uuidCaracteristiqueProduit;
+	private String uuidCategorie;
+	private String categorie;
+	
 	
 	public String getUuid() {
 		return uuid;
@@ -19,17 +20,17 @@ public class CaracteristiqueArticleDto {
 	public void setLibelle(String libelle) {
 		this.libelle = libelle;
 	}
-	public String getUuidArticle() {
-		return uuidArticle;
+	public String getUuidCategorie() {
+		return uuidCategorie;
 	}
-	public void setUuidArticle(String uuidArticle) {
-		this.uuidArticle = uuidArticle;
+	public void setUuidCategorie(String uuidCategorie) {
+		this.uuidCategorie = uuidCategorie;
 	}
-	public String getUuidCaracteristiqueProduit() {
-		return uuidCaracteristiqueProduit;
+	public String getCategorie() {
+		return categorie;
 	}
-	public void setUuidCaracteristiqueProduit(String uuidCaracteristiqueProduit) {
-		this.uuidCaracteristiqueProduit = uuidCaracteristiqueProduit;
+	public void setCategorie(String categorie) {
+		this.categorie = categorie;
 	}
 	
 	

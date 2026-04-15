@@ -13,6 +13,12 @@ public class LivraisonCommandeFournisseurDto {
 	private int quantite;
 	private double prix;
 	private String uuidUtilisateur;
+	private String statutVerification;
+	private boolean verifiee;
+	private Date dateVerification;
+	private String uuidUtilisateurVerificateur;
+	private String nomUtilisateurVerificateur;
+	private String commentaireVerification;
 
 	public Date getDateLivraison() {
 		return dateLivraison;
@@ -84,6 +90,54 @@ public class LivraisonCommandeFournisseurDto {
 
 	public void setUuidUtilisateur(String uuidUtilisateur) {
 		this.uuidUtilisateur = uuidUtilisateur;
+	}
+
+	public String getStatutVerification() {
+		return statutVerification;
+	}
+
+	public void setStatutVerification(String statutVerification) {
+		this.statutVerification = statutVerification;
+	}
+
+	public boolean isVerifiee() {
+		return verifiee;
+	}
+
+	public void setVerifiee(boolean verifiee) {
+		this.verifiee = verifiee;
+	}
+
+	public Date getDateVerification() {
+		return dateVerification;
+	}
+
+	public void setDateVerification(Date dateVerification) {
+		this.dateVerification = dateVerification;
+	}
+
+	public String getUuidUtilisateurVerificateur() {
+		return uuidUtilisateurVerificateur;
+	}
+
+	public void setUuidUtilisateurVerificateur(String uuidUtilisateurVerificateur) {
+		this.uuidUtilisateurVerificateur = uuidUtilisateurVerificateur;
+	}
+
+	public String getNomUtilisateurVerificateur() {
+		return nomUtilisateurVerificateur;
+	}
+
+	public void setNomUtilisateurVerificateur(String nomUtilisateurVerificateur) {
+		this.nomUtilisateurVerificateur = nomUtilisateurVerificateur;
+	}
+
+	public String getCommentaireVerification() {
+		return commentaireVerification;
+	}
+
+	public void setCommentaireVerification(String commentaireVerification) {
+		this.commentaireVerification = commentaireVerification;
 	}
 
 }

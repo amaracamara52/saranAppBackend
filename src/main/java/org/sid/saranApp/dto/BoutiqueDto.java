@@ -1,12 +1,9 @@
 package org.sid.saranApp.dto;
 
+import org.sid.saranApp.enume.EnumRole;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-
-import org.sid.saranApp.enume.EnumTypeBoutique;
 
 public class BoutiqueDto {
 
@@ -17,16 +14,34 @@ public class BoutiqueDto {
 	private String phoneBoutique;
 	private String siteBoutique;
 	private String adresse;
-	@Enumerated(EnumType.STRING)
-	private EnumTypeBoutique typeBoutique;
+	private String domaine;
+	private String uuidDomain;
+	private String typeDomaine;
 
 	private String  image;
 	private String utilisateur;
 	private String email;
 	private String password;
 	private String uuidStoreFile;
+	private String pays;
+	private String uuidPays;
+	private EnumRole role;
+
+	private List<DomainBoutiqueDto> domainBoutiqueDtos = new ArrayList<>();
 	
 	private List<String> domaines = new ArrayList<String>();
+	
+	// Nouveaux champs ajoutés
+	private String devise;
+	private String langue;
+	private int seuilAlerteStock;
+	private String methodeValorisation;
+	private boolean approvisionnementAutomatique;
+	private int quantiteACommander;
+	private boolean impressionTicket;
+	private boolean impressionFacture;
+	private boolean devis;
+	private boolean dette;
 	
 	public String getAdresse() {
 		return adresse;
@@ -52,10 +67,7 @@ public class BoutiqueDto {
 		return siteBoutique;
 	}
 
-	public EnumTypeBoutique getTypeBoutique() {
-		return typeBoutique;
-	}
-
+	
 	public String getUuid() {
 		return uuid;
 	}
@@ -84,8 +96,30 @@ public class BoutiqueDto {
 		this.siteBoutique = siteBoutique;
 	}
 
-	public void setTypeBoutique(EnumTypeBoutique typeBoutique) {
-		this.typeBoutique = typeBoutique;
+
+
+	public String getDomaine() {
+		return domaine;
+	}
+
+	public void setDomaine(String domaine) {
+		this.domaine = domaine;
+	}
+
+	public String getUuidDomain() {
+		return uuidDomain;
+	}
+
+	public void setUuidDomain(String uuidDomain) {
+		this.uuidDomain = uuidDomain;
+	}
+
+	public String getTypeDomaine() {
+		return typeDomaine;
+	}
+
+	public void setTypeDomaine(String typeDomaine) {
+		this.typeDomaine = typeDomaine;
 	}
 
 	public void setUuid(String uuid) {
@@ -139,12 +173,117 @@ public class BoutiqueDto {
 	public void setDomaines(List<String> domaines) {
 		this.domaines = domaines;
 	}
-	
-	
-	
-	
-	
-	
-	
 
+	public String getPays() {
+		return pays;
+	}
+
+	public void setPays(String pays) {
+		this.pays = pays;
+	}
+
+	public String getUuidPays() {
+		return uuidPays;
+	}
+
+	public void setUuidPays(String uuidPays) {
+		this.uuidPays = uuidPays;
+	}
+
+	public EnumRole getRole() {
+		return role;
+	}
+
+	public void setRole(EnumRole role) {
+		this.role = role;
+	}
+
+	public List<DomainBoutiqueDto> getDomainBoutiqueDtos() {
+		return domainBoutiqueDtos;
+	}
+
+	public void setDomainBoutiqueDtos(List<DomainBoutiqueDto> domainBoutiqueDtos) {
+		this.domainBoutiqueDtos = domainBoutiqueDtos;
+	}
+
+	// Getters et Setters pour les nouveaux champs
+	public String getDevise() {
+		return devise;
+	}
+
+	public void setDevise(String devise) {
+		this.devise = devise;
+	}
+
+	public String getLangue() {
+		return langue;
+	}
+
+	public void setLangue(String langue) {
+		this.langue = langue;
+	}
+
+	public int getSeuilAlerteStock() {
+		return seuilAlerteStock;
+	}
+
+	public void setSeuilAlerteStock(int seuilAlerteStock) {
+		this.seuilAlerteStock = seuilAlerteStock;
+	}
+
+	public String getMethodeValorisation() {
+		return methodeValorisation;
+	}
+
+	public void setMethodeValorisation(String methodeValorisation) {
+		this.methodeValorisation = methodeValorisation;
+	}
+
+	public boolean isApprovisionnementAutomatique() {
+		return approvisionnementAutomatique;
+	}
+
+	public void setApprovisionnementAutomatique(boolean approvisionnementAutomatique) {
+		this.approvisionnementAutomatique = approvisionnementAutomatique;
+	}
+
+	public int getQuantiteACommander() {
+		return quantiteACommander;
+	}
+
+	public void setQuantiteACommander(int quantiteACommander) {
+		this.quantiteACommander = quantiteACommander;
+	}
+
+	public boolean isImpressionTicket() {
+		return impressionTicket;
+	}
+
+	public void setImpressionTicket(boolean impressionTicket) {
+		this.impressionTicket = impressionTicket;
+	}
+
+	public boolean isImpressionFacture() {
+		return impressionFacture;
+	}
+
+	public void setImpressionFacture(boolean impressionFacture) {
+		this.impressionFacture = impressionFacture;
+	}
+
+	public boolean isDevis() {
+		return devis;
+	}
+
+	public void setDevis(boolean devis) {
+		this.devis = devis;
+	}
+
+	public boolean isDette() {
+		return dette;
+	}
+
+	public void setDette(boolean dette) {
+		this.dette = dette;
+	}
 }

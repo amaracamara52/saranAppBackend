@@ -1,17 +1,14 @@
 package org.sid.saranApp.model;
 
-import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import java.util.List;
 
 @Entity
 public class Ville extends AbstractDomainClass{
 	
 	private String libelle;
-	@ManyToOne
-	private Pays pays;
 	@ManyToOne
 	private Boutique boutique;
 	@ManyToOne
@@ -43,12 +40,6 @@ public class Ville extends AbstractDomainClass{
 	}
 	public void setLibelle(String libelle) {
 		this.libelle = libelle;
-	}
-	public Pays getPays() {
-		return pays;
-	}
-	public void setPays(Pays pays) {
-		this.pays = pays;
 	}
 
 

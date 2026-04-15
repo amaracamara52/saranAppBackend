@@ -1,11 +1,9 @@
 package org.sid.saranApp.service;
 
-import java.util.List;
-
-import org.sid.saranApp.dto.CommandeVenteDto;
 import org.sid.saranApp.dto.CommuneDto;
 import org.sid.saranApp.dto.PageDataDto;
-import org.sid.saranApp.dto.VilleDto;
+
+import java.util.List;
 
 public interface CommuneService {
 	

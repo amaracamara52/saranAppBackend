@@ -1,10 +1,10 @@
 package org.sid.saranApp.model;
 
-import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -20,6 +20,10 @@ public class Categorie extends AbstractDomainClass {
 	
 	@OneToMany(mappedBy = "categorie")
 	private List<Article> listeArticle;
+	
+	
+	@OneToMany(mappedBy = "categorie")
+	private List<CaracteristiqueArticle> caracteristiqueArticles = new ArrayList<CaracteristiqueArticle>();
 	
 	
 	public Boutique getBoutique() {
@@ -53,6 +57,14 @@ public class Categorie extends AbstractDomainClass {
 	public void setListeArticle(List<Article> listeArticle) {
 		this.listeArticle = listeArticle;
 	}
+	public List<CaracteristiqueArticle> getCaracteristiqueArticles() {
+		return caracteristiqueArticles;
+	}
+	public void setCaracteristiqueArticles(List<CaracteristiqueArticle> caracteristiqueArticles) {
+		this.caracteristiqueArticles = caracteristiqueArticles;
+	}
+	
+	
 	
 	
 

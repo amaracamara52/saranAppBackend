@@ -1,9 +1,8 @@
 package org.sid.saranApp.model;
 
-import java.util.Date;
-
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import java.util.Date;
 
 @Entity
 public class BoutiquePaiement extends AbstractDomainClass {

@@ -1,10 +1,10 @@
 package org.sid.saranApp.model;
 
-import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
+import java.util.List;
 
 
 @Entity
@@ -20,6 +20,18 @@ public class Client extends AbstractDomainClass{
 	private Utilisateur utilisateur;
 	@OneToMany(mappedBy = "client")
 	private List<CommandeVente> commandeVente;
+	
+	/**
+	 * Indique si le client a un compte (peut passer des commandes en gros)
+	 */
+	@Transient
+	private boolean aUnCompte;
+	
+	/**
+	 * Liste des partenariats avec des boutiques (pour les commandes en gros)
+	 */
+	@OneToMany(mappedBy = "client")
+	private List<ClientPartenaire> partenariats = new java.util.ArrayList<>();
 	
 	
 	
@@ -79,6 +91,21 @@ public class Client extends AbstractDomainClass{
 		this.commandeVente = commandeVente;
 	}
 
+	public boolean isAUnCompte() {
+		return aUnCompte;
+	}
+
+	public void setAUnCompte(boolean aUnCompte) {
+		this.aUnCompte = aUnCompte;
+	}
+
+	public List<ClientPartenaire> getPartenariats() {
+		return partenariats;
+	}
+
+	public void setPartenariats(List<ClientPartenaire> partenariats) {
+		this.partenariats = partenariats;
+	}
 
 	
 }

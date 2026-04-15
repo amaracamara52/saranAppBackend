@@ -1,22 +1,19 @@
 package org.sid.saranApp.externeSql;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-
 import org.sid.saranApp.dto.StatistiqueBoutiqueDto;
 import org.sid.saranApp.dto.TopVenteDTO;
 import org.sid.saranApp.serviceImpl.UtilisateurServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.stereotype.Service;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class ProduitExterneServiceImpl {
@@ -32,36 +29,36 @@ public class ProduitExterneServiceImpl {
 	
 	public List<TopVenteDTO> topVenteProduit(int limit){
 		
-		 String sql ="SELECT \r\n"
-		 		+ "    a.libelle,\r\n"
-		 		+ "    a.description, \r\n"
-		 		+ "    p.\"uuid\" ,\r\n"
-		 		+ "    SUM(lc.quantite) AS total_vendu,\r\n"
-		 		+ "    er.code,\r\n"
-		 		+ "    er.etagere,\r\n"
-		 		+ "    er.rayon\r\n"
-		 		+ "FROM \r\n"
-		 		+ "    produit  p\r\n"
-		 		+ "JOIN \r\n"
-		 		+ "    ligne_commande lc ON p.\"uuid\" = lc.produit_uuid \r\n"
-		 		+ "JOIN   \r\n"
-		 		+ "   livraison_commande_fournisseur lv on p.livraison_commande_fournisseur_uuid  = lv.\"uuid\" \r\n"
-		 		+ "JOIN   \r\n"
-		 		+ "    detail_commande_fournisseur dcf on lv.detail_commande_fournisseur_uuid = dcf.\"uuid\" \r\n"
-		 		+ "JOIN\r\n"
-		 		+ "	article a on a.\"uuid\" = dcf.article_uuid \r\n"
-		 		+ "JOIN	\r\n"
-		 		+ "	etagere_rayon er on p.emplacement_uuid = er.\"uuid\"	\r\n"
-		 		+ "	\r\n"
-		 		+ "where p.boutique_uuid =:boutique_uuid	\r\n"
-		 		+ "	\r\n"
-		 		+ "GROUP BY \r\n"
-		 		+ "    p.\"uuid\",a.libelle,a.description ,  er.code,\r\n"
-		 		+ "    er.etagere,\r\n"
-		 		+ "    er.rayon\r\n"
-		 		+ "ORDER BY \r\n"
-		 		+ "    total_vendu DESC\r\n"
-		 		+ "LIMIT :limit";
+		 String sql ="SELECT \n" +
+				 "\t\t \t\t    a.libelle,\n" +
+				 "\t\t \t\t    a.description, \n" +
+				 "\t\t \t\t    p.uuid ,\n" +
+				 "\t\t \t\t    SUM(lc.quantite) AS total_vendu,\n" +
+				 "\t\t \t\t    er.code,\n" +
+				 "\t\t \t\t    er.etagere,\n" +
+				 "\t\t \t\t    er.rayon\n" +
+				 "\t\t \t\tFROM \n" +
+				 "\t\t \t\t    produit  p\n" +
+				 "\t\t \t\tJOIN \n" +
+				 "\t\t \t\t    ligne_commande lc ON p.uuid = lc.produit_uuid \n" +
+				 "\t\t \t\t--JOIN   \n" +
+				 "\t\t \t\t--   livraison_commande_fournisseur lv on p.livraison_commande_fournisseur_uuid  = lv.uuid \n" +
+				 "\t\t \t\t--JOIN   \n" +
+				 "\t\t \t\t--    detail_commande_fournisseur dcf on lv.detail_commande_fournisseur_uuid = dcf.uuid \n" +
+				 "\t\t \t\tJOIN\n" +
+				 "\t\t \t\t\tarticle a on a.uuid = p.article_uuid \n" +
+				 "\t\t \t\tLEFT JOIN\t\n" +
+				 "\t\t \t\t\tetagere_rayon er on p.emplacement_uuid = er.uuid\t\n" +
+				 "\t\t \t\t\t\n" +
+				 "\t\t \t\twhere p.boutique_uuid =:boutique_uuid and lc.is_delete = false\t\n" +
+				 "\t\t \t\t\t\n" +
+				 "\t\t \t\tGROUP BY \n" +
+				 "\t\t \t\t    p.uuid,a.libelle,a.description ,  er.code,\n" +
+				 "\t\t \t\t    er.etagere,\n" +
+				 "\t\t \t\t    er.rayon\n" +
+				 "\t\t \t\tORDER BY \n" +
+				 "\t\t \t\t    total_vendu DESC\n" +
+				 "\t\t \t\tLIMIT :limit";
 		
 		       
 		Query query = entityManager.createNativeQuery(sql);
@@ -76,10 +73,10 @@ public class ProduitExterneServiceImpl {
            String libelle = (String) row[0];
            String description = (String) row[1];
            String uuid = (String) row[2];
-           Integer totalVendu = ((Number) row[3]).intValue();
-           String code = (String) row[4];
-           String etagere = (String) row[5];
-           String rayon = (String) row[6];
+           int totalVendu = row[3] != null ? ((Number) row[3]).intValue() : 0;
+           String code = row[4] != null ? String.valueOf(row[4]) : null;
+           String etagere = row[5] != null ? String.valueOf(row[5]) : null;
+           String rayon = row[6] != null ? String.valueOf(row[6]) : null;
          
            topVentes.add(new TopVenteDTO(libelle, description, code, etagere, rayon, totalVendu, uuid));
        }
@@ -102,7 +99,7 @@ public class ProduitExterneServiceImpl {
 
 	       for (Object[] row : results) {
 	           String libelle = "Stock à recouvrer";
-	           double montant = Double.parseDouble(String.valueOf(row[1]));
+	           double montant = row[1] != null ? Double.parseDouble(String.valueOf(row[1])) : 0.0;
      		  
 	           int nombre = ((Number) row[0]).intValue();
 	        
@@ -129,7 +126,7 @@ public class ProduitExterneServiceImpl {
 
 	       for (Object[] row : results) {
 	           String libelle = "Reste stock à recouvrer";
-	           double montant = Double.parseDouble(String.valueOf(row[1]));
+	           double montant = row[1] != null ? Double.parseDouble(String.valueOf(row[1])) : 0.0;
      		  
 	           int nombre = ((Number) row[0]).intValue();
 	        
@@ -158,7 +155,7 @@ public class ProduitExterneServiceImpl {
 
 	       for (Object[] row : results) {
 	           String libelle = "CMD vendu Aujourd'hui";
-	           double montant = Double.parseDouble(String.valueOf(row[1]));
+	           double montant = row[1] != null ? Double.parseDouble(String.valueOf(row[1])) : 0.0;
 	        		  
 	           int nombre = ((Number) row[0]).intValue();
 	        
@@ -167,7 +164,7 @@ public class ProduitExterneServiceImpl {
 	       }
 	       
 	       //topVentes.setLibelle("CMD vendu Aujourd'hui");
-
+	     
 	       return topVentes;
 		
 	}
@@ -189,7 +186,7 @@ public StatistiqueBoutiqueDto getTotaProduitVendu() {
 
 	       for (Object[] row : results) {
 	           String libelle = "Total produit vendu";
-	           double montant = Double.parseDouble(String.valueOf(row[1]));
+	           double montant = row[1] != null ? Double.parseDouble(String.valueOf(row[1])) : 0.0;
 	        		  
 	           int nombre = ((Number) row[0]).intValue();
 	        
@@ -223,7 +220,7 @@ public List<StatistiqueBoutiqueDto> getSituationVenteDesMois() {
 
        for (Object[] row : results) {
           // String libelle = "CMD vendu Aujourd'hui";
-           double montant = Double.parseDouble(String.valueOf(row[1]));
+           double montant = row[1] != null ? Double.parseDouble(String.valueOf(row[1])) : 0.0;
         		  
            String libelle = (String) row[0];
         

@@ -1,14 +1,12 @@
 package org.sid.saranApp.service;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.List;
-
-import org.sid.saranApp.dto.ClientDto;
 import org.sid.saranApp.dto.CommandeFournisseurDto;
+import org.sid.saranApp.dto.CommandeFournisseurPatchDto;
 import org.sid.saranApp.dto.PageDataDto;
 import org.sid.saranApp.enume.StatusCommandeFournisseurEnum;
+
+import java.time.LocalDate;
+import java.util.List;
 
 public interface CommandeFournisseurService {
 
@@ -25,6 +23,9 @@ public interface CommandeFournisseurService {
 	CommandeFournisseurDto getCommandeFournisseur(String uuid);
 
 	CommandeFournisseurDto updateCommandeFournisseur(CommandeFournisseurDto commandeFournisseurDto, String uuid);
+
+	/** Mise à jour légère : statut métier et/ou champ payé. */
+	CommandeFournisseurDto patchCommandeFournisseur(String uuid, CommandeFournisseurPatchDto patch);
 	
 	PageDataDto<CommandeFournisseurDto> listeCommandeFournisseurs(int page,int size,StatusCommandeFournisseurEnum key);
 	

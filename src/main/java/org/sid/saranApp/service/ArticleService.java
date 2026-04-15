@@ -1,11 +1,11 @@
 package org.sid.saranApp.service;
 
-import java.util.List;
-
 import org.sid.saranApp.dto.ArticleDto;
 import org.sid.saranApp.dto.ArticleSelectDto;
 import org.sid.saranApp.dto.PageDataDto;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 public interface ArticleService {
 

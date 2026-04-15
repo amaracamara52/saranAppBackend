@@ -1,10 +1,9 @@
 package org.sid.saranApp.service;
 
-import java.util.List;
-
 import org.sid.saranApp.dto.PageDataDto;
-import org.sid.saranApp.dto.QuartierDto;
 import org.sid.saranApp.dto.UtilisateurDto;
+
+import java.util.List;
 
 public interface UtilisateurService {
 	UtilisateurDto addUtilisateur(UtilisateurDto utilisateurDto);
