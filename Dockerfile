@@ -43,14 +43,15 @@ COPY src ./src
 
 # Build the application
 RUN mvn clean package -DskipTests
+RUN ls -la /app/target && cp /app/target/*.jar /app/app.jar
 
 # Runtime stage
 FROM openjdk:17-jdk-slim
 
 WORKDIR /app
 
-# Copy the built JAR from builder stage
-COPY --from=builder /app/target/*.jar app.jar
+# Copy the built JAR from builder stage (stable path)
+COPY --from=builder /app/app.jar app.jar
 
 # Expose port (adjust if your app uses different port)
 EXPOSE 8091
